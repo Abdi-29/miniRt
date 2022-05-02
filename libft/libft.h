@@ -16,6 +16,7 @@
 # include "list/list.h"
 # include "ft_printf/printf.h"
 # include "get_next_line/get_next_line.h"
+# include "../includes/bool.h"
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -39,7 +40,8 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
-int		ft_atoi(const char *str);
+int		ft_atoi(const char *str, t_bool *success);
+double	ft_atod(const char *str, t_bool *success);
 void	*ft_calloc(size_t count, size_t size);
 char	*ft_strdup(const char *s1);
 int		ft_streq(const char *s1, const char *s2);
@@ -55,7 +57,6 @@ int		ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 int		ft_putnbr_fd(long n, int fd);
 char	*ft_contains(char *str, char c);
-char	*get_next_line(int fd);
 int		ft_iswhite_space(char c);
 int		ft_starts_with(char *str, char *prefix);
 int		ft_ends_with(char *str, char *suffix);

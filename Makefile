@@ -1,4 +1,4 @@
-NAME = miniRt
+NAME = miniRT
 
 FLAGS = -Wall -Werror -Wextra -g
 SRC_DIR = srcs
@@ -8,7 +8,7 @@ LIBFT_DIR = ./libft
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRC_FILES = miniRt.c
+SRC_FILES = miniRT.c
 SRC = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 
 OBJ = $(patsubst $(SRC_DIR)/%,$(OBJ_DIR)/%,$(SRC:.c=.o))

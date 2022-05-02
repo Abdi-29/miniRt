@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   miniRt.c                                           :+:    :+:            */
+/*   data_struct.h                                      :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: abba <abba@student.codam.nl>                 +#+                     */
+/*   By: sappunn <sappunn@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/28 18:20:28 by abba          #+#    #+#                 */
-/*   Updated: 2022/04/28 18:20:28 by abba          ########   odam.nl         */
+/*   Created: 2022/05/02 15:16:24 by sappunn       #+#    #+#                 */
+/*   Updated: 2022/05/02 15:16:24 by sappunn       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#ifndef DATA_STRUCT_H
+# define DATA_STRUCT_H
+# include "objects/camera.h"
 
-int	main(void)
+typedef struct s_minirt_data
 {
-	write(1, "hello\n", 6);
-	return (0);
-}
+	t_ca
+}	t_minirt_data;
+
+#endif
