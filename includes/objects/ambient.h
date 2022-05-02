@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   printf.h                                           :+:    :+:            */
+/*   ambient.h                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sappunn <sappunn@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/25 15:40:50 by sappunn       #+#    #+#                 */
-/*   Updated: 2022/04/25 15:40:50 by sappunn       ########   odam.nl         */
+/*   Created: 2022/05/02 17:36:23 by sappunn       #+#    #+#                 */
+/*   Updated: 2022/05/02 17:36:23 by sappunn       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINTF_H
-# define PRINTF_H
-# include <zconf.h>
+#ifndef AMBIENT_H
+# define AMBIENT_H
+# include "../rgb.h"
 
-int	ft_printf(int fd, const char *str, ...);
-int	ft_printf_va(int fd, const char *str, va_list ap);
+typedef struct s_ambient
+{
+	double	ratio;
+	t_rgb	rgb;
+}	t_ambient;
 
 #endif

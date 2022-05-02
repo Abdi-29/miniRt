@@ -8,7 +8,7 @@ LIBFT_DIR = ./libft
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRC_FILES = miniRT.c
+SRC_FILES = miniRT.c parsing/parse_file.c color.c coords.c util.c
 SRC = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 
 OBJ = $(patsubst $(SRC_DIR)/%,$(OBJ_DIR)/%,$(SRC:.c=.o))

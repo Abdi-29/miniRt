@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include "../libft/libft.h"
+#include "../includes/lib.h"
 #include <stdio.h>
 
 void	test(char *str)

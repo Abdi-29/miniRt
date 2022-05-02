@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   printf.h                                           :+:    :+:            */
+/*   cylinder.h                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sappunn <sappunn@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/25 15:40:50 by sappunn       #+#    #+#                 */
-/*   Updated: 2022/04/25 15:40:50 by sappunn       ########   odam.nl         */
+/*   Created: 2022/05/02 17:45:08 by sappunn       #+#    #+#                 */
+/*   Updated: 2022/05/02 17:45:08 by sappunn       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINTF_H
-# define PRINTF_H
-# include <zconf.h>
+#ifndef CYLINDER_H
+# define CYLINDER_H
+# include "../xyz.h"
+# include "../rgb.h"
 
-int	ft_printf(int fd, const char *str, ...);
-int	ft_printf_va(int fd, const char *str, va_list ap);
+typedef struct s_cylinder
+{
+	t_xyz	xyz;
+	t_xyz	vector;
+	double	diameter;
+	double	height;
+	t_rgb	rgb;
+}	t_cylinder;
 
 #endif

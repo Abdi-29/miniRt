@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/rgb.h"
-#include "../includes/bool.h"
-#include "../libft/libft.h"
+#include "../includes/lib.h"
 
 int	parse_color(char *color, t_bool *bool)
 {

@@ -10,7 +10,54 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/libft.h"
-#in
+#include "../../includes/lib.h"
+#include "../../includes/data_struct.h"
+#include "../../includes/util.h"
+#include "parsing.h"
+#include <fcntl.h>
 
-t_bool	*parse_file()
+static t_bool	empty_line(char *line)
+{
+	while (ft_iswhite_space(*line))
+		line++;
+	if (*line == 0 || *line == '\n')
+		return (true);
+	return (false);
+}
+
+static void	load_file(int fd, t_list **head)
+{
+	char	*line;
+	t_list	*new;
+
+	line = get_next_line(fd);
+	while (line)
+	{
+		if (empty_line(line) == true)
+			free(line);
+		else
+		{
+			new = ft_lstnew(line);
+			if (new == NULL)
+				err_exit(1, "Error\nRan out of memory.\n");
+			ft_lstadd_back(head, new);
+		}
+		line = get_next_line(fd);
+	}
+}
+
+void	parse_file(char *file, t_minirt_data *data)
+{
+	int		fd;
+	t_list	**head;
+
+	if (!ft_ends_with(file, ".rt"))
+		err_exit(1, "Error\nInvalid file name: [%s], needs to be a .rt file\n",
+			file);
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		err_exit(1, "Error\nUnable to open file: [%s]\n", file);
+	head = ft_calloc(1, sizeof(t_list *));
+	load_file(fd, head);
+	parse_lines(head, data);
+}

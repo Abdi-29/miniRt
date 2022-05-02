@@ -1,20 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   printf.h                                           :+:    :+:            */
+/*   parse_lines.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sappunn <sappunn@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/25 15:40:50 by sappunn       #+#    #+#                 */
-/*   Updated: 2022/04/25 15:40:50 by sappunn       ########   odam.nl         */
+/*   Created: 2022/05/02 18:38:36 by sappunn       #+#    #+#                 */
+/*   Updated: 2022/05/02 18:38:36 by sappunn       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINTF_H
-# define PRINTF_H
-# include <zconf.h>
+#include "../../includes/lib.h"
+#include "../../includes/data_struct.h"
 
-int	ft_printf(int fd, const char *str, ...);
-int	ft_printf_va(int fd, const char *str, va_list ap);
+static void	parse_line(char *line, t_minirt_data *data)
+{
+	char	**arr;
 
-#endif
+	arr = ft_split(line, ft_iswhite_space);
+}
+
+void	parse_lines(t_list **head, t_minirt_data *data)
+{
+	t_list	*entry;
+
+	entry = *head;
+	while (entry)
+	{
+		parse_line(entry->content, data);
+		entry = entry->next;
+	}
+}

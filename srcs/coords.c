@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/xyz.h"
-#include "../includes/bool.h"
-#include "../libft/libft.h"
+#include "../includes/lib.h"
 
 int	parse_coords(char *color, t_bool *bool)
 {

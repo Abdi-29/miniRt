@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   printf.h                                           :+:    :+:            */
+/*   util.h                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sappunn <sappunn@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/25 15:40:50 by sappunn       #+#    #+#                 */
-/*   Updated: 2022/04/25 15:40:50 by sappunn       ########   odam.nl         */
+/*   Created: 2022/05/02 18:06:24 by sappunn       #+#    #+#                 */
+/*   Updated: 2022/05/02 18:06:24 by sappunn       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINTF_H
-# define PRINTF_H
-# include <zconf.h>
+#ifndef UTIL_H
+# define UTIL_H
 
-int	ft_printf(int fd, const char *str, ...);
-int	ft_printf_va(int fd, const char *str, va_list ap);
+void	err_exit(int status, const char *str, ...);
 
 #endif
