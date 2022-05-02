@@ -52,8 +52,9 @@ double	get_left_part(const char *str, t_bool *success)
 	double	res;
 	int		len;
 
-	len = 0;
 	res = (double)ft_atoi(str, success);
+	if (success == false)
+		return (0);
 	len = ft_strlen(str);
 	while (len--)
 		res /= 10;
@@ -76,8 +77,12 @@ double	ft_atod(const char *str, t_bool *success)
 		return (0);
 	}
 	res = ft_atoi(test[0], success);
+	if (*success == false)
+		return (0);
 	if (test[1])
 		res2 = get_left_part(test[1], success);
+	if (*success == false)
+		return (0);
 	free_array(test);
 	*success = true;
 	if (res >= 0)
