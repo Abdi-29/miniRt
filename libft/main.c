@@ -1,16 +1,10 @@
 #include "libft.h"
 #include <stdlib.h>
 
-void	last(void)
-{
-	system("leaks get_next_line");
-}
 
 int	main(void)
 {
-	char	*new;
-	new = ft_strrepl("test <kk> test", "<kk>", "something else");
-	ft_printf(new);
-	free(new);
-	return (0);
+	t_bool	check;
+
+	printf("testing %f\n", ft_atod("10.11", &check));
 }
