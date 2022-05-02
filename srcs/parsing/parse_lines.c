@@ -13,7 +13,7 @@
 #include "../../includes/lib.h"
 #include "../../includes/data_struct.h"
 #include "../../includes/util.h"
-#include "parsing.h"
+#include "../includes/parser.h"
 
 int	arr_len(char **arr)
 {
@@ -29,7 +29,17 @@ static void	parse_line(char *line, t_minirt_data *data)
 {
 	char	**arr;
 	int		len;
+	int 	i;
+	const t_parser	function[] = {
+		{"A", &parse_a},
+		{"C", &parse_c},
+		{"L", &parse_l},
+		{"pl", &parse_pl},
+		{"sp", &parse_sp},
+		{"cy", &parse_cy}
+	};
 
+	i = 0;
 	arr = ft_split(line, ft_iswhite_space);
 	if (arr == NULL)
 		err_exit(1, "Error\nRan out of memory.\n");
@@ -37,20 +47,13 @@ static void	parse_line(char *line, t_minirt_data *data)
 	if (len < 3)
 		err_exit(1, "Error\nNot enough arguments on the following line: [%s].\n",
 			line);
-	if (ft_streq(arr[0], "A"))
-		parse_a(arr, len, line, data);
-	else if (ft_streq(arr[0], "C"))
-		parse_c(arr, len, line, data);
-	else if (ft_streq(arr[0], "L"))
-		parse_l(arr, len, line, data);
-	else if (ft_streq(arr[0], "pl"))
-		parse_pl(arr, len, line, data);
-	else if (ft_streq(arr[0], "sp"))
-		parse_sp(arr, len, line, data);
-	else if (ft_streq(arr[0], "cy"))
-		parse_cy(arr, len, line, data);
-	else
-		err_exit(1, "Error\nInvalid identifier [%s] on line [%s].\n",
+	while (function[i].option)
+	{
+		if (!ft_streq(arr[0], function[i].option))
+			return(function[i].t_function_pointer(arr, len, line, data));
+		i++;
+	}
+	err_exit(1, "Error\nInvalid identifier [%s] on line [%s].\n",
 			arr[0], line);
 }
 
