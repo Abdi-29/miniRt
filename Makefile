@@ -1,6 +1,6 @@
 NAME = miniRT
 
-FLAGS = -Wall -Werror -Wextra -g
+FLAGS =
 SRC_DIR = srcs
 OBJ_DIR = obj
 INC_DIR = includes

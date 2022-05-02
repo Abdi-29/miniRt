@@ -14,6 +14,13 @@
 #include <stdio.h>
 #include <string.h>
 
+int	equal_char(char c)
+{
+	if (c == '.')
+		return (1);
+	return (0);
+}
+
 int	len_array(char **array)
 {
 	int	len;
@@ -40,7 +47,7 @@ void	free_array(char **array)
 	array = NULL;
 }
 
-double get_left_part(const char *str, t_bool *success)
+double	get_left_part(const char *str, t_bool *success)
 {
 	double	res;
 	int		len;
@@ -62,7 +69,7 @@ double	ft_atod(const char *str, t_bool *success)
 	res2 = 0;
 	if (!str)
 		return (0);
-	test = ft_split(str, '.');
+	test = ft_split(str, equal_char);
 	if (len_array(test) > 2)
 	{
 		free_array(test);

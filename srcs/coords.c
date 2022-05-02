@@ -23,7 +23,7 @@ int	parse_coords(char *color, t_bool *bool)
 	return (nbr);
 }
 
-t_bool	set_colors(t_xyz *xyz, char *x, char *y, char *z)
+t_bool	set_coords(t_xyz *xyz, char *x, char *y, char *z)
 {
 	t_bool	bool;
 

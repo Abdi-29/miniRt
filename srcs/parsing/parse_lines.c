@@ -15,12 +15,12 @@
 #include "../../includes/util.h"
 #include "parsing.h"
 
-int	arr_len(char *line)
+int	arr_len(char **arr)
 {
 	int	i;
 
 	i = 0;
-	while (*line++)
+	while (*arr++)
 		i++;
 	return (i);
 }
@@ -33,7 +33,7 @@ static void	parse_line(char *line, t_minirt_data *data)
 	arr = ft_split(line, ft_iswhite_space);
 	if (arr == NULL)
 		err_exit(1, "Error\nRan out of memory.\n");
-	len = arr_len(line);
+	len = arr_len(arr);
 	if (len < 3)
 		err_exit(1, "Error\nNot enough arguments on the following line: [%s].\n",
 			line);

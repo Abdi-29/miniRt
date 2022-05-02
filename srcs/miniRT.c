@@ -18,7 +18,7 @@ int	main(int len, char **args)
 	t_minirt_data	data;
 
 	if (len != 2)
-		err_exit(1, "Error\nInvalid argument length, expecting file name\n.");
+		err_exit(1, "Error\nInvalid argument length, expecting file name.\n");
 	parse_file(args[1], &data);
 	return (0);
 }
