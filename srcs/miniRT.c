@@ -10,31 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include "../includes/lib.h"
-#include <stdio.h>
+#include "../includes/util.h"
+#include "parsing/parsing.h"
 
-void	test(char *str)
+int	main(int len, char **args)
 {
-	t_bool	success;
+	t_minirt_data	data;
 
-	printf("mine: {%f success %d} actual: {%f} string: {%s}\n",
-		ft_atod(str, &success),
-		success,
-		atof(str),
-		str);
-}
-
-int	main(void)
-{
-	write(1, "hello\n", 6);
-	test("0.0");
-	test("-0.0");
-	test("1.0");
-	test("00000003.1");
-	test("1.1");
-	test("0999.809289");
-	test("999999.444");
-	test("666.666");
+	if (len != 2)
+		err_exit(1, "Error\nInvalid argument length, expecting file name\n.");
+	parse_file(args[1], &data);
 	return (0);
 }
