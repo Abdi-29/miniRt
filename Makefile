@@ -4,7 +4,7 @@ FLAGS = -Wall -Werror -Wextra -g
 SRC_DIR = srcs
 OBJ_DIR = obj
 INC_DIR = includes
-LIBFT_DIR = ./libs/libft
+LIBFT_DIR = ./libft
 
 LIBFT = $(LIBFT_DIR)/libft.a
 

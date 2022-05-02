@@ -1,17 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   libft.h                                            :+:    :+:            */
+/*   ft_lstdelone.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sappunn <sappunn@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/12/10 18:11:18 by sappunn       #+#    #+#                 */
-/*   Updated: 2021/12/10 18:11:18 by sappunn       ########   odam.nl         */
+/*   Created: 2021/12/10 18:10:34 by sappunn       #+#    #+#                 */
+/*   Updated: 2021/12/10 18:10:34 by sappunn       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
-# include "../libft/libft.h"
+#include "list.h"
+#include <stdlib.h>
 
-#endif
+/**
+ * Deletes and free's a t_list
+ *
+ * @param	lst	the t_list to delete
+ * @param	del	The function to apply to the content of the t_list to delete it
+ */
+void	ft_lstdelone(t_list *lst, void (*del)(void*))
+{
+	if (!lst)
+		return ;
+	del(lst->content);
+	free(lst);
+}

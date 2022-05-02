@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   libft.h                                            :+:    :+:            */
+/*   string_internal.h                                  :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sappunn <sappunn@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/12/10 18:11:18 by sappunn       #+#    #+#                 */
-/*   Updated: 2021/12/10 18:11:18 by sappunn       ########   odam.nl         */
+/*   Created: 2022/02/28 17:02:28 by sappunn       #+#    #+#                 */
+/*   Updated: 2022/02/28 17:02:28 by sappunn       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
-# include "../libft/libft.h"
+#ifndef STRING_INTERNAL_H
+# define STRING_INTERNAL_H
 
+t_string	*create(int len);
 #endif

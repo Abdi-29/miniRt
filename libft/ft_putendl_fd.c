@@ -1,17 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   libft.h                                            :+:    :+:            */
+/*   ft_putendl_fd.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sappunn <sappunn@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/12/10 18:11:18 by sappunn       #+#    #+#                 */
-/*   Updated: 2021/12/10 18:11:18 by sappunn       ########   odam.nl         */
+/*   Created: 2021/12/10 18:10:54 by sappunn       #+#    #+#                 */
+/*   Updated: 2021/12/10 18:10:54 by sappunn       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
-# include "../libft/libft.h"
+#include "libft.h"
 
-#endif
+/**
+ * Writes a string to the specified file descriptor and adds a \n character
+ *
+ * @param	s	String to write
+ * @param	fd	File descriptor to write to
+ */
+void	ft_putendl_fd(char *s, int fd)
+{
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
+}

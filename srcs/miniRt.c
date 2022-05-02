@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include <unistd.h>
 
-int main(void)
+int	main(void)
 {
 	write(1, "hello\n", 6);
 	return (0);

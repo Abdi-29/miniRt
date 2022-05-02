@@ -1,17 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   libft.h                                            :+:    :+:            */
+/*   ft_striteri.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sappunn <sappunn@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/12/10 18:11:18 by sappunn       #+#    #+#                 */
-/*   Updated: 2021/12/10 18:11:18 by sappunn       ########   odam.nl         */
+/*   Created: 2021/12/10 18:11:02 by sappunn       #+#    #+#                 */
+/*   Updated: 2021/12/10 18:11:02 by sappunn       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
-# include "../libft/libft.h"
+/**
+ * Iterate over a string and apply the function f to its content
+ *
+ * @param	s	String to iterate over
+ * @param	f	Function to apply to string
+ */
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
+{
+	int		i;
 
-#endif
+	i = 0;
+	while (*(s + i))
+	{
+		f(i, (s + i));
+		i++;
+	}
+}

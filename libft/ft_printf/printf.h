@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   libft.h                                            :+:    :+:            */
+/*   printf.h                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sappunn <sappunn@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/12/10 18:11:18 by sappunn       #+#    #+#                 */
-/*   Updated: 2021/12/10 18:11:18 by sappunn       ########   odam.nl         */
+/*   Created: 2022/04/25 15:40:50 by sappunn       #+#    #+#                 */
+/*   Updated: 2022/04/25 15:40:50 by sappunn       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
-# include "../libft/libft.h"
+#ifndef PRINTF_H
+# define PRINTF_H
+
+int	ft_printf(const char *str, ...);
 
 #endif
