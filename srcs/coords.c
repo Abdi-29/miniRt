@@ -13,7 +13,7 @@
 #include "../includes/xyz.h"
 #include "../includes/lib.h"
 
-int	parse_coords(char *color, t_bool *bool)
+static int	parse_coords(char *color, t_bool *bool)
 {
 	double	nbr;
 
@@ -27,6 +27,7 @@ t_bool	set_coords(t_xyz *xyz, char *x, char *y, char *z)
 {
 	t_bool	bool;
 
+	//TODO check range
 	xyz->x = parse_coords(x, &bool);
 	if (bool == false)
 		return (false);

@@ -19,6 +19,13 @@ void	parse_a(char **arr, int len, char *line, t_minirt_data *data)
 	if (len != 3)
 		err_exit(1, "Error\nInvalid argument length [%d] on line [%s].\n",
 			len, line);
+	data->ambient.ratio = ft_atod(arr[2], success);
+	if (success == false)
+		err_exit();
+	char **arr = ft_split(arr[3], func);
+	if (arr == nULL || arr_len(arr) != 3)
+		err_exit
+	set_colors(&data->ambient.rgb, arr[0], arr[1], arr[2])
 }
 
 void	parse_c(char **arr, int len, char *line, t_minirt_data *data)

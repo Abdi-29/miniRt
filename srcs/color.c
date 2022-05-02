@@ -13,7 +13,14 @@
 #include "../includes/rgb.h"
 #include "../includes/lib.h"
 
-int	parse_color(char *color, t_bool *bool)
+int	func(char c)
+{
+	if (c == ',')
+		return (1);
+	return (0);
+}
+
+static int	parse_color(char *color, t_bool *bool)
 {
 	int	nbr;
 
@@ -27,14 +34,15 @@ t_bool	set_colors(t_rgb *rgb, char *r, char *g, char *b)
 {
 	t_bool	bool;
 
+	//TODO check range
 	rgb->r = parse_color(r, &bool);
 	if (bool == false)
-		return (false);
+		err_exit
 	rgb->g = parse_color(g, &bool);
 	if (bool == false)
-		return (false);
+		err_exit
 	rgb->b = parse_color(b, &bool);
 	if (bool == false)
-		return (false);
+		err_exit
 	return (true);
 }
