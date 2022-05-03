@@ -12,6 +12,7 @@
 
 #include "../includes/rgb.h"
 #include "../includes/lib.h"
+#include "../includes/util.h"
 
 int	func(char c)
 {
@@ -20,29 +21,29 @@ int	func(char c)
 	return (0);
 }
 
-static int	parse_color(char *color, t_bool *bool)
+static int	parse_color(const char *color, t_bool *success)
 {
 	int	nbr;
 
-	nbr = ft_atoi(color, bool);
-	if (bool == false || nbr < 0 || nbr > 250)
-		*bool = false;
+	nbr = ft_atoi(color, success);
+	if (nbr < 0 || nbr > 255)
+		*success = false;
 	return (nbr);
 }
 
 t_bool	set_colors(t_rgb *rgb, char *r, char *g, char *b)
 {
-	t_bool	bool;
+	t_bool	valid;
+	const char *temp[3] = {r, g, b};
+	int i;
 
-	//TODO check range
-	rgb->r = parse_color(r, &bool);
-	if (bool == false)
-		err_exit
-	rgb->g = parse_color(g, &bool);
-	if (bool == false)
-		err_exit
-	rgb->b = parse_color(b, &bool);
-	if (bool == false)
-		err_exit
+	i = 0;
+	while (i < 3)
+	{
+		rgb->rgb[i] = parse_color(temp[i], &valid);
+		if (valid == false)
+			err_exit(1, "Error\nOut of range\n");
+		i++;
+	}
 	return (true);
 }

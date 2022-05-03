@@ -12,6 +12,7 @@
 
 #ifndef CAMERA_H
 # define CAMERA_H
+
 # include "../xyz.h"
 
 typedef struct s_camera

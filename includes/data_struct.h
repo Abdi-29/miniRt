@@ -12,6 +12,7 @@
 
 #ifndef DATA_STRUCT_H
 # define DATA_STRUCT_H
+
 # include "objects/ambient.h"
 # include "objects/camera.h"
 # include "objects/cylinder.h"

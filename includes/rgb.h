@@ -13,11 +13,15 @@
 #ifndef RGB_H
 # define RGB_H
 
-typedef struct s_rgb
+typedef union u_rgb
 {
-	int	r;
-	int	g;
-	int	b;
-}	t_rgb;
+	struct s_rgb
+	{
+		int	r;
+		int	g;
+		int	b;
+	}				t_s_rgb;
+	int rgb[3];
+}					t_rgb;
 
 #endif

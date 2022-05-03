@@ -13,7 +13,8 @@
 #include "../../includes/lib.h"
 #include "../../includes/data_struct.h"
 #include "../../includes/util.h"
-#include "parsing.h"
+#include "../../includes/parser.h"
+
 #include <fcntl.h>
 
 static t_bool	empty_line(char *line)
@@ -33,7 +34,7 @@ static void	load_file(int fd, t_list **head)
 	line = get_next_line(fd);
 	while (line)
 	{
-		line[ft_strlen(line) - 1] = 0;
+		line[ft_strlen(line)] = 0;
 		if (empty_line(line) == true)
 			free(line);
 		else
@@ -44,6 +45,20 @@ static void	load_file(int fd, t_list **head)
 			ft_lstadd_back(head, new);
 		}
 		line = get_next_line(fd);
+	}
+}
+
+void free_list(t_list **head)
+{
+	t_list	*tmp;
+	t_list	*current;
+
+	current	= *head;
+	while (current)
+	{
+		tmp = current->next;
+		free(current);
+		current = tmp;
 	}
 }
 
@@ -59,6 +74,9 @@ void	parse_file(char *file, t_minirt_data *data)
 	if (fd < 0)
 		err_exit(1, "Error\nUnable to open file: [%s]\n", file);
 	head = ft_calloc(1, sizeof(t_list *));
+	if (!head)
+		return ;
 	load_file(fd, head);
 	parse_lines(head, data);
+	free_list(head);
 }

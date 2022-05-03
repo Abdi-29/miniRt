@@ -13,17 +13,7 @@
 #include "../../includes/lib.h"
 #include "../../includes/data_struct.h"
 #include "../../includes/util.h"
-#include "../includes/parser.h"
-
-int	arr_len(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (*arr++)
-		i++;
-	return (i);
-}
+#include "../../includes/parser.h"
 
 static void	parse_line(char *line, t_minirt_data *data)
 {
@@ -43,13 +33,13 @@ static void	parse_line(char *line, t_minirt_data *data)
 	arr = ft_split(line, ft_iswhite_space);
 	if (arr == NULL)
 		err_exit(1, "Error\nRan out of memory.\n");
-	len = arr_len(arr);
+	len = arr_len((const char **)arr);
 	if (len < 3)
 		err_exit(1, "Error\nNot enough arguments on the following line: [%s].\n",
 			line);
 	while (function[i].option)
 	{
-		if (!ft_streq(arr[0], function[i].option))
+		if (ft_streq(arr[0], function[i].option))
 			return(function[i].t_function_pointer(arr, len, line, data));
 		i++;
 	}
@@ -64,6 +54,7 @@ void	parse_lines(t_list **head, t_minirt_data *data)
 	entry = *head;
 	while (entry)
 	{
+		ft_printf(0,"checking %s\n", entry->content);
 		parse_line(entry->content, data);
 		entry = entry->next;
 	}

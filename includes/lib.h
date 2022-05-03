@@ -12,6 +12,14 @@
 
 #ifndef LIB_H
 # define LIB_H
-# include "../libft/libft.h"
 
+# include "bool.h"
+# include "../libft/libft.h"
+# include "rgb.h"
+# include "xyz.h"
+# include "./objects/camera.h"
+
+t_bool	set_colors(t_rgb *rgb, char *r, char *g, char *b);
+t_bool	set_coords(t_xyz *xyz, const char **coords, t_bool has_range);
+t_bool	set_view(t_camera *camera, char *view);
 #endif

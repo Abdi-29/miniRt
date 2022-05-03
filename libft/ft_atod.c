@@ -12,39 +12,12 @@
 
 #include "libft.h"
 #include <stdio.h>
-#include <string.h>
 
 int	equal_char(char c)
 {
 	if (c == '.')
 		return (1);
 	return (0);
-}
-
-int	len_array(char **array)
-{
-	int	len;
-
-	len = 0;
-	while (array[len])
-	{
-		len++;
-	}
-	return (len);
-}
-
-void	free_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-	array = NULL;
 }
 
 double	get_left_part(const char *str, t_bool *success)

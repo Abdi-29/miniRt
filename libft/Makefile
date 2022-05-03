@@ -21,7 +21,7 @@ SRC = 	ft_isalpha.c ft_isdigit.c ft_isalnum.c \
 		ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c \
 		ft_putnbr_fd.c ft_contains.c ft_iswhite_space.c \
 		ft_strrepl.c ft_streq.c ft_atod.c \
-		ft_ends_with.c \
+		ft_ends_with.c len_array.c free_array.c \
 		$(addprefix list/, $(LIST)) \
 		$(addprefix get_next_line/, $(GNL)) \
 		$(addprefix ft_printf/, $(PRINT))
