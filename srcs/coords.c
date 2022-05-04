@@ -14,7 +14,7 @@
 #include "../includes/lib.h"
 #include "../includes/util.h"
 
-t_bool	set_coords(t_xyz *xyz, char **coords)
+void	set_coords(t_xyz *xyz, char **coords)
 {
 	int			i;
 	t_bool		success;
@@ -27,5 +27,4 @@ t_bool	set_coords(t_xyz *xyz, char **coords)
 			err_exit(1, "Error\nInvalid double [%s].\n", coords[i]);
 		i++;
 	}
-	return (true);
 }

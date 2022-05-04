@@ -24,7 +24,7 @@ static int	parse_color(const char *color, t_bool *success)
 	return (nbr);
 }
 
-t_bool	set_colors(t_rgb *rgb, char **color)
+void	set_colors(t_rgb *rgb, char **color)
 {
 	t_bool		valid;
 	const char	*temp[3] = {color[0], color[1], color[2]};
@@ -38,5 +38,4 @@ t_bool	set_colors(t_rgb *rgb, char **color)
 			err_exit(1, "Error\nInvalid double [%s].\n", color[i]);
 		i++;
 	}
-	return (true);
 }

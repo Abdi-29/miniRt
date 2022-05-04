@@ -5,9 +5,10 @@ SRC_DIR = srcs
 OBJ_DIR = obj
 INC_DIR = includes
 LIBFT_DIR = ./libft
+MLX_DIR = ./minilibx
 
 LIBFT = $(LIBFT_DIR)/libft.a
-MLX = libmlx42.a
+MLX = $(MLX_DIR)/libmlx.dylib
 
 LINKING_FLAGS = -lglfw -ldl -lm -O3 -L "/Users/$(USER)/.brew/opt/glfw/lib/"
 
@@ -35,7 +36,7 @@ COM_STRING = "Compiling"
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJ) libmlx42.a
+$(NAME): $(LIBFT) $(OBJ) $(MLX)
 	@gcc $(FLAGS) $(OBJ) $(LIBFT) $(MLX) -o $(NAME) $(LINKING_FLAGS) 2> $@.log; \
 		RESULT=$$?; \
 		if [ $$RESULT -ne 0 ]; then \
@@ -70,8 +71,8 @@ $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 
 $(MLX):
-	@make -C MLX42
-	@cp MLX42/$(MLX) .
+	@printf "$(COM_COLOR)$(COM_STRING) $(LIB_COLOR)$(@)$(NO_COLOR)\n";
+	@make -C $(MLX_DIR)
 
 clean:
 	@printf "%b" "$(COM_COLOR)Cleaning $(LIB_COLOR)libft\n"

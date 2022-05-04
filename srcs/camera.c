@@ -14,14 +14,13 @@
 #include "../includes/lib.h"
 #include "../includes/util.h"
 
-t_bool set_view(t_camera *camera, char *view)
+void	set_fov(t_camera *camera, char *fov)
 {
-	int 	nbr;
-	t_bool success;
+	int		nbr;
+	t_bool	success;
 
-	nbr = ft_atoi(view, &success);
+	nbr = ft_atoi(fov, &success);
 	if (success == false || nbr < 0 || nbr > 180)
-		err_exit(1, "Error\nOut of range\n");
+		err_exit(1, "Error\nFov out of range\n");
 	camera->fov = nbr;
-	return (true);
 }

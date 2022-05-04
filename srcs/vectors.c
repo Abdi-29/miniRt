@@ -14,7 +14,7 @@
 #include "../includes/lib.h"
 #include "../includes/util.h"
 
-t_bool	set_vector(t_xyz *xyz, char **vectors)
+void	set_vector(t_xyz *xyz, char **vectors)
 {
 	int			i;
 	t_bool		success;
@@ -29,5 +29,4 @@ t_bool	set_vector(t_xyz *xyz, char **vectors)
 			err_exit(1, "Error\nInvalid range for double [%s].\n", vectors[i]);
 		i++;
 	}
-	return (true);
 }

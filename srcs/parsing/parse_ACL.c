@@ -21,7 +21,6 @@ t_bool	ratio_range(double min, double max, double value)
 	return (true);
 }
 
-#include <stdio.h>
 void	parse_a(char **arr, int len, char *line, t_minirt_data *data)
 {
 	t_bool	success;
@@ -32,13 +31,12 @@ void	parse_a(char **arr, int len, char *line, t_minirt_data *data)
 			len, line);
 	success = false;
 	data->ambient.ratio = ft_atod((const char *)arr[1], &success);
-	printf("lol %f %s\n", data->ambient.ratio, arr[1]);
 	if (success == false || range(0, 1, data->ambient.ratio) == false)
-		err_exit(1, "Error\nOut of range\n");
+		err_exit(1, "Error\nRatio out of range for [%s]\n", line);
 	ambient = split_helper(arr[2], 3);
 	set_colors(&data->ambient.rgb, ambient);
-//	free(line);
-//	free_array(arr);
+	free(line);
+	free_array(arr);
 }
 
 void	parse_c(char **arr, int len, char *line, t_minirt_data *data)
@@ -47,7 +45,6 @@ void	parse_c(char **arr, int len, char *line, t_minirt_data *data)
 	char	**vector;
 	char	**views;
 
-	free(arr[0]);
 	if (len != 4)
 		err_exit(1, "Error\nInvalid argument length [%d] on line [%s].\n",
 			len, line);
@@ -58,7 +55,7 @@ void	parse_c(char **arr, int len, char *line, t_minirt_data *data)
 		err_exit(1, "Error\nOut of range\n");
 	set_coords(&data->camera.coords, coords);
 	set_vector(&data->camera.vector, vector);
-	set_view(&data->camera, views[0]);
+	set_fov(&data->camera, views[0]);
 	free_array(coords);
 	free_array(vector);
 	free_array(views);
@@ -78,7 +75,7 @@ void	parse_l(char **arr, int len, char *line, t_minirt_data *data)
 	coords = split_helper(arr[1], 3);
 	data->light.ratio = ft_atod(arr[2], &success);
 	if (ratio_range(0, 1, data->light.ratio) == false)
-		err_exit(1, "Error\nOut of range.\n");
+		err_exit(1, "Error\nRatio out of range for [%s]\n", line);
 	colors = split_helper(arr[3], 3);
 	set_coords(&data->light.xyz, coords);
 	set_colors(&data->light.rgb, colors);

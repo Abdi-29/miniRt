@@ -20,13 +20,12 @@
 # include "objects/plane.h"
 # include "objects/sphere.h"
 # include "lib.h"
-# include "../MLX42/include/MLX42/MLX42.h"
+# include "../minilibx/mlx.h"
 
 typedef struct s_minirt_data
 {
-	mlx_t		mlx;
-	mlx_image_t	*buffer;
-	mlx_image_t	*bgbuffer;
+	void		*mlx;
+	void		*window;
 	t_ambient	ambient;
 	t_camera	camera;
 	t_light		light;
