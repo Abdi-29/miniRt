@@ -49,7 +49,6 @@ double	ft_atod(const char *str, t_bool *success)
 		free_array(test);
 		return (0);
 	}
-	printf("im here %f\n", s)
 	res = ft_atoi(test[0], success);
 	if (*success == false)
 		return (0);
