@@ -35,8 +35,8 @@ void	parse_a(char **arr, int len, char *line, t_minirt_data *data)
 		err_exit(1, "Error\nOut of range\n");
 	ambient = split_helper(arr[2], 3);
 	set_colors(&data->ambient.rgb, ambient);
-//	free(line);
-//	free_array(arr);
+	free(line);
+	free_array(arr);
 }
 
 void	parse_c(char **arr, int len, char *line, t_minirt_data *data)
