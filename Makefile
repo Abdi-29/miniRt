@@ -7,6 +7,9 @@ INC_DIR = includes
 LIBFT_DIR = ./libft
 
 LIBFT = $(LIBFT_DIR)/libft.a
+MLX = libmlx42.a
+
+LINKING_FLAGS = -lglfw -ldl -lm -O3 -L "/Users/$(USER)/.brew/opt/glfw/lib/"
 
 PARSING = parse_ACL.c parse_file.c parse_lines.c parse_plspcy.c
 SRC_FILES = miniRT.c color.c coords.c util.c camera.c vectors.c \
@@ -32,8 +35,8 @@ COM_STRING = "Compiling"
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJ)
-	@gcc $(FLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(READLINE_LIB) 2> $@.log; \
+$(NAME): $(LIBFT) $(OBJ) libmlx42.a
+	@gcc $(FLAGS) $(OBJ) $(LIBFT) $(MLX) -o $(NAME) $(LINKING_FLAGS) 2> $@.log; \
 		RESULT=$$?; \
 		if [ $$RESULT -ne 0 ]; then \
 			printf "%-60b%b" "$(COM_COLOR)$(COM_STRING)$(PRG_COLOR) $@" "$(ERROR_COLOR)$(ERROR_STRING)$(NO_COLOR)\n"; \
@@ -65,6 +68,10 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 $(LIBFT):
 	@printf "$(COM_COLOR)$(COM_STRING) $(LIB_COLOR)$(@)$(NO_COLOR)\n";
 	@$(MAKE) -C $(LIBFT_DIR)
+
+$(MLX):
+	@make -C MLX42
+	@cp MLX42/$(MLX) .
 
 clean:
 	@printf "%b" "$(COM_COLOR)Cleaning $(LIB_COLOR)libft\n"
