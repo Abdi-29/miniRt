@@ -20,15 +20,20 @@
 # include "objects/plane.h"
 # include "objects/sphere.h"
 # include "lib.h"
+# include "../MLX42/include/MLX42/MLX42.h"
 
 typedef struct s_minirt_data
 {
+	mlx_t		mlx;
+	mlx_image_t	*buffer;
+	mlx_image_t	*bgbuffer;
 	t_ambient	ambient;
 	t_camera	camera;
 	t_light		light;
 	t_list		*sphere_list;
 	t_list		*plane_list;
 	t_list		*cylinder_list;
+
 }	t_minirt_data;
 
 #endif
