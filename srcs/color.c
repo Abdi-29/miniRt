@@ -24,7 +24,7 @@ static int	parse_color(const char *color, t_bool *success)
 	return (nbr);
 }
 
-t_bool	set_colors(t_rgb *rgb, const char **color)
+t_bool	set_colors(t_rgb *rgb, char **color)
 {
 	t_bool		valid;
 	const char	*temp[3] = {color[0], color[1], color[2]};

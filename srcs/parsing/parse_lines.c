@@ -15,15 +15,6 @@
 #include "../../includes/util.h"
 #include "../../includes/parser.h"
 
-//void	*m_w(int size)
-//{
-//	void * test;
-//
-//	test = malloc(size);
-//	if (!test)
-//		exit(1);
-//	return (test);
-//}
 static void	parse_line(char *line, t_minirt_data *data)
 {
 	char			**arr;

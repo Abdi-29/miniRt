@@ -78,7 +78,7 @@ char	*get_next_line(int fd)
 	long			len;
 	static char		buffer[101];
 
-	if (fd < 0 || fd >= OPEN_MAX)
+	if (fd < 0 || fd >= 1024)
 		return (NULL);
 	nl = NULL;
 	if (*buffer)

@@ -14,7 +14,7 @@
 #include "../includes/lib.h"
 #include "../includes/util.h"
 
-t_bool	set_coords(t_xyz *xyz, const char **coords)
+t_bool	set_coords(t_xyz *xyz, char **coords)
 {
 	int			i;
 	t_bool		success;

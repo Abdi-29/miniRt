@@ -17,7 +17,7 @@
 void	parse_sp(char **arr, int len, char *line, t_minirt_data *data)
 {
 	char	**coords;
-	char	**colours;
+	char	**colors;
 	char	*diameter;
 
 	if (len != 4)
@@ -28,6 +28,7 @@ void	parse_sp(char **arr, int len, char *line, t_minirt_data *data)
 //	colours = split_helper(arr[3], 3);
 //	set_coords(&data->plane_list->, (const char **)coords, false);
 //	set_colors(&data->light.rgb, (const char **)colours);
+	free_array(arr);
 }
 
 void	parse_pl(char **arr, int len, char *line, t_minirt_data *data)
@@ -35,6 +36,7 @@ void	parse_pl(char **arr, int len, char *line, t_minirt_data *data)
 	if (len != 4)
 		err_exit(1, "Error\nInvalid argument length [%d] on line [%s].\n",
 			len, line);
+	free_array(arr);
 }
 
 void	parse_cy(char **arr, int len, char *line, t_minirt_data *data)
@@ -42,4 +44,5 @@ void	parse_cy(char **arr, int len, char *line, t_minirt_data *data)
 	if (len != 6)
 		err_exit(1, "Error\nInvalid argument length [%d] on line [%s].\n",
 			len, line);
+	free_array(arr);
 }
