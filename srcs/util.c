@@ -25,7 +25,7 @@ int	arr_len(const char **arr)
 	int	i;
 
 	i = 0;
-	while (*arr++)
+	while (arr[i])
 		i++;
 	return (i);
 }
@@ -77,7 +77,7 @@ char	**split_helper(char *str, int len)
 
 	output = ft_split(str, func);
 	if (output == NULL || arr_len((const char **)output) != len)
-		err_exit(1, "Error\nOut of range\n");
+		err_exit(1, "Error\nSplit out of range [%s]\n", str);
 	return (output);
 }
 

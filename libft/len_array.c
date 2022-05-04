@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-int	len_array(char **array)
+int	len_array(char **arr)
 {
-	int	len;
+	int	i;
 
-	len = 0;
-	while (array[len++])
-		;
-	return (len);
+	i = 0;
+	while (arr[i])
+		i++;
+	return (i);
 }
