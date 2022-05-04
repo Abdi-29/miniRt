@@ -35,7 +35,7 @@ static void	load_file(int fd, t_list **head)
 	while (line)
 	{
 		if (ft_strlen(line) > 1 && line[ft_strlen(line) - 1] == '\n')
-			line[ft_strlen(line - 1)] = 0;
+			line[ft_strlen(line) - 1] = 0;
 		if (empty_line(line) == true)
 			free(line);
 		else

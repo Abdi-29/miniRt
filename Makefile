@@ -1,6 +1,6 @@
 NAME = miniRT
 
-FLAGS =
+FLAGS = -g
 SRC_DIR = srcs
 OBJ_DIR = obj
 INC_DIR = includes

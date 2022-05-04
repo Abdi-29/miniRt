@@ -29,6 +29,7 @@ void	parse_a(char **arr, int len, char *line, t_minirt_data *data)
 	if (len != 3)
 		err_exit(1, "Error\nInvalid argument length [%d] on line [%s].\n",
 			len, line);
+	success = false;
 	data->ambient.ratio = ft_atod(arr[1], &success);
 	if (success == false || range(0, 1, data->ambient.ratio) == false)
 		err_exit(1, "Error\nOut of range\n");
