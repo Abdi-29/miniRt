@@ -61,7 +61,6 @@ int		ft_iswhite_space(char c);
 int		ft_starts_with(char *str, char *prefix);
 int		ft_ends_with(char *str, char *suffix);
 char	*ft_strrepl(char *str, char *find, char *replace);
-
 void	free_array(char **array);
 int		len_array(char **array);
 

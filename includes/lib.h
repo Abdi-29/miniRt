@@ -19,9 +19,9 @@
 # include "xyz.h"
 # include "./objects/camera.h"
 
-t_bool	set_vector(t_xyz *xyz, char **vectors);
-t_bool	set_colors(t_rgb *rgb, char **color);
-t_bool	set_coords(t_xyz *xyz, char **coords);
+t_bool	set_vector(t_xyz *xyz, const char **vectors);
+t_bool	set_colors(t_rgb *rgb, const char **color);
+t_bool	set_coords(t_xyz *xyz, const char **coords);
 t_bool	set_view(t_camera *camera, char *view);
 
 #endif
