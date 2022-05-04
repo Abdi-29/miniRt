@@ -31,10 +31,10 @@ static int	parse_color(const char *color, t_bool *success)
 	return (nbr);
 }
 
-t_bool	set_colors(t_rgb *rgb, char *r, char *g, char *b)
+t_bool	set_colors(t_rgb *rgb, const char **colours)
 {
 	t_bool	valid;
-	const char *temp[3] = {r, g, b};
+	const char *temp[3] = {colours[0], colours[1], colours[2]};
 	int i;
 
 	i = 0;

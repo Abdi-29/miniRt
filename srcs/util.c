@@ -11,8 +11,11 @@
 /* ************************************************************************** */
 
 #include "../includes/lib.h"
+#include <stdio.h>
 
 //check libft len too
+
+int	func(char c);
 
 int	arr_len(const char **arr)
 {
@@ -50,6 +53,14 @@ t_bool	is_valid(char **coordinates, char **vector, char **views)
 	return (true);
 }
 
+t_bool	ratio_range(double min, double max, double value)
+{
+	printf("value--- %f\n", value);
+	if (value < min || value > max)
+		return (false);
+	return (true);
+}
+
 t_bool	range(double a, double b, double value)
 {
 	if (value < a || value > b)
@@ -70,4 +81,14 @@ void	err_exit(int status, const char *str, ...)
 			ft_printf_va(1, str, ap);
 	}
 	exit(status);
+}
+
+char **split_helper(char *str, int len)
+{
+	char	**output;
+
+	output = ft_split(str, func);
+	if (output == NULL || arr_len((const char **)output) != len)
+		err_exit(1, "Error\nOut of range\n");
+	return (output);
 }

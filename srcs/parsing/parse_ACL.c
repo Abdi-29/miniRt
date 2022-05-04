@@ -29,10 +29,8 @@ void	parse_a(char **arr, int len, char *line, t_minirt_data *data)
 	data->ambient.ratio = ft_atod(arr[1], &success);
 	if (success == false || range(0, 1, data->ambient.ratio) == false)
 		err_exit(1, "Error\nOut of range\n");
-	ambient = ft_split(arr[2], func);
-	if (ambient == NULL || arr_len((const char **)ambient) != 3)
-		err_exit(1, "Error\nOut of range\n");
-	set_colors(&data->ambient.rgb, ambient[0], ambient[1], ambient[2]);
+	ambient = split_helper(arr[2], 3);
+	set_colors(&data->ambient.rgb, (const char **)ambient);
 }
 
 void	parse_c(char **arr, int len, char *line, t_minirt_data *data)
@@ -62,19 +60,19 @@ void	parse_c(char **arr, int len, char *line, t_minirt_data *data)
 void	parse_l(char **arr, int len, char *line, t_minirt_data *data)
 {
 	char 	**coords;
+	char	**colours;
 	t_bool success;
 
 	if (len != 4)
 		err_exit(1, "Error\nInvalid argument length [%d] on line [%s].\n",
 			len, line);
 	ft_printf(1, "new challenge\n");
-	coords = ft_split(arr[1], func);
-	//edit is_valid function so it can work with single argument
-	if (!coords)
-		err_exit(1, "Error\nRan out of memory.\n");
-	ft_printf(1, "checking %d\n", len_array(coords));
-	if (len_array(coords) != 3)
+	coords = split_helper(arr[1], 3);
+	data->light.ratio = ft_atod(arr[2], &success);
+	if (ratio_range(0, 1, data->light.ratio) == false)
 		err_exit(1, "Error1\nOut of range\n");
+	colours = split_helper(arr[3], 3);
+	ft_printf(1, "checking %d\n", len_array(coords));
 	set_coords(&data->light.xyz, (const char **)coords, false);
-	data->light.ratio = ft_atod(coords[1], &success);
+	set_colors(&data->light.rgb, (const char **)colours);
 }
