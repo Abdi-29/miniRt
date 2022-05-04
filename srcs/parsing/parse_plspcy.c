@@ -62,7 +62,7 @@ void	parse_pl(char **arr, int len, char *line, t_minirt_data *data)
 	entry = ft_lstnew(plane);
 	if (entry == NULL)
 		err_exit(1, "Error\nRan out of memory.\n");
-	ft_lstadd_back(&data->sphere_list, entry);
+	ft_lstadd_back(&data->plane_list, entry);
 	coords = ft_split(arr[1], func);
 	vector = ft_split(arr[2], func);
 	rgb = ft_split(arr[3], func);
@@ -93,7 +93,7 @@ void	parse_cy(char **arr, int len, char *line, t_minirt_data *data)
 	entry = ft_lstnew(cylinder);
 	if (entry == NULL)
 		err_exit(1, "Error\nRan out of memory.\n");
-	ft_lstadd_back(&data->sphere_list, entry);
+	ft_lstadd_back(&data->cylinder_list, entry);
 	coords = ft_split(arr[1], func);
 	vector = ft_split(arr[2], func);
 	rgb = ft_split(arr[5], func);
