@@ -13,9 +13,12 @@
 #include "../includes/lib.h"
 #include <stdio.h>
 
-//check libft len too
-
-int	func(char c);
+int	func(char c)
+{
+	if (c == ',')
+		return (1);
+	return (0);
+}
 
 int	arr_len(const char **arr)
 {
@@ -43,28 +46,13 @@ t_bool	is_valid(char **coordinates, char **vector, char **views)
 		return (false);
 	}
 	if (arr_len((const char **)vector) != 3 || arr_len((const char **)coordinates) != 3
-				|| arr_len((const char **)views) != 1)
+		|| arr_len((const char **)views) != 1)
 	{
 		free_array(vector);
 		free_array(coordinates);
 		free_array(views);
 		return (false);
 	}
-	return (true);
-}
-
-t_bool	ratio_range(double min, double max, double value)
-{
-	printf("value--- %f\n", value);
-	if (value < min || value > max)
-		return (false);
-	return (true);
-}
-
-t_bool	range(double a, double b, double value)
-{
-	if (value < a || value > b)
-		return (false);
 	return (true);
 }
 
@@ -83,7 +71,7 @@ void	err_exit(int status, const char *str, ...)
 	exit(status);
 }
 
-char **split_helper(char *str, int len)
+char	**split_helper(char *str, int len)
 {
 	char	**output;
 
@@ -91,4 +79,11 @@ char **split_helper(char *str, int len)
 	if (output == NULL || arr_len((const char **)output) != len)
 		err_exit(1, "Error\nOut of range\n");
 	return (output);
+}
+
+t_bool	range(double a, double b, double value)
+{
+	if (value < a || value > b)
+		return (false);
+	return (true);
 }

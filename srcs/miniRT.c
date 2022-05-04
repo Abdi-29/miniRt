@@ -12,7 +12,6 @@
 
 #include "../includes/util.h"
 #include "../includes/parser.h"
-#include <stdio.h>
 
 int	main(int len, char **args)
 {
@@ -23,14 +22,3 @@ int	main(int len, char **args)
 	parse_file(args[1], &data);
 	return (0);
 }
-
-//int	main()
-//{
-//	t_bool	b;
-//	double	a, c;
-//
-//	a = ft_atod("-2147483649.37", &b);
-//	c = atof("-2147483649.37");
-//	printf("(%f) - %d, (%f)\n", a, b, c);
-//	return (1);
-//}

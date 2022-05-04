@@ -14,7 +14,7 @@
 #include "../includes/lib.h"
 #include "../includes/util.h"
 
-t_bool	set_coords(t_xyz *xyz, const char **coords)
+t_bool	set_vector(t_xyz *xyz, const char **coords)
 {
 	int			i;
 	t_bool		success;
@@ -25,6 +25,8 @@ t_bool	set_coords(t_xyz *xyz, const char **coords)
 		xyz->xyz[i] = ft_atod(coords[i], &success);
 		if (success == false)
 			err_exit(1, "Error\nInvalid double [%s].\n", coords[i]);
+		if (range(-1, 1, xyz->xyz[i]) == false)
+			err_exit(1, "Error\nInvalid range for double [%s].\n", coords[i]);
 		i++;
 	}
 	return (true);

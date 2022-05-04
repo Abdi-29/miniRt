@@ -9,7 +9,8 @@ LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 PARSING = parse_ACL.c parse_file.c parse_lines.c parse_plspcy.c
-SRC_FILES = miniRT.c color.c coords.c util.c camera.c $(addprefix parsing/, $(PARSING))
+SRC_FILES = miniRT.c color.c coords.c util.c camera.c vectors.c \
+$(addprefix parsing/, $(PARSING))
 SRC = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 
 OBJ = $(patsubst $(SRC_DIR)/%,$(OBJ_DIR)/%,$(SRC:.c=.o))

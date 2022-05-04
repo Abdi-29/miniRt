@@ -34,7 +34,7 @@ static void	load_file(int fd, t_list **head)
 	line = get_next_line(fd);
 	while (line)
 	{
-		line[ft_strlen(line)] = 0;
+		line[ft_strlen(line - 1)] = 0;
 		if (empty_line(line) == true)
 			free(line);
 		else
@@ -48,12 +48,12 @@ static void	load_file(int fd, t_list **head)
 	}
 }
 
-void free_list(t_list **head)
+void	free_list(t_list **head)
 {
 	t_list	*tmp;
 	t_list	*current;
 
-	current	= *head;
+	current = *head;
 	while (current)
 	{
 		tmp = current->next;

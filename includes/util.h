@@ -12,9 +12,9 @@
 
 #ifndef UTIL_H
 # define UTIL_H
+# include "bool.h"
 
-#include "bool.h"
-
+int		func(char c);
 void	err_exit(int status, const char *str, ...);
 int		arr_len(const char **arr);
 t_bool	range(double a, double b, double value);

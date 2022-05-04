@@ -21,7 +21,7 @@ typedef union u_xyz
 		double	y;
 		double	z;
 	}		t_s_xyz;
-	double 	xyz[3];
+	double	xyz[3];
 }			t_xyz;
 
 #endif

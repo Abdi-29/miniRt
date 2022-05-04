@@ -14,13 +14,6 @@
 #include "../includes/lib.h"
 #include "../includes/util.h"
 
-int	func(char c)
-{
-	if (c == ',')
-		return (1);
-	return (0);
-}
-
 static int	parse_color(const char *color, t_bool *success)
 {
 	int	nbr;
@@ -31,18 +24,18 @@ static int	parse_color(const char *color, t_bool *success)
 	return (nbr);
 }
 
-t_bool	set_colors(t_rgb *rgb, const char **colours)
+t_bool	set_colors(t_rgb *rgb, const char **color)
 {
-	t_bool	valid;
-	const char *temp[3] = {colours[0], colours[1], colours[2]};
-	int i;
+	t_bool		valid;
+	const char	*temp[3] = {color[0], color[1], color[2]};
+	int			i;
 
 	i = 0;
 	while (i < 3)
 	{
 		rgb->rgb[i] = parse_color(temp[i], &valid);
 		if (valid == false)
-			err_exit(1, "Error\nOut of range\n");
+			err_exit(1, "Error\nInvalid double [%s].\n", color[i]);
 		i++;
 	}
 	return (true);
