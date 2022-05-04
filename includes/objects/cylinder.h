@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   rgb.h                                              :+:    :+:            */
+/*   cylinder.h                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sappunn <sappunn@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/05/02 15:19:08 by sappunn       #+#    #+#                 */
-/*   Updated: 2022/05/02 15:19:08 by sappunn       ########   odam.nl         */
+/*   Created: 2022/05/02 17:45:08 by sappunn       #+#    #+#                 */
+/*   Updated: 2022/05/02 17:45:08 by sappunn       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RGB_H
-# define RGB_H
+#ifndef CYLINDER_H
+# define CYLINDER_H
+# include "../xyz.h"
+# include "../rgb.h"
 
-typedef union u_rgb
+typedef struct s_cylinder
 {
-	struct s_rgb
-	{
-		int	r;
-		int	g;
-		int	b;
-	}				t_s_rgb;
-	int rgb[3];
-}					t_rgb;
+	t_xyz	xyz;
+	t_xyz	vector;
+	double	diameter;
+	double	height;
+	t_rgb	rgb;
+}	t_cylinder;
 
 #endif

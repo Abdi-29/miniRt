@@ -1,6 +1,6 @@
 NAME = miniRT
 
-FLAGS = -Wall -Werror -Wextra -g
+FLAGS = -g
 SRC_DIR = srcs
 OBJ_DIR = obj
 INC_DIR = includes
@@ -8,7 +8,9 @@ LIBFT_DIR = ./libft
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRC_FILES = miniRT.c
+PARSING = parse_ACL.c parse_file.c parse_lines.c parse_plspcy.c
+SRC_FILES = miniRT.c color.c coords.c util.c camera.c vectors.c \
+$(addprefix parsing/, $(PARSING))
 SRC = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 
 OBJ = $(patsubst $(SRC_DIR)/%,$(OBJ_DIR)/%,$(SRC:.c=.o))

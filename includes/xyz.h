@@ -13,11 +13,15 @@
 #ifndef XYZ_H
 # define XYZ_H
 
-typedef struct s_xyz
+typedef union u_xyz
 {
-	double	x;
-	double	y;
-	double	z;
-}	t_xyz;
+	struct s_xyz
+	{
+		double	x;
+		double	y;
+		double	z;
+	}		t_s_xyz;
+	double	xyz[3];
+}			t_xyz;
 
 #endif

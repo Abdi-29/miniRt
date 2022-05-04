@@ -48,7 +48,7 @@ int		ft_streq(const char *s1, const char *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
-char	**ft_split(char const *s, char c);
+char	**ft_split(char const *s, int (*func)(char));
 char	*ft_itoa(long n);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
@@ -61,5 +61,7 @@ int		ft_iswhite_space(char c);
 int		ft_starts_with(char *str, char *prefix);
 int		ft_ends_with(char *str, char *suffix);
 char	*ft_strrepl(char *str, char *find, char *replace);
+void	free_array(char **array);
+int		len_array(char **array);
 
 #endif

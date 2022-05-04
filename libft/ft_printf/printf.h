@@ -12,7 +12,9 @@
 
 #ifndef PRINTF_H
 # define PRINTF_H
+# include <zconf.h>
 
-int	ft_printf(const char *str, ...);
+int	ft_printf(int fd, const char *str, ...);
+int	ft_printf_va(int fd, const char *str, va_list ap);
 
 #endif

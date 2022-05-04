@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   rgb.h                                              :+:    :+:            */
+/*   free_array.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sappunn <sappunn@student.codam.nl>           +#+                     */
+/*   By: abba <abba@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/05/02 15:19:08 by sappunn       #+#    #+#                 */
-/*   Updated: 2022/05/02 15:19:08 by sappunn       ########   odam.nl         */
+/*   Created: 2022/05/03 16:13:38 by abba          #+#    #+#                 */
+/*   Updated: 2022/05/03 16:13:38 by abba          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RGB_H
-# define RGB_H
+#include <stdlib.h>
 
-typedef union u_rgb
+void	free_array(char **array)
 {
-	struct s_rgb
-	{
-		int	r;
-		int	g;
-		int	b;
-	}				t_s_rgb;
-	int rgb[3];
-}					t_rgb;
+	int	i;
 
-#endif
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+	array = NULL;
+}

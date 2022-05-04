@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   miniRt.c                                           :+:    :+:            */
+/*   camera.c                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: abba <abba@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/28 18:20:28 by abba          #+#    #+#                 */
-/*   Updated: 2022/04/28 18:20:28 by abba          ########   odam.nl         */
+/*   Created: 2022/05/03 20:34:01 by abba          #+#    #+#                 */
+/*   Updated: 2022/05/03 20:34:01 by abba          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../includes/objects/camera.h"
+#include "../includes/lib.h"
 #include "../includes/util.h"
-#include "../includes/parser.h"
 
-void	init_data(t_minirt_data *data)
+t_bool	set_view(t_camera *camera, char *view)
 {
-	data->cylinder_list = NULL;
-	data->plane_list = NULL;
-	data->sphere_list = NULL;
-}
+	int		nbr;
+	t_bool	success;
 
-int	main(int len, char **args)
-{
-	t_minirt_data	data;
-
-	if (len != 2)
-		err_exit(1, "Error\nInvalid argument length, expecting file name.\n");
-	init_data(&data);
-	parse_file(args[1], &data);
-	return (0);
+	nbr = ft_atoi(view, &success);
+	if (success == false || nbr < 0 || nbr > 180)
+		err_exit(1, "Error\nOut of range [%s].\n", view);
+	camera->fov = nbr;
+	return (true);
 }

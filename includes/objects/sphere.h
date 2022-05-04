@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   rgb.h                                              :+:    :+:            */
+/*   sphere.h                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sappunn <sappunn@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/05/02 15:19:08 by sappunn       #+#    #+#                 */
-/*   Updated: 2022/05/02 15:19:08 by sappunn       ########   odam.nl         */
+/*   Created: 2022/05/02 17:41:18 by sappunn       #+#    #+#                 */
+/*   Updated: 2022/05/02 17:41:18 by sappunn       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RGB_H
-# define RGB_H
+#ifndef SPHERE_H
+# define SPHERE_H
+# include "../xyz.h"
+# include "../rgb.h"
 
-typedef union u_rgb
+typedef struct s_sphere
 {
-	struct s_rgb
-	{
-		int	r;
-		int	g;
-		int	b;
-	}				t_s_rgb;
-	int rgb[3];
-}					t_rgb;
+	t_xyz	xyz;
+	double	diameter;
+	t_rgb	rgb;
+}	t_sphere;
 
 #endif

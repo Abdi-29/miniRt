@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   rgb.h                                              :+:    :+:            */
+/*   libft.h                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sappunn <sappunn@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/05/02 15:19:08 by sappunn       #+#    #+#                 */
-/*   Updated: 2022/05/02 15:19:08 by sappunn       ########   odam.nl         */
+/*   Created: 2021/12/10 18:11:18 by sappunn       #+#    #+#                 */
+/*   Updated: 2021/12/10 18:11:18 by sappunn       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RGB_H
-# define RGB_H
+#ifndef LIB_H
+# define LIB_H
 
-typedef union u_rgb
-{
-	struct s_rgb
-	{
-		int	r;
-		int	g;
-		int	b;
-	}				t_s_rgb;
-	int rgb[3];
-}					t_rgb;
+# include "bool.h"
+# include "../libft/libft.h"
+# include "rgb.h"
+# include "xyz.h"
+# include "./objects/camera.h"
+
+t_bool	set_vector(t_xyz *xyz, const char **vectors);
+t_bool	set_colors(t_rgb *rgb, const char **color);
+t_bool	set_coords(t_xyz *xyz, const char **coords);
+t_bool	set_view(t_camera *camera, char *view);
 
 #endif

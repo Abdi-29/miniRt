@@ -66,7 +66,7 @@ static void	*ft_pointercpy(void *dst, void *src, size_t n)
  *
  * @return	The length of the array or string
  */
-static int	len(char **arr, char const *s, char stop)
+static int	len(char **arr, char const *s, int (*func)(char))
 {
 	char		**tmp_arr;
 	const char	*tmp_chr;
@@ -81,8 +81,16 @@ static int	len(char **arr, char const *s, char stop)
 	else
 	{
 		tmp_chr = s;
-		while (*tmp_chr && *tmp_chr != stop)
-			tmp_chr++;
+		if (func == 0)
+		{
+			while (*tmp_chr && *tmp_chr != 0)
+				tmp_chr++;
+		}
+		else
+		{
+			while (*tmp_chr && !func(*tmp_chr))
+				tmp_chr++;
+		}
 		return ((int)(tmp_chr - s));
 	}
 }
@@ -127,7 +135,7 @@ static char	**add(char **arr, char *s)
  * @return	A malloced array containing the string split on the character,
  * 	or NULL on failure
  */
-char	**ft_split(char const *s, char c)
+char	**ft_split(char const *s, int (*func)(char))
 {
 	char	**arr;
 	char	*entry;
@@ -135,16 +143,16 @@ char	**ft_split(char const *s, char c)
 	arr = 0;
 	while (*s)
 	{
-		while (*s == c)
+		while (func(*s))
 			s++;
 		if (*s == 0)
 			break ;
-		entry = ft_calloc((len(0, s, c) + 1), sizeof(char));
+		entry = ft_calloc((len(0, s, func) + 1), sizeof(char));
 		if (entry == 0)
 			return (clear_arr(arr));
-		ft_memcpy(entry, (void *)s, len(0, s, c));
+		ft_memcpy(entry, (void *)s, len(0, s, func));
 		arr = add(arr, entry);
-		while (*s && (*s != c))
+		while (*s && !func(*s))
 			s++;
 	}
 	if (arr == 0)

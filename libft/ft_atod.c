@@ -12,41 +12,22 @@
 
 #include "libft.h"
 #include <stdio.h>
-#include <string.h>
 
-int	len_array(char **array)
+int	dot_char(char c)
 {
-	int	len;
-
-	len = 0;
-	while (array[len])
-	{
-		len++;
-	}
-	return (len);
+	if (c == '.')
+		return (1);
+	return (0);
 }
 
-void	free_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-	array = NULL;
-}
-
-double get_left_part(const char *str, t_bool *success)
+double	get_left_part(const char *str, t_bool *success)
 {
 	double	res;
 	int		len;
 
-	len = 0;
 	res = (double)ft_atoi(str, success);
+	if (success == false)
+		return (0);
 	len = ft_strlen(str);
 	while (len--)
 		res /= 10;
@@ -62,15 +43,19 @@ double	ft_atod(const char *str, t_bool *success)
 	res2 = 0;
 	if (!str)
 		return (0);
-	test = ft_split(str, '.');
+	test = ft_split(str, dot_char);
 	if (len_array(test) > 2)
 	{
 		free_array(test);
 		return (0);
 	}
 	res = ft_atoi(test[0], success);
+	if (*success == false)
+		return (0);
 	if (test[1])
 		res2 = get_left_part(test[1], success);
+	if (*success == false)
+		return (0);
 	free_array(test);
 	*success = true;
 	if (res >= 0)

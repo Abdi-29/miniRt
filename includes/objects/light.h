@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   rgb.h                                              :+:    :+:            */
+/*   light.h                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sappunn <sappunn@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/05/02 15:19:08 by sappunn       #+#    #+#                 */
-/*   Updated: 2022/05/02 15:19:08 by sappunn       ########   odam.nl         */
+/*   Created: 2022/05/02 17:38:20 by sappunn       #+#    #+#                 */
+/*   Updated: 2022/05/02 17:38:20 by sappunn       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RGB_H
-# define RGB_H
+#ifndef LIGHT_H
+# define LIGHT_H
+# include "../xyz.h"
+# include "../rgb.h"
 
-typedef union u_rgb
+typedef struct s_light
 {
-	struct s_rgb
-	{
-		int	r;
-		int	g;
-		int	b;
-	}				t_s_rgb;
-	int rgb[3];
-}					t_rgb;
+	t_xyz	xyz;
+	double	ratio;
+	t_rgb	rgb;
+}	t_light;
 
 #endif
