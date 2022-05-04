@@ -45,7 +45,6 @@ void	parse_c(char **arr, int len, char *line, t_minirt_data *data)
 	char	**vector;
 	char	**views;
 
-	free(arr[0]);
 	if (len != 4)
 		err_exit(1, "Error\nInvalid argument length [%d] on line [%s].\n",
 			len, line);
