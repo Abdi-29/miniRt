@@ -21,7 +21,6 @@ t_bool	ratio_range(double min, double max, double value)
 	return (true);
 }
 
-#include <stdio.h>
 void	parse_a(char **arr, int len, char *line, t_minirt_data *data)
 {
 	t_bool	success;
@@ -32,7 +31,6 @@ void	parse_a(char **arr, int len, char *line, t_minirt_data *data)
 			len, line);
 	success = false;
 	data->ambient.ratio = ft_atod((const char *)arr[1], &success);
-	printf("lol %f %s\n", data->ambient.ratio, arr[1]);
 	if (success == false || range(0, 1, data->ambient.ratio) == false)
 		err_exit(1, "Error\nOut of range\n");
 	ambient = split_helper(arr[2], 3);
