@@ -62,6 +62,30 @@ void	setup_listeners(t_minirt_data *data)
 	mlx_close_hook(data->mlx, window_close, data);
 }
 
+void	draw_sphere(t_sphere *sphere, t_minirt_data *data)
+{
+	mlx_image_t	*image;
+
+	image = mlx_new_image(data->mlx, sphere->diameter, sphere->diameter);
+	int i, j, x, y;
+	i = 0;
+	j = 0;
+	while (i < sphere->diameter)
+	{
+		while (j < sphere->diameter)
+		{
+			x = i - (sphere->diameter / 2);
+			y = j - (sphere->diameter / 2);
+			if ((x * x) + (y * y) < sphere->diameter / 4)
+				mlx_put_pixel(image, i, j, 999);
+			j++;
+		}
+		i++;
+	}
+	ft_printf(2, "Drawing image\n");
+	mlx_image_to_window(data->mlx, image, 0, 0);
+}
+
 void	start_window(t_minirt_data *data)
 {
 	data->mlx = mlx_init(1920,
@@ -71,6 +95,16 @@ void	start_window(t_minirt_data *data)
 	if (!data->mlx)
 		err_exit(1, "Error\nUnable to initialize mlx window.\n");
 	setup_listeners(data);
+	t_list	*entry;
+	entry = data->sphere_list;
+	ft_printf(2, "entry: %p\n", entry);
+	while (entry)
+	{
+		t_sphere	*sphere = entry->content;
+		ft_printf(2, "drawing: %p\n", entry);
+		draw_sphere(sphere, data);
+		entry = entry->next;
+	}
 	mlx_loop(data->mlx);
 }
 
@@ -81,6 +115,7 @@ int	main(int len, char **args)
 	if (len != 2)
 		err_exit(1, "Error\nInvalid argument length, expecting file name.\n");
 	parse_file(args[1], &data);
+	ft_printf(2, "hey %p\n", data.sphere_list);
 	start_window(&data);
 	return (0);
 }
