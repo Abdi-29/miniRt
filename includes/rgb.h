@@ -17,9 +17,9 @@ typedef union u_rgb
 {
 	struct s_rgb
 	{
-		int	r;
-		int	g;
-		int	b;
+		double	r;
+		double	g;
+		double	b;
 	}				t_s_rgb;
 	int	rgb[3];
 }					t_rgb;

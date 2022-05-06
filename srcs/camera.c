@@ -14,7 +14,7 @@
 #include "../includes/lib.h"
 #include "../includes/util.h"
 
-t_bool	set_fov(t_camera *camera, char *fov)
+t_bool	set_fov(t_camera *camera, const char *fov)
 {
 	int		nbr;
 	t_bool	success;

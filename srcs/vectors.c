@@ -14,7 +14,7 @@
 #include "../includes/lib.h"
 #include "../includes/util.h"
 
-t_bool	set_vector(t_xyz *xyz, char **vectors)
+t_bool	set_vector(t_xyz *xyz, const char **vectors)
 {
 	int			i;
 	t_bool		success;

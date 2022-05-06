@@ -17,9 +17,9 @@ int	get_color(t_rgb rgb, double t)
 {
 	int	color;
 
-	color = rgb.t_s_rgb.r;
-	color = (color << 8) + rgb.t_s_rgb.g;
-	color = (color << 8) + rgb.t_s_rgb.b;
+	color = (int) rgb.t_s_rgb.r * 255;
+	color = (color << 8) + (int) rgb.t_s_rgb.g * 255;
+	color = (color << 8) + (int) rgb.t_s_rgb.b * 255;
 	color = (color << 8) + (int)(100 * t);
 	return (color);
 }

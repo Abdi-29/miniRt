@@ -34,7 +34,7 @@ void	parse_a(char **arr, int len, char *line, t_minirt_data *data)
 	if (success == false || range(0, 1, data->ambient.ratio) == false)
 		err_exit(1, "Error\nA out of range [%s].\n", line);
 	ambient = split_helper(arr[2], 3);
-	set_colors(&data->ambient.rgb, ambient);
+	set_colors(&data->ambient.rgb, (const char**)ambient);
 	free(line);
 	free_array(arr);
 }
@@ -53,8 +53,8 @@ void	parse_c(char **arr, int len, char *line, t_minirt_data *data)
 	views = ft_split(arr[3], func);
 	if (!is_valid(coords, vector, views))
 		err_exit(1, "Error\nC out of range [%s].\n", line);
-	set_coords(&data->camera.coords, coords);
-	set_vector(&data->camera.vector, vector);
+	set_coords(&data->camera.coords, (const char**)coords);
+	set_vector(&data->camera.vector, (const char**)vector);
 	set_fov(&data->camera, views[0]);
 	free_array(coords);
 	free_array(vector);
@@ -77,8 +77,8 @@ void	parse_l(char **arr, int len, char *line, t_minirt_data *data)
 	if (ratio_range(0, 1, data->light.ratio) == false)
 		err_exit(1, "Error\nL out of range [%s].\n", line);
 	colors = split_helper(arr[3], 3);
-	set_coords(&data->light.xyz, coords);
-	set_colors(&data->light.rgb, colors);
+	set_coords(&data->light.xyz, (const char**)coords);
+	set_colors(&data->light.rgb, (const char**)colors);
 	free_array(arr);
 	free(line);
 }
