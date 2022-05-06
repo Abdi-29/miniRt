@@ -12,8 +12,9 @@ MLX = libmlx42.a
 LINKING_FLAGS = -lglfw -ldl -lm -O3 -L "/Users/$(USER)/.brew/opt/glfw/lib/"
 
 PARSING = parse_ACL.c parse_file.c parse_lines.c parse_plspcy.c
+VECTOR = operator.c vector.c
 SRC_FILES = miniRT.c color.c coords.c util.c camera.c vectors.c \
-$(addprefix parsing/, $(PARSING))
+$(addprefix parsing/, $(PARSING)) $(addprefix vectorlib/, $(VECTOR))
 SRC = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 
 OBJ = $(patsubst $(SRC_DIR)/%,$(OBJ_DIR)/%,$(SRC:.c=.o))
