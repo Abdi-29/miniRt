@@ -12,6 +12,7 @@
 
 #include "../includes/util.h"
 #include "../includes/parser.h"
+#include <math.h>
 
 /**
  * Listens for key clicks and runs functions based on those clicks
@@ -69,6 +70,7 @@ int	get_color(t_rgb rgb)
 	color = rgb.t_s_rgb.r;
 	color = (color << 8) + rgb.t_s_rgb.g;
 	color = (color << 8) + rgb.t_s_rgb.b;
+	color = (color << 8) + 255;
 	return (color);
 }
 
@@ -96,7 +98,8 @@ void	draw_sphere(t_sphere *sphere, t_minirt_data *data)
 		x++;
 	}
 	ft_printf(2, "Drawing image\n");
-	mlx_image_to_window(data->mlx, image, data->mlx->width / 2, data->mlx->height / 2);
+	mlx_image_to_window(data->mlx, image, data->mlx->width / 2,
+		data->mlx->height / 2);
 }
 
 void	draw_plane(t_plane *plane, t_minirt_data *data)
