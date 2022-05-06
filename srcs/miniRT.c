@@ -62,32 +62,54 @@ void	setup_listeners(t_minirt_data *data)
 	mlx_close_hook(data->mlx, window_close, data);
 }
 
+int	get_color(t_rgb rgb)
+{
+	int	color;
+
+	color = rgb.t_s_rgb.r;
+	color = (color << 8) + rgb.t_s_rgb.g;
+	color = (color << 8) + rgb.t_s_rgb.b;
+	return (color);
+}
+
 void	draw_sphere(t_sphere *sphere, t_minirt_data *data)
 {
 	mlx_image_t	*image;
+	int			x;
+	int			y;
+	int			rad;
 
-	image = mlx_new_image(data->mlx, sphere->diameter, sphere->diameter);
-	int i, j, x, y;
-	i = 0;
-	j = 0;
-	while (i < sphere->diameter)
+	image = mlx_new_image(data->mlx, (int) sphere->diameter,
+			(int) sphere->diameter);
+	rad = (int)(sphere->diameter / 2);
+	x = -1 * rad;
+	y = x;
+	while (x <= rad)
 	{
-		while (j < sphere->diameter)
+		while (y <= rad)
 		{
-			x = i - (sphere->diameter / 2);
-			y = j - (sphere->diameter / 2);
-			if ((x * x) + (y * y) < sphere->diameter / 4)
-				mlx_put_pixel(image, i, j, 999);
-			j++;
+			if ((x * x) + (y * y) < (sphere->diameter * sphere->diameter) / 4)
+				mlx_put_pixel(image, x + rad, y + rad, get_color(sphere->rgb));
+			y++;
 		}
-		i++;
+		y = -rad;
+		x++;
 	}
 	ft_printf(2, "Drawing image\n");
-	mlx_image_to_window(data->mlx, image, 0, 0);
+	mlx_image_to_window(data->mlx, image, data->mlx->width / 2, data->mlx->height / 2);
+}
+
+void	draw_plane(t_plane *plane, t_minirt_data *data)
+{
+	mlx_image_t	*image;
+	int			x;
+	int			y;
 }
 
 void	start_window(t_minirt_data *data)
 {
+	t_list	*entry;
+
 	data->mlx = mlx_init(1920,
 			1080,
 			"miniRT",
@@ -95,17 +117,20 @@ void	start_window(t_minirt_data *data)
 	if (!data->mlx)
 		err_exit(1, "Error\nUnable to initialize mlx window.\n");
 	setup_listeners(data);
-	t_list	*entry;
 	entry = data->sphere_list;
-	ft_printf(2, "entry: %p\n", entry);
 	while (entry)
 	{
-		t_sphere	*sphere = entry->content;
-		ft_printf(2, "drawing: %p\n", entry);
-		draw_sphere(sphere, data);
+		draw_sphere(entry->content, data);
 		entry = entry->next;
 	}
 	mlx_loop(data->mlx);
+}
+
+void	init_data(t_minirt_data *data)
+{
+	data->cylinder_list = NULL;
+	data->plane_list = NULL;
+	data->sphere_list = NULL;
 }
 
 int	main(int len, char **args)
@@ -114,8 +139,8 @@ int	main(int len, char **args)
 
 	if (len != 2)
 		err_exit(1, "Error\nInvalid argument length, expecting file name.\n");
+	init_data(&data);
 	parse_file(args[1], &data);
-	ft_printf(2, "hey %p\n", data.sphere_list);
 	start_window(&data);
 	return (0);
 }

@@ -35,7 +35,7 @@ t_bool	set_colors(t_rgb *rgb, char **color)
 	{
 		rgb->rgb[i] = parse_color(temp[i], &valid);
 		if (valid == false)
-			err_exit(1, "Error\nInvalid double [%s].\n", color[i]);
+			err_exit(1, "Error\nInvalid color [%s].\n", color[i]);
 		i++;
 	}
 	return (true);

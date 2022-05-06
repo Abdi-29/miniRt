@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-int	equal_char(char c)
+int	dot_char(char c)
 {
 	if (c == '.')
 		return (1);
@@ -42,7 +42,7 @@ double	ft_atod(const char *str, t_bool *success)
 	res2 = 0;
 	if (!str)
 		return (0);
-	test = ft_split(str, equal_char);
+	test = ft_split(str, dot_char);
 	if (len_array(test) > 2)
 	{
 		free_array(test);
