@@ -13,6 +13,13 @@
 #include "../includes/util.h"
 #include "../includes/parser.h"
 #include <math.h>
+#include "ray/ray.h"
+
+typedef struct tmp
+{
+	int	x;
+	int	y;
+}	t_tmp;
 
 /**
  * Listens for key clicks and runs functions based on those clicks
@@ -63,50 +70,48 @@ void	setup_listeners(t_minirt_data *data)
 	mlx_close_hook(data->mlx, window_close, data);
 }
 
-int	get_color(t_rgb rgb)
+void	empty(t_rgb *rgb, t_xyz *xyz)
 {
-	int	color;
+	int	i;
 
-	color = rgb.t_s_rgb.r;
-	color = (color << 8) + rgb.t_s_rgb.g;
-	color = (color << 8) + rgb.t_s_rgb.b;
-	color = (color << 8) + 255;
-	return (color);
-}
-
-void	draw_sphere(t_sphere *sphere, t_minirt_data *data)
-{
-	mlx_image_t	*image;
-	int			x;
-	int			y;
-	int			rad;
-
-	image = mlx_new_image(data->mlx, (int) sphere->diameter,
-			(int) sphere->diameter);
-	rad = (int)(sphere->diameter / 2);
-	x = -1 * rad;
-	y = x;
-	while (x <= rad)
+	i = 0;
+	while (i < 3)
 	{
-		while (y <= rad)
-		{
-			if ((x * x) + (y * y) < (sphere->diameter * sphere->diameter) / 4)
-				mlx_put_pixel(image, x + rad, y + rad, get_color(sphere->rgb));
-			y++;
-		}
-		y = -rad;
-		x++;
+		rgb->rgb[i] = -1;
+		xyz->xyz[i] = -1;
+		i++;
 	}
-	ft_printf(2, "Drawing image\n");
-	mlx_image_to_window(data->mlx, image, data->mlx->width / 2,
-		data->mlx->height / 2);
 }
 
-void	draw_plane(t_plane *plane, t_minirt_data *data)
+void	draw_stuff(t_minirt_data *data)
 {
 	mlx_image_t	*image;
-	int			x;
-	int			y;
+	t_tmp		tmp;
+	t_rgb		rgb;
+	t_xyz		xyz;
+
+	image = mlx_new_image(data->mlx, data->mlx->width,
+			data->mlx->height);
+	tmp.x = 0;
+	tmp.y = 0;
+	while (tmp.x < data->mlx->width)
+	{
+		while (tmp.y < data->mlx->height)
+		{
+			//trash code
+			double	a = tmp.x / data->mlx->width;
+			double	b = tmp.y / data->mlx->height;
+			//TODO create ray or something?????
+			//TODO get color using data from ray???????????
+			//end trash code
+			t_ray ray = create_ray(data, tmp.x, tmp.y);
+			mlx_put_pixel(image, tmp.x, tmp.y, ray_color(ray));
+			tmp.y++;
+		}
+		tmp.y = 0;
+		tmp.x++;
+	}
+	mlx_image_to_window(data->mlx, image, 0, 0);
 }
 
 void	start_window(t_minirt_data *data)
@@ -120,12 +125,7 @@ void	start_window(t_minirt_data *data)
 	if (!data->mlx)
 		err_exit(1, "Error\nUnable to initialize mlx window.\n");
 	setup_listeners(data);
-	entry = data->sphere_list;
-	while (entry)
-	{
-		draw_sphere(entry->content, data);
-		entry = entry->next;
-	}
+	draw_stuff(data);
 	mlx_loop(data->mlx);
 }
 
