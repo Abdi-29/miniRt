@@ -94,18 +94,17 @@ void	draw_stuff(t_minirt_data *data)
 			data->mlx->height);
 	tmp.x = 0;
 	tmp.y = 0;
+	data->camera.lower = lower_left_corner(data);
 	while (tmp.x < data->mlx->width)
 	{
 		while (tmp.y < data->mlx->height)
 		{
 			//trash code
-			double	a = tmp.x / data->mlx->width;
-			double	b = tmp.y / data->mlx->height;
 			//TODO create ray or something?????
 			//TODO get color using data from ray???????????
 			//end trash code
 			t_ray ray = create_ray(data, tmp.x, tmp.y);
-			mlx_put_pixel(image, tmp.x, tmp.y, ray_color(ray));
+			mlx_put_pixel(image, tmp.x, tmp.y, ray_color(ray, data));
 			tmp.y++;
 		}
 		tmp.y = 0;
@@ -118,8 +117,8 @@ void	start_window(t_minirt_data *data)
 {
 	t_list	*entry;
 
-	data->mlx = mlx_init(1920,
-			1080,
+	data->mlx = mlx_init(1280,
+			720,
 			"miniRT",
 			true);
 	if (!data->mlx)

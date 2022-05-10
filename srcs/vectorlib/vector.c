@@ -14,6 +14,7 @@
 #include "../../includes/lib.h"
 #include "../../includes/util.h"
 #include "vector.h"
+#include <math.h>
 
 t_xyz	cross(t_xyz a, t_xyz b)
 {
@@ -27,7 +28,7 @@ t_xyz	cross(t_xyz a, t_xyz b)
 
 double	length(t_xyz a)
 {
-	return (a.t_s_xyz.x + a.t_s_xyz.y + a.t_s_xyz.z);
+	return (fabs(a.t_s_xyz.x) + fabs(a.t_s_xyz.y) + fabs(a.t_s_xyz.z));
 }
 
 t_xyz	unit_vector(t_xyz a)

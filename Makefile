@@ -39,7 +39,7 @@ COM_STRING = "Compiling"
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ) libmlx42.a
-	@gcc $(FLAGS) $(OBJ) $(LIBFT) $(MLX) -o $(NAME) $(LINKING_FLAGS) 2> $@.log; \
+	@gcc $(FLAGS) $(OBJ) $(LIBFT) $(MLX) -g -fsanitize=address -o $(NAME) $(LINKING_FLAGS) 2> $@.log; \
 		RESULT=$$?; \
 		if [ $$RESULT -ne 0 ]; then \
 			printf "%-60b%b" "$(COM_COLOR)$(COM_STRING)$(PRG_COLOR) $@" "$(ERROR_COLOR)$(ERROR_STRING)$(NO_COLOR)\n"; \

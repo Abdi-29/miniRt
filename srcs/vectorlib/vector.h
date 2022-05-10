@@ -20,5 +20,6 @@ t_xyz	multiplication(t_xyz a, t_xyz b);
 t_xyz	division(t_xyz a, double t);
 double	dot(t_xyz a, t_xyz b);
 t_xyz	mult_xyz_dub(t_xyz a, double t);
+t_xyz	unit_vector(t_xyz a);
 
 #endif

@@ -20,6 +20,7 @@ typedef struct s_camera
 	t_xyz	coords;
 	t_xyz	vector;
 	int		fov;
+	t_xyz	lower;
 }	t_camera;
 
 #endif

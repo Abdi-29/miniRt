@@ -24,7 +24,7 @@
 
 typedef struct s_minirt_data
 {
-	mlx_t *mlx;
+	mlx_t		*mlx;
 	mlx_image_t	*buffer;
 	mlx_image_t	*bgbuffer;
 	t_ambient	ambient;
