@@ -33,7 +33,7 @@ t_bool	set_colors(t_rgb *rgb, const char **color)
 	i = 0;
 	while (i < 3)
 	{
-		rgb->rgb[i] = parse_color(temp[i], &valid) / 255;
+		rgb->rgb[i] = ((double)parse_color(temp[i], &valid)) / 255.0;
 		if (valid == false)
 			err_exit(1, "Error\nInvalid color [%s].\n", color[i]);
 		i++;
