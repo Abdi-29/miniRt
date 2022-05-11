@@ -12,6 +12,8 @@
 
 #include "ray.h"
 #include "../vectorlib/vector.h"
+#include <math.h>
+#include <stdio.h>
 
 t_xyz	at(t_ray ray, double t)
 {
@@ -44,24 +46,32 @@ t_xyz	lower_left_corner(t_minirt_data *data)
 	return (lower);
 }
 
+t_xyz	construct_camera(t_minirt_data *data, int x, int y)
+{
+	t_xyz	xyz;
+
+	xyz.t_s_xyz.x = ((x / data->mlx->width) - 0.5) * 2;
+	xyz.t_s_xyz.y = ((y / data->mlx->height) - 0.5) * 2;
+	xyz.t_s_xyz.x = 1;
+	return (xyz);
+}
+
 t_ray	create_ray(t_minirt_data *data, int i, int j)
 {
 	t_ray	ray;
-	t_xyz	lower;
-	double	u;
-	double	v;
-	double	viewport_height;
-	double	viewport_width;
+	double	screen_x;
+	double	screen_y;
+	double	pixel_camera_x;
+	double	pixel_camera_y;
+	double	image_ratio;
 
-	viewport_height = 2.0;
-	viewport_width = (16.0 / 9.0) * viewport_height;
-	u = (double) i / (data->mlx->width - 1);
-	v = (double) j / (data->mlx->height - 1);
+	screen_x = (double)2 * (((double)i + 0.5) / (double)data->mlx->width) - 1.;
+	screen_y = (double)1. - 2. * (((double)j + 0.5) / (double)data->mlx->height);
+	image_ratio = (double) data->mlx->width / (double) data->mlx->height;
+	pixel_camera_x = screen_x * image_ratio * tan(data->camera.fov / 2 * M_PI / 180);
+	pixel_camera_y = screen_y * tan(data->camera.fov / 2 * M_PI / 180);
+	ray.direction = init_coords(pixel_camera_x, pixel_camera_y, -1);
+	ray.direction = normalized(mat_mult_dir(data->transform, ray.direction));
 	ray.origin = data->camera.coords;
-	ray.direction = plus(data->camera.lower, mult_xyz_dub(
-				init_coords(viewport_width, 0, 0), u));
-	ray.direction = plus(ray.direction, mult_xyz_dub(
-				init_coords(0, viewport_height, 0), v));
-	ray.direction = minus(ray.direction, ray.origin);
 	return (ray);
 }

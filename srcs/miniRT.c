@@ -87,23 +87,18 @@ void	draw_stuff(t_minirt_data *data)
 {
 	mlx_image_t	*image;
 	t_tmp		tmp;
-	t_rgb		rgb;
-	t_xyz		xyz;
+	t_ray		ray;
 
 	image = mlx_new_image(data->mlx, data->mlx->width,
 			data->mlx->height);
 	tmp.x = 0;
 	tmp.y = 0;
-	data->camera.lower = lower_left_corner(data);
+//	data->camera.lower = lower_left_corner(data);
 	while (tmp.x < data->mlx->width)
 	{
 		while (tmp.y < data->mlx->height)
 		{
-			//trash code
-			//TODO create ray or something?????
-			//TODO get color using data from ray???????????
-			//end trash code
-			t_ray ray = create_ray(data, tmp.x, tmp.y);
+			ray = create_ray(data, tmp.x, tmp.y);
 			mlx_put_pixel(image, tmp.x, tmp.y, ray_color(ray, data));
 			tmp.y++;
 		}

@@ -13,6 +13,7 @@
 #include "../../includes/lib.h"
 #include "../../includes/data_struct.h"
 #include "../../includes/util.h"
+#include "../vectorlib/vector.h"
 
 t_bool	ratio_range(double min, double max, double value)
 {
@@ -56,6 +57,8 @@ void	parse_c(char **arr, int len, char *line, t_minirt_data *data)
 	set_coords(&data->camera.coords, (const char**)coords);
 	set_vector(&data->camera.vector, (const char**)vector);
 	set_fov(&data->camera, views[0]);
+	data->camera.vector = normalized(data->camera.vector);
+	mat_init_axes(data->transform, data->camera.vector);
 	free_array(coords);
 	free_array(vector);
 	free_array(views);

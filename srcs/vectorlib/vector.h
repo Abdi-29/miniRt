@@ -21,5 +21,9 @@ t_xyz	division(t_xyz a, double t);
 double	dot(t_xyz a, t_xyz b);
 t_xyz	mult_xyz_dub(t_xyz a, double t);
 t_xyz	unit_vector(t_xyz a);
+t_xyz	normalized(t_xyz a);
+
+void	mat_init_axes(t_mat in, const t_xyz forward);
+t_xyz	mat_mult_dir(t_mat in, t_xyz dir);
 
 #endif
