@@ -54,11 +54,11 @@ void	parse_c(char **arr, int len, char *line, t_minirt_data *data)
 	views = ft_split(arr[3], func);
 	if (!is_valid(coords, vector, views))
 		err_exit(1, "Error\nC out of range [%s].\n", line);
-	set_coords(&data->camera.coords, (const char**)coords);
-	set_vector(&data->camera.vector, (const char**)vector);
+	set_coords(&data->camera.coords, (const char **)coords);
+	set_vector(&data->camera.vector, (const char **)vector);
 	set_fov(&data->camera, views[0]);
 	data->camera.vector = normalized(data->camera.vector);
-	mat_init_axes(data->transform, data->camera.vector);
+	mat_init_axes(&data->transform, data->camera.vector);
 	free_array(coords);
 	free_array(vector);
 	free_array(views);

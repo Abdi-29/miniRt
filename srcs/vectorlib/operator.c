@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../includes/xyz.h"
-#include "../../includes/lib.h"
-#include "../../includes/util.h"
 
 t_xyz	plus(t_xyz a, t_xyz b)
 {

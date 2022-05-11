@@ -13,7 +13,10 @@
 #ifndef XYZ_H
 # define XYZ_H
 
-typedef double t_mat[3][3];
+typedef struct s_mat
+{
+	double	mat[3][3];
+}				t_mat;
 
 typedef union u_xyz
 {
