@@ -54,7 +54,7 @@ void	mat_init_axes(t_mat *in, const t_xyz forward)
 	in->mat[2][2] = forward.xyz[2];
 	right = cross(forward, (t_xyz){0, 1, 0});
 	if (isnan(length(right)))
-		right = cross(forward, (t_xyz){1, 0, 0});
+		right = (t_xyz){1, 0, 0};
 	up = cross(right, forward);
 	in->mat[0][0] = right.xyz[0];
 	in->mat[0][1] = right.xyz[1];
@@ -84,6 +84,8 @@ t_xyz	normalized(t_xyz a)
 	double	len;
 
 	len = length(a);
+	if (isnan(len))
+		a.t_s_xyz.z += 0.1;
 	a.t_s_xyz.x /= len;
 	a.t_s_xyz.y /= len;
 	a.t_s_xyz.z /= len;

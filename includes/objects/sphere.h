@@ -20,6 +20,8 @@ typedef struct s_sphere
 	t_xyz	xyz;
 	double	diameter;
 	t_rgb	rgb;
+	double	distance1;
+	double	distance2;
 }	t_sphere;
 
 #endif

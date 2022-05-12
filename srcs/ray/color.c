@@ -72,40 +72,47 @@ double	hit_plane(t_xyz xyz, t_xyz vector, t_ray ray)
 	return (-1);
 }
 
-double	hit_sphere(t_xyz xyz, double radius, t_ray ray)
+t_bool	hit_sphere(t_xyz xyz, double radius, t_ray ray)
 {
 	t_xyz	oc;
 	double	a;
 	double	b;
 	double	c;
-	double	d;
 
 	oc = minus(ray.origin, xyz);
-	a = dot(ray.direction, ray.direction);
-	b = 2.0 * dot(oc, ray.direction);
-	c = dot(oc, oc) - radius * radius;
-	d = (b * b) - (4 * c * a);
-	return (d);
+	a = dot(oc, ray.direction);
+	if (a < 0)
+		return (false);
+	b = dot(oc, oc) - a * a;
+//	exit(1);
+	if (b > radius * radius)
+		return (false);
+	c = sqrt(radius * radius - b);
+	ray.sphere.distance1 = a - c;
+	ray.sphere.distance2 = a + c;
+	return (true);
 }
 
 int	loop_sphere(t_ray ray, t_list *entry)
 {
 	t_sphere	*sphere;
 	double		distance;
-	double		old_distance;
 	int			clr;
 
 	clr = -1;
-	old_distance = -1;
+	distance = INFINITY;
 	while (entry)
 	{
 		sphere = entry->content;
-		distance = hit_sphere(sphere->xyz, sphere->diameter / 2.0, ray);
-		if ((old_distance == -1 && distance > 0)
-			|| (old_distance < distance && distance > 0)) //TODO this first < is supposed to be > but the ray seems to check the back of the circle
+		if (hit_sphere(sphere->xyz, sphere->diameter / 2.0, ray))
 		{
-			clr = get_color(sphere->rgb);
-			old_distance = distance;
+			if (sphere->distance1 < 0)
+				sphere->distance1 = sphere->distance2;
+			if (sphere->distance1 < distance)
+			{
+				clr = get_color(sphere->rgb);
+				distance = sphere->distance1;
+			}
 		}
 		entry = entry->next;
 	}
@@ -145,9 +152,9 @@ int	ray_color(t_ray ray, t_minirt_data *data)
 	double		t;
 	int			clr;
 
-//	clr = loop_sphere(ray, data->sphere_list);
-//	if (clr != -1)
-//		return (clr);
+	clr = loop_sphere(ray, data->sphere_list);
+	if (clr != -1)
+		return (clr);
 	clr = loop_plane(ray, data->plane_list);
 	if (clr != -1)
 		return (clr);
