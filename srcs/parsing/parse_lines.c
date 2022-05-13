@@ -23,7 +23,8 @@ static void	parse_line(char *line, t_minirt_data *data)
 	const t_parser	function[] = {
 	{"A", &parse_a}, {"C", &parse_c},
 	{"L", &parse_l}, {"pl", &parse_pl},
-	{"sp", &parse_sp}, {"cy", &parse_cy}
+	{"sp", &parse_sp}, {"cy", &parse_cy},
+	{0, 0}
 	};
 
 	i = 0;
