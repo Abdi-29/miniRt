@@ -72,24 +72,23 @@ double	hit_plane(t_xyz xyz, t_xyz vector, t_ray ray)
 	return (-1);
 }
 
-t_bool	hit_sphere(t_xyz xyz, double radius, t_ray ray)
+t_bool	hit_sphere(t_sphere *sphere, double radius, t_ray ray)
 {
 	t_xyz	oc;
 	double	a;
 	double	b;
 	double	c;
 
-	oc = minus(ray.origin, xyz);
+	oc = minus(ray.origin, sphere->xyz);
 	a = dot(oc, ray.direction);
 	if (a < 0)
 		return (false);
 	b = dot(oc, oc) - a * a;
-//	exit(1);
 	if (b > radius * radius)
 		return (false);
 	c = sqrt(radius * radius - b);
-	ray.sphere.distance1 = a - c;
-	ray.sphere.distance2 = a + c;
+	sphere->distance1 = a - c;
+	sphere->distance2 = a + c;
 	return (true);
 }
 
@@ -104,15 +103,17 @@ int	loop_sphere(t_ray ray, t_list *entry)
 	while (entry)
 	{
 		sphere = entry->content;
-		if (hit_sphere(sphere->xyz, sphere->diameter / 2.0, ray))
+		if (!hit_sphere(sphere, sphere->diameter / 2.0, ray))
 		{
-			if (sphere->distance1 < 0)
-				sphere->distance1 = sphere->distance2;
-			if (sphere->distance1 < distance)
-			{
-				clr = get_color(sphere->rgb);
-				distance = sphere->distance1;
-			}
+			entry = entry->next;
+			continue ;
+		}
+		if (sphere->distance1 < 0)
+			sphere->distance1 = sphere->distance2;
+		if (sphere->distance1 < distance)
+		{
+			clr = get_color(sphere->rgb);
+			distance = sphere->distance1;
 		}
 		entry = entry->next;
 	}
