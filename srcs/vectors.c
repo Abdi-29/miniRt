@@ -23,11 +23,11 @@ t_bool	set_vector(t_xyz *xyz, const char **vectors)
 	while (i < 3)
 	{
 		xyz->xyz[i] = ft_atod(vectors[i], &success);
-		if (success == false)
+		if (success == FALSE)
 			err_exit(1, "Error\nInvalid double [%s].\n", vectors[i]);
-		if (range(-1, 1, xyz->xyz[i]) == false)
+		if (range(-1, 1, xyz->xyz[i]) == FALSE)
 			err_exit(1, "Error\nInvalid range for double [%s].\n", vectors[i]);
 		i++;
 	}
-	return (true);
+	return (TRUE);
 }

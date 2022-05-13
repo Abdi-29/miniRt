@@ -18,8 +18,8 @@
 t_bool	ratio_range(double min, double max, double value)
 {
 	if (value < min || value > max)
-		return (false);
-	return (true);
+		return (FALSE);
+	return (TRUE);
 }
 
 void	parse_a(char **arr, int len, char *line, t_minirt_data *data)
@@ -30,9 +30,9 @@ void	parse_a(char **arr, int len, char *line, t_minirt_data *data)
 	if (len != 3)
 		err_exit(1, "Error\nInvalid argument length [%d] on line [%s].\n",
 			len, line);
-	success = false;
+	success = FALSE;
 	data->ambient.ratio = ft_atod((const char *)arr[1], &success);
-	if (success == false || range(0, 1, data->ambient.ratio) == false)
+	if (success == FALSE || range(0, 1, data->ambient.ratio) == FALSE)
 		err_exit(1, "Error\nA out of range [%s].\n", line);
 	ambient = split_helper(arr[2], 3);
 	set_colors(&data->ambient.rgb, (const char**)ambient);
@@ -77,7 +77,7 @@ void	parse_l(char **arr, int len, char *line, t_minirt_data *data)
 			len, line);
 	coords = split_helper(arr[1], 3);
 	data->light.ratio = ft_atod(arr[2], &success);
-	if (ratio_range(0, 1, data->light.ratio) == false)
+	if (ratio_range(0, 1, data->light.ratio) == FALSE)
 		err_exit(1, "Error\nL out of range [%s].\n", line);
 	colors = split_helper(arr[3], 3);
 	set_coords(&data->light.xyz, (const char**)coords);

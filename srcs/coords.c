@@ -23,9 +23,9 @@ t_bool	set_coords(t_xyz *xyz, const char **coords)
 	while (i < 3)
 	{
 		xyz->xyz[i] = ft_atod(coords[i], &success);
-		if (success == false)
+		if (success == FALSE)
 			err_exit(1, "Error\nInvalid double [%s].\n", coords[i]);
 		i++;
 	}
-	return (true);
+	return (TRUE);
 }

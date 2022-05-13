@@ -20,8 +20,8 @@ t_bool	set_fov(t_camera *camera, const char *fov)
 	t_bool	success;
 
 	nbr = ft_atoi(fov, &success);
-	if (success == false || nbr < 0 || nbr > 180)
+	if (success == FALSE || nbr < 0 || nbr > 180)
 		err_exit(1, "Error\nFOV out of range [%s]\n", fov);
 	camera->fov = nbr;
-	return (true);
+	return (TRUE);
 }

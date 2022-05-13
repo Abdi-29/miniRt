@@ -22,8 +22,8 @@ static t_bool	empty_line(char *line)
 	while (ft_iswhite_space(*line))
 		line++;
 	if (*line == 0 || *line == '\n')
-		return (true);
-	return (false);
+		return (TRUE);
+	return (FALSE);
 }
 
 static void	load_file(int fd, t_list **head)
@@ -36,7 +36,7 @@ static void	load_file(int fd, t_list **head)
 	{
 		if (ft_strlen(line) > 1 && line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = 0;
-		if (empty_line(line) == true)
+		if (empty_line(line) == TRUE)
 			free(line);
 		else
 		{

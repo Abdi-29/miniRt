@@ -14,6 +14,14 @@
 # define RAY_H
 # include "../../includes/xyz.h"
 # include "../../includes/data_struct.h"
+# include "../../includes/bool.h"
+
+typedef struct s_obj_data
+{
+	int		color;
+	double	distance;
+	t_bool	has_color;
+}	t_obj_data;
 
 typedef struct s_ray
 {

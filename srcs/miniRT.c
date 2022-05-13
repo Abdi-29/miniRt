@@ -115,7 +115,7 @@ void	start_window(t_minirt_data *data)
 	data->mlx = mlx_init(1280,
 			720,
 			"miniRT",
-			true);
+			TRUE);
 	if (!data->mlx)
 		err_exit(1, "Error\nUnable to initialize mlx window.\n");
 	setup_listeners(data);

@@ -33,17 +33,17 @@ int	arr_len(const char **arr)
 t_bool	is_valid(char **coordinates, char **vector, char **views)
 {
 	if (!coordinates)
-		return (false);
+		return (FALSE);
 	if (!vector)
 	{
 		free_array(coordinates);
-		return (false);
+		return (FALSE);
 	}
 	if (!views)
 	{
 		free_array(coordinates);
 		free_array(vector);
-		return (false);
+		return (FALSE);
 	}
 	if (arr_len((const char **)vector) != 3 || arr_len((const char **)coordinates) != 3
 		|| arr_len((const char **)views) != 1)
@@ -51,9 +51,9 @@ t_bool	is_valid(char **coordinates, char **vector, char **views)
 		free_array(vector);
 		free_array(coordinates);
 		free_array(views);
-		return (false);
+		return (FALSE);
 	}
-	return (true);
+	return (TRUE);
 }
 
 void	err_exit(int status, const char *str, ...)
@@ -84,6 +84,6 @@ char	**split_helper(char *str, int len)
 t_bool	range(double a, double b, double value)
 {
 	if (value < a || value > b)
-		return (false);
-	return (true);
+		return (FALSE);
+	return (TRUE);
 }
