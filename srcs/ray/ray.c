@@ -69,7 +69,7 @@ t_ray	create_ray(t_minirt_data *data, int i, int j)
 	image_ratio = (double) data->mlx->width / (double) data->mlx->height;
 	pixel_camera_x = screen_x * image_ratio * tan(data->camera.fov / 2 * M_PI / 180);
 	pixel_camera_y = screen_y * tan(data->camera.fov / 2 * M_PI / 180);
-	ray.direction = init_coords(pixel_camera_x, pixel_camera_y, -1);
+	ray.direction = init_coords(pixel_camera_x, pixel_camera_y, 1);
 //	ray.direction = construct_camera(data, i, j);
 	ray.direction = normalized(mat_mult_dir(data->transform, ray.direction));
 //	printf("ray direction %f %f %f\n", ray.direction.t_s_xyz.x, ray.direction.t_s_xyz.y, ray.direction.t_s_xyz.z);

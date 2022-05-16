@@ -79,7 +79,7 @@ t_bool	hit_sphere(t_sphere *sphere, double radius, t_ray ray)
 	double	b;
 	double	c;
 
-	oc = minus(ray.origin, sphere->xyz);
+	oc = minus(sphere->xyz, ray.origin);
 	a = dot(oc, ray.direction);
 	if (a < 0)
 		return (FALSE);
@@ -89,6 +89,7 @@ t_bool	hit_sphere(t_sphere *sphere, double radius, t_ray ray)
 	c = sqrt(radius * radius - b);
 	sphere->distance1 = a - c;
 	sphere->distance2 = a + c;
+
 	return (TRUE);
 }
 
@@ -140,8 +141,9 @@ void	loop_objects(t_ray ray, t_minirt_data *data, t_obj_data *obj)
 	obj->color = -1;
 	obj->distance = INFINITY;
 	obj->has_color = FALSE;
-	loop_sphere(ray, data->sphere_list, obj);
 	loop_plane(ray, data->plane_list, obj);
+	loop_sphere(ray, data->sphere_list, obj);
+
 }
 
 int	ray_color(t_ray ray, t_minirt_data *data)
