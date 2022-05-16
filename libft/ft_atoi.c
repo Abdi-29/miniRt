@@ -40,7 +40,7 @@ static int	convert(const char *str, t_bool *success)
 		str++;
 	}
 	if (*str == 0)
-		*success = true;
+		*success = TRUE;
 	return (res);
 }
 
@@ -57,7 +57,7 @@ int	ft_atoi(const char *str, t_bool *success)
 	int	negative;
 	int	res;
 
-	*success = false;
+	*success = FALSE;
 	negative = -1;
 	while (ft_iswhite_space(*str))
 		str++;
@@ -69,6 +69,6 @@ int	ft_atoi(const char *str, t_bool *success)
 	}
 	res = convert(str, success);
 	if (res == -2147483648 && negative == -1)
-		*success = false;
+		*success = FALSE;
 	return (res * negative);
 }
