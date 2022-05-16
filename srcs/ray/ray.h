@@ -32,5 +32,6 @@ typedef struct s_ray
 int		ray_color(t_ray ray, t_minirt_data *data);
 t_ray	create_ray(t_minirt_data *data, int i, int j);
 t_xyz	lower_left_corner(t_minirt_data *data);
+t_xyz	init_coords(double x, double y, double z);
 
 #endif

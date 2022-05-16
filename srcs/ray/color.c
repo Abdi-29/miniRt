@@ -176,31 +176,53 @@ void	loop_objects(t_ray ray, t_minirt_data *data, t_obj_data *obj)
 	loop_sphere(ray, data->sphere_list, obj);
 }
 
-int tem(t_minirt_data *data, t_ray ray, t_obj_data *obj)
+double	get_potions(double oxy, double oz, double lxy, double lz)
 {
-	t_xyz	initial_points;
-	t_xyz	q;
-	t_xyz	s;
-	t_xyz	t;
+	double oxylxy;
+	double ozlz;
+
+	oxylxy = oxy - lxy;
+	ozlz = oz - lz;
+	double c = sqrt((oxylxy * oxylxy) + (ozlz * ozlz));
+	double res = acos(oxylxy / c);
+	if (res > 180)
+		return (res - 180) / 180;
+	return (res / 180);
+}
+
+int	tem(t_minirt_data *data, t_obj_data *obj)
+{
+	t_xyz		initial_points;
+	t_xyz		q;
+	t_xyz		s;
+	t_xyz		t;
+	t_xyz		light_dir;
+	t_ray		ray;
+	t_obj_data	new_obj;
+	double		angle;
+	double		lightdistance;
 
 	initial_points = init_coords(obj->distance, 0, 0);
 	q.t_s_xyz.x = cos(data->light.xyz.t_s_xyz.y) * initial_points.t_s_xyz.x
 		- sin(data->light.xyz.t_s_xyz.y) * initial_points.t_s_xyz.z;
 	q.t_s_xyz.y = data->light.xyz.t_s_xyz.y;
 	q.t_s_xyz.z = sin(data->light.xyz.t_s_xyz.y) * initial_points.t_s_xyz.x
-		- cos(data->light.xyz.t_s_xyz.y) * initial_points.t_s_xyz.z;
-	s.t_s_xyz.x = cos(data->light.xyz.t_s_xyz.y) * q.t_s_xyz.x
-		- sin(data->light.xyz.t_s_xyz.y) * q.t_s_xyz.z;
-	s.t_s_xyz.y = sin(data->light.xyz.t_s_xyz.y) * q.t_s_xyz.x
-		- cos(data->light.xyz.t_s_xyz.y) * q.t_s_xyz.z;
+		+ cos(data->light.xyz.t_s_xyz.y) * initial_points.t_s_xyz.z;
+	s.t_s_xyz.x = cos(data->light.xyz.t_s_xyz.x) * q.t_s_xyz.x
+		- sin(data->light.xyz.t_s_xyz.x) * q.t_s_xyz.y;
+	s.t_s_xyz.y = sin(data->light.xyz.t_s_xyz.x) * q.t_s_xyz.x
+		+ cos(data->light.xyz.t_s_xyz.x) * q.t_s_xyz.y;
 	s.t_s_xyz.z = q.t_s_xyz.z;
 	t = plus(s, ray.origin);
-	printf("testing %f %f %f\n", t.t_s_xyz.x, t.t_s_xyz.y, t.t_s_xyz.z);
-	//get position of the pixel we hit
-	//if it does not have access to light
-	get_color(obj->color, data);
-	//if it does have access to light
-	return (get_color_with_light(obj->color, data));
+	ray.direction.xyz[0] = get_potions(t.xyz[0], data->light.xyz.xyz[0], t.xyz[2], data->light.xyz.xyz[2]);
+	ray.direction.xyz[1] = get_potions(t.xyz[1], data->light.xyz.xyz[1], t.xyz[2], data->light.xyz.xyz[2]);
+	ray.direction.xyz[2] = 1;
+	lightdistance = dot(ray.direction, ray.direction);
+	loop_objects(ray, data, &new_obj);
+	if (obj->distance < lightdistance)
+		return (get_color_with_light(new_obj.color, data));
+	else
+		return (get_color(obj->color, data));
 }
 
 int	ray_color(t_ray ray, t_minirt_data *data)
@@ -213,7 +235,7 @@ int	ray_color(t_ray ray, t_minirt_data *data)
 
 	loop_objects(ray, data, &obj);
 	if (obj.has_color == TRUE)
-		return (tem(data, ray, &obj));
+		return (tem(data, &obj));
 	xyz = unit_vector(ray.direction);
 	t = 0.5 * (xyz.t_s_xyz.y + 1.0);
 	rgb = color_mult_dub(1.0 - t, init_color(1.0, 1.0, 1.0));
