@@ -29,16 +29,31 @@ int	get_color(t_rgb rgb, t_minirt_data *data) //TODO create ambient if it doesn'
 	return (color);
 }
 
+double	g_m(double color1, double rad1, double color2, double rad2)
+{
+	double	color;
+
+	color = ((color1 * rad1) + (color2 * rad2));
+	if (color > 255)
+		return (255);
+	return (color);
+}
+
 int	get_color_with_light(t_rgb rgb, t_minirt_data *data) //TODO create ambient if it doesn't exist
 {
-	int	color;
+	int		color;
+	double	r1;
+	double	r2;
+	double	*clr1;
+	double	*clr2;
 
-	color = (int)(rgb.t_s_rgb.r * ((data->ambient.rgb.t_s_rgb.r * 255)
-				* data->ambient.ratio));
-	color = (color << 8) + (int)(rgb.t_s_rgb.g
-			* ((data->ambient.rgb.t_s_rgb.g * 255) * data->ambient.ratio));
-	color = (color << 8) + (int)(rgb.t_s_rgb.b
-			* ((data->ambient.rgb.t_s_rgb.b * 255) * data->ambient.ratio));
+	r1 = data->ambient.ratio;
+	r2 = data->light.ratio;
+	clr1 = data->ambient.rgb.rgb;
+	clr2 = data->light.rgb.rgb;
+	color = (int)(rgb.t_s_rgb.r * g_m(clr1[0], r1, clr2[0], r2));
+	color = (color << 8) + (int)(rgb.t_s_rgb.r * g_m(clr1[1], r1, clr2[1], r2));
+	color = (color << 8) + (int)(rgb.t_s_rgb.r * g_m(clr1[2], r1, clr2[2], r2));
 	color = (color << 8) + 255;
 	return (color);
 }
