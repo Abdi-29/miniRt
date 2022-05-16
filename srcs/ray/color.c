@@ -13,6 +13,7 @@
 #include "../../includes/rgb.h"
 #include "ray.h"
 #include <math.h>
+#include <printf.h>
 #include "../vectorlib/vector.h"
 
 int	get_color(t_rgb rgb, t_minirt_data *data) //TODO create ambient if it doesn't exist
@@ -160,6 +161,33 @@ void	loop_objects(t_ray ray, t_minirt_data *data, t_obj_data *obj)
 	loop_sphere(ray, data->sphere_list, obj);
 }
 
+int tem(t_minirt_data *data, t_ray ray, t_obj_data *obj)
+{
+	t_xyz	initial_points;
+	t_xyz	q;
+	t_xyz	s;
+	t_xyz	t;
+
+	initial_points = init_coords(obj->distance, 0, 0);
+	q.t_s_xyz.x = cos(data->light.xyz.t_s_xyz.y) * initial_points.t_s_xyz.x
+		- sin(data->light.xyz.t_s_xyz.y) * initial_points.t_s_xyz.z;
+	q.t_s_xyz.y = data->light.xyz.t_s_xyz.y;
+	q.t_s_xyz.z = sin(data->light.xyz.t_s_xyz.y) * initial_points.t_s_xyz.x
+		- cos(data->light.xyz.t_s_xyz.y) * initial_points.t_s_xyz.z;
+	s.t_s_xyz.x = cos(data->light.xyz.t_s_xyz.y) * q.t_s_xyz.x
+		- sin(data->light.xyz.t_s_xyz.y) * q.t_s_xyz.z;
+	s.t_s_xyz.y = sin(data->light.xyz.t_s_xyz.y) * q.t_s_xyz.x
+		- cos(data->light.xyz.t_s_xyz.y) * q.t_s_xyz.z;
+	s.t_s_xyz.z = q.t_s_xyz.z;
+	t = plus(s, ray.origin);
+	printf("testing %f %f %f\n", t.t_s_xyz.x, t.t_s_xyz.y, t.t_s_xyz.z);
+	//get position of the pixel we hit
+	//if it does not have access to light
+	get_color(obj->color, data);
+	//if it does have access to light
+	return (get_color_with_light(obj->color, data));
+}
+
 int	ray_color(t_ray ray, t_minirt_data *data)
 {
 	t_rgb		rgb;
@@ -170,7 +198,7 @@ int	ray_color(t_ray ray, t_minirt_data *data)
 
 	loop_objects(ray, data, &obj);
 	if (obj.has_color == TRUE)
-		return (get_color(obj.color, data));
+		return (tem(data, ray, &obj));
 	xyz = unit_vector(ray.direction);
 	t = 0.5 * (xyz.t_s_xyz.y + 1.0);
 	rgb = color_mult_dub(1.0 - t, init_color(1.0, 1.0, 1.0));
