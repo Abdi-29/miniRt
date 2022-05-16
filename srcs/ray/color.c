@@ -15,13 +15,30 @@
 #include <math.h>
 #include "../vectorlib/vector.h"
 
-int	get_color(t_rgb rgb)
+int	get_color(t_rgb rgb, t_minirt_data *data) //TODO create ambient if it doesn't exist
 {
 	int	color;
 
-	color = (int)(rgb.t_s_rgb.r * 255);
-	color = (color << 8) + (int)(rgb.t_s_rgb.g * 255);
-	color = (color << 8) + (int)(rgb.t_s_rgb.b * 255);
+	color = (int)(rgb.t_s_rgb.r * ((data->ambient.rgb.t_s_rgb.r * 255)
+				* data->ambient.ratio));
+	color = (color << 8) + (int)(rgb.t_s_rgb.g
+			* ((data->ambient.rgb.t_s_rgb.g * 255) * data->ambient.ratio));
+	color = (color << 8) + (int)(rgb.t_s_rgb.b
+			* ((data->ambient.rgb.t_s_rgb.b * 255) * data->ambient.ratio));
+	color = (color << 8) + 255;
+	return (color);
+}
+
+int	get_color_with_light(t_rgb rgb, t_minirt_data *data) //TODO create ambient if it doesn't exist
+{
+	int	color;
+
+	color = (int)(rgb.t_s_rgb.r * ((data->ambient.rgb.t_s_rgb.r * 255)
+				* data->ambient.ratio));
+	color = (color << 8) + (int)(rgb.t_s_rgb.g
+			* ((data->ambient.rgb.t_s_rgb.g * 255) * data->ambient.ratio));
+	color = (color << 8) + (int)(rgb.t_s_rgb.b
+			* ((data->ambient.rgb.t_s_rgb.b * 255) * data->ambient.ratio));
 	color = (color << 8) + 255;
 	return (color);
 }
@@ -89,7 +106,6 @@ t_bool	hit_sphere(t_sphere *sphere, double radius, t_ray ray)
 	c = sqrt(radius * radius - b);
 	sphere->distance1 = a - c;
 	sphere->distance2 = a + c;
-
 	return (TRUE);
 }
 
@@ -109,7 +125,7 @@ void	loop_sphere(t_ray ray, t_list *entry, t_obj_data *obj)
 			sphere->distance1 = sphere->distance2;
 		if (sphere->distance1 < obj->distance)
 		{
-			obj->color = get_color(sphere->rgb);
+			obj->color = sphere->rgb;
 			obj->has_color = TRUE;
 			obj->distance = sphere->distance1;
 		}
@@ -128,7 +144,7 @@ void	loop_plane(t_ray ray, t_list *entry, t_obj_data *obj)
 		distance = hit_plane(plane->xyz, plane->vector, ray);
 		if (distance < obj->distance && distance > 0)
 		{
-			obj->color = get_color(plane->rgb);
+			obj->color = plane->rgb;
 			obj->has_color = TRUE;
 			obj->distance = distance;
 		}
@@ -138,12 +154,10 @@ void	loop_plane(t_ray ray, t_list *entry, t_obj_data *obj)
 
 void	loop_objects(t_ray ray, t_minirt_data *data, t_obj_data *obj)
 {
-	obj->color = -1;
 	obj->distance = INFINITY;
 	obj->has_color = FALSE;
 	loop_plane(ray, data->plane_list, obj);
 	loop_sphere(ray, data->sphere_list, obj);
-
 }
 
 int	ray_color(t_ray ray, t_minirt_data *data)
@@ -156,10 +170,10 @@ int	ray_color(t_ray ray, t_minirt_data *data)
 
 	loop_objects(ray, data, &obj);
 	if (obj.has_color == TRUE)
-		return (obj.color);
+		return (get_color(obj.color, data));
 	xyz = unit_vector(ray.direction);
 	t = 0.5 * (xyz.t_s_xyz.y + 1.0);
 	rgb = color_mult_dub(1.0 - t, init_color(1.0, 1.0, 1.0));
 	tmp = color_mult_dub(t, init_color(0.5, 0.7, 1.0));
-	return (get_color(color_add(rgb, tmp)));
+	return (get_color(color_add(rgb, tmp), data));
 }

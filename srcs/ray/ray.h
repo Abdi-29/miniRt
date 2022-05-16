@@ -18,7 +18,7 @@
 
 typedef struct s_obj_data
 {
-	int		color;
+	t_rgb	color;
 	double	distance;
 	t_bool	has_color;
 }	t_obj_data;
