@@ -33,7 +33,7 @@ double	g_m(double color1, double rad1, double color2, double rad2)
 {
 	double	color;
 
-	color = ((color1 * rad1) + (color2 * rad2));
+	color = ((color1 * rad1) + (color2 * rad2)) / 2 * 255;
 	if (color > 255)
 		return (255);
 	return (color);
@@ -52,8 +52,8 @@ int	get_color_with_light(t_rgb rgb, t_minirt_data *data) //TODO create ambient i
 	clr1 = data->ambient.rgb.rgb;
 	clr2 = data->light.rgb.rgb;
 	color = (int)(rgb.t_s_rgb.r * g_m(clr1[0], r1, clr2[0], r2));
-	color = (color << 8) + (int)(rgb.t_s_rgb.r * g_m(clr1[1], r1, clr2[1], r2));
-	color = (color << 8) + (int)(rgb.t_s_rgb.r * g_m(clr1[2], r1, clr2[2], r2));
+	color = (color << 8) + (int)(rgb.t_s_rgb.g * g_m(clr1[1], r1, clr2[1], r2));
+	color = (color << 8) + (int)(rgb.t_s_rgb.b * g_m(clr1[2], r1, clr2[2], r2));
 	color = (color << 8) + 255;
 	return (color);
 }
@@ -184,35 +184,15 @@ void	loop_objects(t_ray ray, t_minirt_data *data, t_obj_data *obj)
 	loop_sphere(ray, data->sphere_list, obj);
 }
 
-double	get_potions(double oxy, double oz, double lxy, double lz)
-{
-	double	oxylxy;
-	double	ozlz;
-	double	c;
-	double	res;
-
-	oxylxy = oxy - lxy;
-	ozlz = oz - lz;
-	c = sqrt((oxylxy * oxylxy) + (ozlz * ozlz));
-	res = acos(oxylxy / c);
-	if (res > 90)
-		return ((res - 90) / 90);
-	return (res / 90);
-}
-
 int	tem(t_minirt_data *data, t_obj_data *obj, t_ray old_ray)
 {
 	t_ray		ray;
 	t_obj_data	new_obj;
 	double		light_distance;
 
-	ray.origin.xyz[0] = atan(old_ray.direction.xyz[2] / old_ray.direction.xyz[1]) * obj->distance;
-	ray.origin.xyz[1] = atan(old_ray.direction.xyz[0] / old_ray.direction.xyz[2]) * obj->distance;
-	ray.origin.xyz[2] = atan(old_ray.direction.xyz[1] / old_ray.direction.xyz[0]) * obj->distance;
+	ray.origin = plus(old_ray.origin, mult_xyz_dub(old_ray.direction, obj->distance));
 	light_distance = distance(ray.origin, data->light.xyz);
-	ray.direction = minus(data->light.xyz, ray.origin);
-	ray.direction = normalized(ray.direction);
-//	ray.direction = division(ray.direction, light_distance);
+	ray.direction = normalized(minus(data->light.xyz, ray.origin));
 	loop_objects(ray, data, &new_obj);
 	if (obj->distance < light_distance)
 		return (get_color_with_light(new_obj.color, data));
