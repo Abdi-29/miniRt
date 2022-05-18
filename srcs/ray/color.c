@@ -13,7 +13,6 @@
 #include "../../includes/rgb.h"
 #include "ray.h"
 #include <math.h>
-#include <printf.h>
 #include "../vectorlib/vector.h"
 
 int	get_color(t_rgb rgb, t_minirt_data *data) //TODO create ambient if it doesn't exist
@@ -125,6 +124,15 @@ t_bool	hit_sphere(t_sphere *sphere, double radius, t_ray ray)
 	return (TRUE);
 }
 
+double	distance(t_xyz one, t_xyz two)
+{
+	t_xyz	res;
+
+	res = minus(one, two);
+	res = multiplication(res, res);
+	return (sqrt(res.xyz[0] + res.xyz[1] + res.xyz[2]));
+}
+
 void	loop_sphere(t_ray ray, t_list *entry, t_obj_data *obj)
 {
 	t_sphere	*sphere;
@@ -178,48 +186,35 @@ void	loop_objects(t_ray ray, t_minirt_data *data, t_obj_data *obj)
 
 double	get_potions(double oxy, double oz, double lxy, double lz)
 {
-	double oxylxy;
-	double ozlz;
+	double	oxylxy;
+	double	ozlz;
+	double	c;
+	double	res;
 
 	oxylxy = oxy - lxy;
 	ozlz = oz - lz;
-	double c = sqrt((oxylxy * oxylxy) + (ozlz * ozlz));
-	double res = acos(oxylxy / c);
-	if (res > 180)
-		return (res - 180) / 180;
-	return (res / 180);
+	c = sqrt((oxylxy * oxylxy) + (ozlz * ozlz));
+	res = acos(oxylxy / c);
+	if (res > 90)
+		return ((res - 90) / 90);
+	return (res / 90);
 }
 
-int	tem(t_minirt_data *data, t_obj_data *obj)
+int	tem(t_minirt_data *data, t_obj_data *obj, t_ray old_ray)
 {
-	t_xyz		initial_points;
-	t_xyz		q;
-	t_xyz		s;
-	t_xyz		t;
-	t_xyz		light_dir;
 	t_ray		ray;
 	t_obj_data	new_obj;
-	double		angle;
-	double		lightdistance;
+	double		light_distance;
 
-	initial_points = init_coords(obj->distance, 0, 0);
-	q.t_s_xyz.x = cos(data->light.xyz.t_s_xyz.y) * initial_points.t_s_xyz.x
-		- sin(data->light.xyz.t_s_xyz.y) * initial_points.t_s_xyz.z;
-	q.t_s_xyz.y = data->light.xyz.t_s_xyz.y;
-	q.t_s_xyz.z = sin(data->light.xyz.t_s_xyz.y) * initial_points.t_s_xyz.x
-		+ cos(data->light.xyz.t_s_xyz.y) * initial_points.t_s_xyz.z;
-	s.t_s_xyz.x = cos(data->light.xyz.t_s_xyz.x) * q.t_s_xyz.x
-		- sin(data->light.xyz.t_s_xyz.x) * q.t_s_xyz.y;
-	s.t_s_xyz.y = sin(data->light.xyz.t_s_xyz.x) * q.t_s_xyz.x
-		+ cos(data->light.xyz.t_s_xyz.x) * q.t_s_xyz.y;
-	s.t_s_xyz.z = q.t_s_xyz.z;
-	t = plus(s, ray.origin);
-	ray.direction.xyz[0] = get_potions(t.xyz[0], data->light.xyz.xyz[0], t.xyz[2], data->light.xyz.xyz[2]);
-	ray.direction.xyz[1] = get_potions(t.xyz[1], data->light.xyz.xyz[1], t.xyz[2], data->light.xyz.xyz[2]);
-	ray.direction.xyz[2] = 1;
-	lightdistance = dot(ray.direction, ray.direction);
+	ray.origin.xyz[0] = atan(old_ray.direction.xyz[2] / old_ray.direction.xyz[1]) * obj->distance;
+	ray.origin.xyz[1] = atan(old_ray.direction.xyz[0] / old_ray.direction.xyz[2]) * obj->distance;
+	ray.origin.xyz[2] = atan(old_ray.direction.xyz[1] / old_ray.direction.xyz[0]) * obj->distance;
+	light_distance = distance(ray.origin, data->light.xyz);
+	ray.direction = minus(data->light.xyz, ray.origin);
+	ray.direction = normalized(ray.direction);
+//	ray.direction = division(ray.direction, light_distance);
 	loop_objects(ray, data, &new_obj);
-	if (obj->distance < lightdistance)
+	if (obj->distance < light_distance)
 		return (get_color_with_light(new_obj.color, data));
 	else
 		return (get_color(obj->color, data));
@@ -235,7 +230,7 @@ int	ray_color(t_ray ray, t_minirt_data *data)
 
 	loop_objects(ray, data, &obj);
 	if (obj.has_color == TRUE)
-		return (tem(data, &obj));
+		return (tem(data, &obj, ray));
 	xyz = unit_vector(ray.direction);
 	t = 0.5 * (xyz.t_s_xyz.y + 1.0);
 	rgb = color_mult_dub(1.0 - t, init_color(1.0, 1.0, 1.0));
