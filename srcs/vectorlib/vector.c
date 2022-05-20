@@ -26,9 +26,9 @@ t_xyz	cross(t_xyz a, t_xyz b)
 
 double	length(t_xyz a)
 {
-	return (sqrt((fabs(a.t_s_xyz.x * a.t_s_xyz.x)
-				+ fabs(a.t_s_xyz.y * a.t_s_xyz.y)
-				+ fabs(a.t_s_xyz.z * a.t_s_xyz.z))));
+	return (sqrt((a.t_s_xyz.x * a.t_s_xyz.x
+				+ a.t_s_xyz.y * a.t_s_xyz.y
+				+ a.t_s_xyz.z * a.t_s_xyz.z)));
 }
 
 t_xyz	mat_mult_dir(t_mat in, t_xyz dir)
