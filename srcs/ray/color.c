@@ -176,6 +176,8 @@ void	loop_plane(t_ray ray, t_list *entry, t_obj_data *obj)
 	}
 }
 
+//create function that ignore the object that are already hit
+
 void	loop_objects(t_ray ray, t_minirt_data *data, t_obj_data *obj)
 {
 	obj->distance = INFINITY;
@@ -184,17 +186,23 @@ void	loop_objects(t_ray ray, t_minirt_data *data, t_obj_data *obj)
 	loop_sphere(ray, data->sphere_list, obj);
 }
 
+/*
+ * initial_points = mult_xyz_dub(ray.direction, obj->distance);
+	initial_points = normalized(plus(initial_points, ray.origin));
+	ray.direction = initial_points;
+ */
+
 int	tem(t_minirt_data *data, t_obj_data *obj, t_ray old_ray)
 {
 	t_ray		ray;
 	t_obj_data	new_obj;
 	double		light_distance;
 
-	ray.origin = plus(old_ray.origin, mult_xyz_dub(old_ray.direction, obj->distance));
+	ray.origin = plus(mult_xyz_dub(old_ray.direction, obj->distance - 0.0001), old_ray.origin);
 	light_distance = distance(ray.origin, data->light.xyz);
 	ray.direction = normalized(minus(data->light.xyz, ray.origin));
 	loop_objects(ray, data, &new_obj);
-	if (obj->distance < light_distance)
+	if (new_obj.distance < light_distance)
 		return (get_color_with_light(new_obj.color, data));
 	else
 		return (get_color(obj->color, data));
