@@ -185,6 +185,36 @@ void	loop_plane(t_ray ray, t_list *entry, t_obj_data *obj)
 	}
 }
 
+double cylinder_intersect(t_cylinder *cylinder, t_ray *ray)
+{
+	double	a;
+	double	b;
+	double	c;
+
+	a = pow(ray->direction.t_s_xyz.x, 2) + pow(ray->direction.t_s_xyz.z, 2);
+	b = 2 * (ray->direction.t_s_xyz.x * pow(cylinder->xyz.xyz[0] - cylinder->vector.xyz[0], 2)
+		+
+}
+
+void	loop_cylinder(t_ray ray, t_list *entry, t_obj_data *obj)
+{
+	t_cylinder	*cylinder;
+	double	distance;
+
+	while (entry)
+	{
+		cylinder = entry->content;
+		distance = cylinder_intersect(ray);
+//		if (distance < obj->distance && distance > 0)
+//		{
+//			obj->color = plane->rgb;
+//			obj->has_color = TRUE;
+//			obj->distance = distance;
+//		}
+		entry = entry->next;
+	}
+}
+
 //create function that ignore the object that are already hit
 
 void	loop_objects(t_ray ray, t_minirt_data *data, t_obj_data *obj)
