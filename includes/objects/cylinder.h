@@ -22,6 +22,8 @@ typedef struct s_cylinder
 	double	diameter;
 	double	height;
 	t_rgb	rgb;
+	double	distance1;
+	double	distance2;
 }	t_cylinder;
 
 #endif

@@ -185,32 +185,61 @@ void	loop_plane(t_ray ray, t_list *entry, t_obj_data *obj)
 	}
 }
 
-double cylinder_intersect(t_cylinder *cylinder, t_ray *ray)
+t_bool	hit_cylinder(t_cylinder *cylinder, double radius, t_ray *ray)
 {
-	double	a;
-	double	b;
-	double	c;
+    t_xyz	oc;
+    double	a;
+    double	b;
+    double	c;
 
-	a = pow(ray->direction.t_s_xyz.x, 2) + pow(ray->direction.t_s_xyz.z, 2);
-	b = 2 * (ray->direction.t_s_xyz.x * pow(cylinder->xyz.xyz[0] - cylinder->vector.xyz[0], 2)
-		+
+    oc = minus(cylinder->xyz, ray->origin);
+    a = dot(oc, ray->direction);
+    if (a < 0)
+        return (FALSE);
+    b = dot(oc, oc) - a * a;
+    if (b > radius * radius)
+        return (FALSE);
+    c = sqrt(radius * radius - b);
+    cylinder->distance1 = a - c;
+    cylinder->distance2 = a + c;
+    return (TRUE);
+}
+
+t_bool	cylinder_intersect(t_cylinder *cylinder, t_ray *ray)
+{
+    t_xyz   new_point;
+
+    if (!hit_cylinder(cylinder, cylinder->diameter / 2, ray))
+        return (FALSE);
+    new_point = mult_xyz_dub(ray->direction, cylinder->distance1);
+    cylinder->distance1 = dot(new_point, cylinder->xyz);
+    if ((cylinder->distance1 * length(new_point)) <= cylinder->height / 2)
+	    return (TRUE);
+    new_point = mult_xyz_dub(ray->direction, cylinder->distance2);
+    cylinder->distance2 = dot(new_point, cylinder->xyz);
+    if ((cylinder->distance2 * length(new_point)) <= cylinder->height / 2)
+        return (TRUE);
+    return (FALSE);
 }
 
 void	loop_cylinder(t_ray ray, t_list *entry, t_obj_data *obj)
 {
 	t_cylinder	*cylinder;
-	double	distance;
 
 	while (entry)
 	{
 		cylinder = entry->content;
-		distance = cylinder_intersect(ray);
-//		if (distance < obj->distance && distance > 0)
-//		{
-//			obj->color = plane->rgb;
-//			obj->has_color = TRUE;
-//			obj->distance = distance;
-//		}
+		if (!cylinder_intersect(cylinder, &ray))
+		{
+			entry = entry->next;
+			continue ;
+		}
+		if (cylinder->distance1 < obj->distance && cylinder->distance1 > 0)
+		{
+			obj->color = cylinder->rgb;
+			obj->has_color = TRUE;
+			obj->distance = cylinder->distance1;
+		}
 		entry = entry->next;
 	}
 }
@@ -223,6 +252,7 @@ void	loop_objects(t_ray ray, t_minirt_data *data, t_obj_data *obj)
 	obj->has_color = FALSE;
 	loop_sphere(ray, data->sphere_list, obj);
 	loop_plane(ray, data->plane_list, obj);
+	loop_cylinder(ray, data->cylinder_list, obj);
 }
 
 /*
