@@ -13,7 +13,6 @@
 #include "../../includes/rgb.h"
 #include "ray.h"
 #include <math.h>
-#include <printf.h>
 #include "../vectorlib/vector.h"
 
 int	get_color(t_rgb rgb, t_minirt_data *data) //TODO create ambient if it doesn't exist
@@ -36,7 +35,8 @@ double	g_m(double light, double ambient, double light_distance,
 	double	color;
 	double	light_ratio;
 
-	light_ratio = data->light.ratio - (light_distance / 50) - (angle * 0.15);
+	angle = angle / 180;
+	light_ratio = data->light.ratio - (light_distance / 50) - (angle);
 	if (light_ratio < 0)
 		light_ratio = 0;
 	color = ((light * 255 * light_ratio)
@@ -208,9 +208,15 @@ int	tem(t_minirt_data *data, t_obj_data *obj, t_ray old_ray)
 	if (obj->sphere != NULL)
 	{
 		tmp_vector = normalized(minus(ray.origin, obj->sphere->xyz));
-		obj->angle = acos(dot(ray.direction, tmp_vector) / (magnitute(ray.direction) * magnitute(tmp_vector)));
-		if (obj->angle < 0)
-			obj->angle *= -1;
+		obj->angle = acos(dot(ray.direction, tmp_vector)) * (180 / 3.13);
+	}
+	else if (obj->plane != NULL)
+	{
+		obj->angle = acos(dot(ray.direction, obj->plane->vector)) * (180 / 3.13);
+		if (obj->angle > 180)
+			obj->angle = 180;
+		if (obj->angle > 90)
+			obj->angle -= 90;
 	}
 	return (get_color_with_light(obj, data, light_distance));
 }
