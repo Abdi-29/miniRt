@@ -91,3 +91,10 @@ t_xyz	normalized(t_xyz a)
 	a.t_s_xyz.z /= len;
 	return (a);
 }
+
+double	magnitute(t_xyz a)
+{
+	return (sqrt((a.xyz[0] * a.xyz[0])
+			+ (a.xyz[1] * a.xyz[1])
+			+ (a.xyz[2] * a.xyz[2])));
+}

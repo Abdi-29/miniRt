@@ -49,6 +49,8 @@ void	parse_lines(t_list **head, t_minirt_data *data)
 {
 	t_list	*entry;
 
+	ft_bzero(&data->ambient, sizeof(t_ambient));
+	ft_bzero(&data->light, sizeof(t_ambient));
 	entry = *head;
 	while (entry)
 	{

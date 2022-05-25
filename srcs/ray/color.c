@@ -13,6 +13,7 @@
 #include "../../includes/rgb.h"
 #include "ray.h"
 #include <math.h>
+#include <printf.h>
 #include "../vectorlib/vector.h"
 
 int	get_color(t_rgb rgb, t_minirt_data *data) //TODO create ambient if it doesn't exist
@@ -29,43 +30,39 @@ int	get_color(t_rgb rgb, t_minirt_data *data) //TODO create ambient if it doesn'
 	return (color);
 }
 
-double	g_m(double color1, double rad1, double color2, double rad2)
+double	g_m(double light, double ambient, double light_distance,
+	t_minirt_data *data, double angle)
 {
 	double	color;
+	double	light_ratio;
 
-	color = ((color1 * rad1) + (color2 * rad2)) / 2 * 255;
+	light_ratio = data->light.ratio - (light_distance / 50) - (angle * 0.15);
+	if (light_ratio < 0)
+		light_ratio = 0;
+	color = ((light * 255 * light_ratio)
+			+ (ambient * 255 * data->ambient.ratio));
 	if (color > 255)
 		return (255);
 	return (color);
 }
 
-int	get_color_with_light(t_rgb rgb, t_minirt_data *data) //TODO create ambient if it doesn't exist
+int	get_color_with_light(t_obj_data *obj, t_minirt_data *data, double light_distance)
 {
-//	int		color;
-//	double	r1;
-//	double	r2;
-//	double	*clr1;
-//	double	*clr2;
-//
-//	r1 = data->ambient.ratio;
-//	r2 = data->light.ratio;
-//	clr1 = data->ambient.rgb.rgb;
-//	clr2 = data->light.rgb.rgb;
-//	color = (int)(rgb.t_s_rgb.r * g_m(clr1[0], r1, clr2[0], r2));
-//	color = (color << 8) + (int)(rgb.t_s_rgb.g * g_m(clr1[1], r1, clr2[1], r2));
-//	color = (color << 8) + (int)(rgb.t_s_rgb.b * g_m(clr1[2], r1, clr2[2], r2));
-//	color = (color << 8) + 255;
-//	return (color);
-    int	color;
+	int		color;
+	t_rgb	rgb;
 
-    color = (int)(rgb.t_s_rgb.r * ((data->light.rgb.t_s_rgb.r * 255)
-                                   * data->light.ratio));
-    color = (color << 8) + (int)(rgb.t_s_rgb.g
-                                 * ((data->light.rgb.t_s_rgb.g * 255) * data->light.ratio));
-    color = (color << 8) + (int)(rgb.t_s_rgb.b
-                                 * ((data->light.rgb.t_s_rgb.b * 255) * data->light.ratio));
-    color = (color << 8) + 255;
-    return (color);
+	rgb = obj->color;
+	color = (int)(rgb.t_s_rgb.r * g_m(
+				data->light.rgb.rgb[0], data->ambient.rgb.rgb[0],
+				light_distance, data, obj->angle));
+	color = (color << 8) + (int)(rgb.t_s_rgb.g * g_m(
+				data->light.rgb.rgb[1], data->ambient.rgb.rgb[1],
+				light_distance, data, obj->angle));
+	color = (color << 8) + (int)(rgb.t_s_rgb.b * g_m(
+				data->light.rgb.rgb[2], data->ambient.rgb.rgb[2],
+				light_distance, data, obj->angle));
+	color = (color << 8) + 255;
+	return (color);
 }
 
 static t_rgb	init_color(double r, double g, double b)
@@ -161,6 +158,7 @@ void	loop_sphere(t_ray ray, t_list *entry, t_obj_data *obj)
 			obj->color = sphere->rgb;
 			obj->has_color = TRUE;
 			obj->distance = sphere->distance1;
+			obj->sphere = sphere;
 		}
 		entry = entry->next;
 	}
@@ -180,12 +178,11 @@ void	loop_plane(t_ray ray, t_list *entry, t_obj_data *obj)
 			obj->color = plane->rgb;
 			obj->has_color = TRUE;
 			obj->distance = distance;
+			obj->plane = plane;
 		}
 		entry = entry->next;
 	}
 }
-
-//create function that ignore the object that are already hit
 
 void	loop_objects(t_ray ray, t_minirt_data *data, t_obj_data *obj)
 {
@@ -195,28 +192,27 @@ void	loop_objects(t_ray ray, t_minirt_data *data, t_obj_data *obj)
 	loop_plane(ray, data->plane_list, obj);
 }
 
-/*
- * initial_points = mult_xyz_dub(ray.direction, obj->distance);
-	initial_points = normalized(plus(initial_points, ray.origin));
-	ray.direction = initial_points;
- */
-
 int	tem(t_minirt_data *data, t_obj_data *obj, t_ray old_ray)
 {
 	t_ray		ray;
 	t_obj_data	new_obj;
 	double		light_distance;
+	t_xyz		tmp_vector;
 
 	ray.origin = plus(mult_xyz_dub(old_ray.direction, obj->distance - 0.001), old_ray.origin);
 	light_distance = distance(ray.origin, data->light.xyz);
 	ray.direction = normalized(minus(data->light.xyz, ray.origin));
 	loop_objects(ray, data, &new_obj);
-//    printf("ray origin: (%f, %f, %f), ray direction: (%f, %f, %f)\n",
-//           ray.origin.xyz[0], ray.origin.xyz[1], ray.origin.xyz[2],
-//           ray.direction.xyz[0], ray.direction.xyz[1], ray.direction.xyz[2]);
 	if (new_obj.distance < light_distance)
-        return (get_color(obj->color, data));
-    return (get_color_with_light(obj->color, data));
+		return (get_color(obj->color, data));
+	if (obj->sphere != NULL)
+	{
+		tmp_vector = normalized(minus(ray.origin, obj->sphere->xyz));
+		obj->angle = acos(dot(ray.direction, tmp_vector) / (magnitute(ray.direction) * magnitute(tmp_vector)));
+		if (obj->angle < 0)
+			obj->angle *= -1;
+	}
+	return (get_color_with_light(obj, data, light_distance));
 }
 
 int	ray_color(t_ray ray, t_minirt_data *data)
@@ -227,6 +223,7 @@ int	ray_color(t_ray ray, t_minirt_data *data)
 	double		t;
 	t_obj_data	obj;
 
+	ft_bzero(&obj, sizeof(t_obj_data));
 	loop_objects(ray, data, &obj);
 	if (obj.has_color == TRUE)
 		return (tem(data, &obj, ray));
@@ -234,5 +231,5 @@ int	ray_color(t_ray ray, t_minirt_data *data)
 	t = 0.5 * (xyz.t_s_xyz.y + 1.0);
 	rgb = color_mult_dub(1.0 - t, init_color(1.0, 1.0, 1.0));
 	tmp = color_mult_dub(t, init_color(0.5, 0.7, 1.0));
-	return (0x000000FF);
+	return (get_color(color_add(rgb, tmp), data));
 }
