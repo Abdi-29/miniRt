@@ -18,9 +18,13 @@
 
 typedef struct s_obj_data
 {
-	t_rgb	color;
-	double	distance;
-	t_bool	has_color;
+	t_rgb		color;
+	double		distance;
+	t_bool		has_color;
+	t_sphere	*sphere;
+	t_plane		*plane;
+	t_cylinder	*cylinder;
+	double		angle;
 }	t_obj_data;
 
 typedef struct s_ray
