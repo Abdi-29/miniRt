@@ -185,63 +185,70 @@ void	loop_plane(t_ray ray, t_list *entry, t_obj_data *obj)
 	}
 }
 
-t_bool	hit_cylinder(t_cylinder *cylinder, double radius, t_ray *ray)
+t_bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray)
 {
-    t_xyz	oc;
-    double	a;
-    double	b;
-    double	c;
+    t_xyz   oc;
+    double  delta[3];
+    t_ray   new_ray;
+    double  tmp;
+    double  t[2];
 
-    oc = minus(cylinder->xyz, ray->origin);
-    a = dot(oc, ray->direction);
-    if (a < 0)
+    new_ray.origin = ray.origin;
+    cylinder->vector = normalized(cylinder->vector);
+    new_ray.direction = cross(ray.direction, cylinder->vector);
+    oc = minus(ray.origin, cylinder->xyz);
+    delta[0] = dot(new_ray.direction, new_ray.direction);
+    delta[1] = 2 * dot(new_ray.direction, cross(oc, cylinder->vector));
+    delta[2] = dot(cross(oc, cylinder->vector), cross(oc, cylinder->vector))
+               - pow(cylinder->diameter / 2, 2);
+    tmp = pow(delta[1], 2) - 4 * delta[0] * delta[2];
+    if (tmp < 0)
         return (FALSE);
-    b = dot(oc, oc) - a * a;
-    if (b > radius * radius)
-        return (FALSE);
-    c = sqrt(radius * radius - b);
-    cylinder->distance1 = a - c;
-    cylinder->distance2 = a + c;
-    return (TRUE);
-}
-
-t_bool	cylinder_intersect(t_cylinder *cylinder, t_ray *ray)
-{
-    t_xyz   new_point;
-
-    if (!hit_cylinder(cylinder, cylinder->diameter / 2, ray))
-        return (FALSE);
-    new_point = mult_xyz_dub(ray->direction, cylinder->distance1);
-    cylinder->distance1 = dot(new_point, cylinder->xyz);
-    if ((cylinder->distance1 * length(new_point)) <= cylinder->height / 2)
-	    return (TRUE);
-    new_point = mult_xyz_dub(ray->direction, cylinder->distance2);
-    cylinder->distance2 = dot(new_point, cylinder->xyz);
-    if ((cylinder->distance2 * length(new_point)) <= cylinder->height / 2)
+    t[0] = (-delta[1] - sqrt(tmp)) / (2 * delta[0]);
+    t[1] = (-delta[1] + sqrt(tmp)) / (2 * delta[0]);
+//    if (t[1] < 0)
+//        return (FALSE);
+    tmp = t[0];
+    t_xyz point = plus(ray.origin, mult_xyz_dub(ray.direction, tmp));
+    double max = sqrt(pow(cylinder->height / 2, 2)) + sqrt(pow(cylinder->diameter / 2, 2));
+    t_xyz len = minus(point, cylinder->xyz);
+    if (length(len) <= max)
+    {
+        cylinder->distance1 = length(len);
         return (TRUE);
+    }
+    tmp = t[1];
+    point =  plus(ray.origin, mult_xyz_dub(ray.direction, tmp));
+    len = minus(point, cylinder->xyz);
+    if (length(len) <= max)
+    {
+        cylinder->distance1 = length(len);
+        return (TRUE);
+    }
+
     return (FALSE);
 }
 
 void	loop_cylinder(t_ray ray, t_list *entry, t_obj_data *obj)
 {
-	t_cylinder	*cylinder;
+    t_cylinder	*cylinder;
 
-	while (entry)
-	{
-		cylinder = entry->content;
-		if (!cylinder_intersect(cylinder, &ray))
-		{
-			entry = entry->next;
-			continue ;
-		}
-		if (cylinder->distance1 < obj->distance && cylinder->distance1 > 0)
-		{
-			obj->color = cylinder->rgb;
-			obj->has_color = TRUE;
-			obj->distance = cylinder->distance1;
-		}
-		entry = entry->next;
-	}
+    while (entry)
+    {
+        cylinder = entry->content;
+        if (!cylinder_intersect(cylinder, ray))
+        {
+            entry = entry->next;
+            continue ;
+        }
+        if (cylinder->distance1 < obj->distance && cylinder->distance1 > 0)
+        {
+            obj->color = cylinder->rgb;
+            obj->has_color = TRUE;
+            obj->distance = cylinder->distance1;
+        }
+        entry = entry->next;
+    }
 }
 
 //create function that ignore the object that are already hit
