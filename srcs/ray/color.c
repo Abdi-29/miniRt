@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        ::::::::            */
-/*   color.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: sappunn <sappunn@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/05/06 19:24:08 by sappunn       #+#    #+#                 */
-/*   Updated: 2022/05/06 19:24:08 by sappunn       ########   odam.nl         */
-/*                                                                            */
+/*																			*/
+/*														::::::::			*/
+/*   color.c											:+:	:+:			*/
+/*													 +:+					*/
+/*   By: sappunn <sappunn@student.codam.nl>		   +#+					 */
+/*												   +#+					  */
+/*   Created: 2022/05/06 19:24:08 by sappunn	   #+#	#+#				 */
+/*   Updated: 2022/05/06 19:24:08 by sappunn	   ########   odam.nl		 */
+/*																			*/
 /* ************************************************************************** */
 
 #include "../../includes/rgb.h"
@@ -56,16 +56,16 @@ int	get_color_with_light(t_rgb rgb, t_minirt_data *data) //TODO create ambient i
 //	color = (color << 8) + (int)(rgb.t_s_rgb.b * g_m(clr1[2], r1, clr2[2], r2));
 //	color = (color << 8) + 255;
 //	return (color);
-    int	color;
+	int	color;
 
-    color = (int)(rgb.t_s_rgb.r * ((data->light.rgb.t_s_rgb.r * 255)
-                                   * data->light.ratio));
-    color = (color << 8) + (int)(rgb.t_s_rgb.g
-                                 * ((data->light.rgb.t_s_rgb.g * 255) * data->light.ratio));
-    color = (color << 8) + (int)(rgb.t_s_rgb.b
-                                 * ((data->light.rgb.t_s_rgb.b * 255) * data->light.ratio));
-    color = (color << 8) + 255;
-    return (color);
+	color = (int)(rgb.t_s_rgb.r * ((data->light.rgb.t_s_rgb.r * 255)
+								   * data->light.ratio));
+	color = (color << 8) + (int)(rgb.t_s_rgb.g
+								 * ((data->light.rgb.t_s_rgb.g * 255) * data->light.ratio));
+	color = (color << 8) + (int)(rgb.t_s_rgb.b
+								 * ((data->light.rgb.t_s_rgb.b * 255) * data->light.ratio));
+	color = (color << 8) + 255;
+	return (color);
 }
 
 static t_rgb	init_color(double r, double g, double b)
@@ -187,68 +187,68 @@ void	loop_plane(t_ray ray, t_list *entry, t_obj_data *obj)
 
 t_bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray)
 {
-    t_xyz   oc;
-    double  delta[3];
-    t_ray   new_ray;
-    double  tmp;
-    double  t[2];
+	t_xyz   oc;
+	double  delta[3];
+	t_ray   new_ray;
+	double  tmp;
+	double  t[2];
 
-    new_ray.origin = ray.origin;
-    cylinder->vector = normalized(cylinder->vector);
-    new_ray.direction = cross(ray.direction, cylinder->vector);
-    oc = minus(ray.origin, cylinder->xyz);
-    delta[0] = dot(new_ray.direction, new_ray.direction);
-    delta[1] = 2 * dot(new_ray.direction, cross(oc, cylinder->vector));
-    delta[2] = dot(cross(oc, cylinder->vector), cross(oc, cylinder->vector))
-               - pow(cylinder->diameter / 2, 2);
-    tmp = pow(delta[1], 2) - 4 * delta[0] * delta[2];
-    if (tmp < 0)
-        return (FALSE);
-    t[0] = (-delta[1] - sqrt(tmp)) / (2 * delta[0]);
-    t[1] = (-delta[1] + sqrt(tmp)) / (2 * delta[0]);
-//    if (t[1] < 0)
-//        return (FALSE);
-    tmp = t[0];
-    t_xyz point = plus(ray.origin, mult_xyz_dub(ray.direction, tmp));
-    double max = sqrt(pow(cylinder->height / 2, 2)) + sqrt(pow(cylinder->diameter / 2, 2));
-    t_xyz len = minus(point, cylinder->xyz);
-    if (length(len) <= max)
-    {
-        cylinder->distance1 = length(len);
-        return (TRUE);
-    }
-    tmp = t[1];
-    point =  plus(ray.origin, mult_xyz_dub(ray.direction, tmp));
-    len = minus(point, cylinder->xyz);
-    if (length(len) <= max)
-    {
-        cylinder->distance1 = length(len);
-        return (TRUE);
-    }
+	new_ray.origin = ray.origin;
+	cylinder->vector = normalized(cylinder->vector);
+	new_ray.direction = cross(ray.direction, cylinder->vector);
+	oc = minus(ray.origin, cylinder->xyz);
+	delta[0] = dot(new_ray.direction, new_ray.direction);
+	delta[1] = 2 * dot(new_ray.direction, cross(oc, cylinder->vector));
+	delta[2] = dot(cross(oc, cylinder->vector), cross(oc, cylinder->vector))
+			   - pow(cylinder->diameter / 2, 2);
+	tmp = pow(delta[1], 2) - 4 * delta[0] * delta[2];
+	if (tmp < 0)
+		return (FALSE);
+	t[0] = (-delta[1] - sqrt(tmp)) / (2 * delta[0]);
+	t[1] = (-delta[1] + sqrt(tmp)) / (2 * delta[0]);
+//	if (t[1] < 0)
+//		return (FALSE);
+	tmp = t[0];
+	t_xyz point = plus(ray.origin, mult_xyz_dub(ray.direction, tmp));
+	double max = sqrt(pow(cylinder->height / 2, 2)) + sqrt(pow(cylinder->diameter / 2, 2));
+	t_xyz len = minus(point, cylinder->xyz);
+	if (length(len) <= max)
+	{
+		cylinder->distance1 = length(len);
+		return (TRUE);
+	}
+	tmp = t[1];
+	point =  plus(ray.origin, mult_xyz_dub(ray.direction, tmp));
+	len = minus(point, cylinder->xyz);
+	if (length(len) <= max)
+	{
+		cylinder->distance1 = length(len);
+		return (TRUE);
+	}
 
-    return (FALSE);
+	return (FALSE);
 }
 
 void	loop_cylinder(t_ray ray, t_list *entry, t_obj_data *obj)
 {
-    t_cylinder	*cylinder;
+	t_cylinder	*cylinder;
 
-    while (entry)
-    {
-        cylinder = entry->content;
-        if (!cylinder_intersect(cylinder, ray))
-        {
-            entry = entry->next;
-            continue ;
-        }
-        if (cylinder->distance1 < obj->distance && cylinder->distance1 > 0)
-        {
-            obj->color = cylinder->rgb;
-            obj->has_color = TRUE;
-            obj->distance = cylinder->distance1;
-        }
-        entry = entry->next;
-    }
+	while (entry)
+	{
+		cylinder = entry->content;
+		if (!cylinder_intersect(cylinder, ray))
+		{
+			entry = entry->next;
+			continue ;
+		}
+		if (cylinder->distance1 < obj->distance && cylinder->distance1 > 0)
+		{
+			obj->color = cylinder->rgb;
+			obj->has_color = TRUE;
+			obj->distance = cylinder->distance1;
+		}
+		entry = entry->next;
+	}
 }
 
 //create function that ignore the object that are already hit
@@ -278,12 +278,12 @@ int	tem(t_minirt_data *data, t_obj_data *obj, t_ray old_ray)
 	light_distance = distance(ray.origin, data->light.xyz);
 	ray.direction = normalized(minus(data->light.xyz, ray.origin));
 	loop_objects(ray, data, &new_obj);
-//    printf("ray origin: (%f, %f, %f), ray direction: (%f, %f, %f)\n",
-//           ray.origin.xyz[0], ray.origin.xyz[1], ray.origin.xyz[2],
-//           ray.direction.xyz[0], ray.direction.xyz[1], ray.direction.xyz[2]);
+//	printf("ray origin: (%f, %f, %f), ray direction: (%f, %f, %f)\n",
+//		   ray.origin.xyz[0], ray.origin.xyz[1], ray.origin.xyz[2],
+//		   ray.direction.xyz[0], ray.direction.xyz[1], ray.direction.xyz[2]);
 	if (new_obj.distance < light_distance)
-        return (get_color(obj->color, data));
-    return (get_color_with_light(obj->color, data));
+		return (get_color(obj->color, data));
+	return (get_color_with_light(obj->color, data));
 }
 
 int	ray_color(t_ray ray, t_minirt_data *data)
