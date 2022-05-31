@@ -29,6 +29,7 @@ int	get_color(t_rgb rgb, t_minirt_data *data) //TODO create ambient if it doesn'
 	return (color);
 }
 
+//TODO what's g_m and why it's divide by 50
 double	g_m(double light, double ambient, double light_distance,
 	t_minirt_data *data, double angle)
 {
@@ -199,29 +200,13 @@ void get_delta(t_cylinder *cylinder, t_ray ray)
                - pow(cylinder->diameter / 2, 2);
 }
 
-t_bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray)
+t_bool  cylinder_hit_point(t_ray ray, t_cylinder *cylinder, double max)
 {
-    double	tmp;
-    double	t[2];
+    t_xyz   point;
+    t_xyz   len;
 
-
-    get_delta(cylinder, ray);
-    tmp = pow(cylinder->delta.delta[1], 2) - 4 * cylinder->delta.delta[0] * cylinder->delta.delta[2];
-    if (tmp < 0)
-        return (FALSE);
-    t[0] = (-cylinder->delta.delta[1] - sqrt(tmp)) / (2 * cylinder->delta.delta[0]);
-    t[1] = (-cylinder->delta.delta[1] + sqrt(tmp)) / (2 * cylinder->delta.delta[0]);
-    tmp = t[0];
-    t_xyz point = plus(ray.origin, mult_xyz_dub(ray.direction, tmp));
-    double max = sqrt(pow(cylinder->height / 2, 2)) + sqrt(pow(cylinder->diameter / 2, 2));
-    t_xyz len = minus(point, cylinder->xyz);
-    if (length(len) <= max)
-    {
-        cylinder->distance1 = length(len);
-        return (TRUE);
-    }
-    tmp = t[1];
-    point =  plus(ray.origin, mult_xyz_dub(ray.direction, tmp));
+    point = plus(ray.origin, mult_xyz_dub(ray.direction,
+             cylinder->delta.t_s_rgb.discriminant));
     len = minus(point, cylinder->xyz);
     if (length(len) <= max)
     {
@@ -229,6 +214,28 @@ t_bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray)
         return (TRUE);
     }
     return (FALSE);
+}
+
+t_bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray)
+{
+    double	t[2];
+    double  max;
+
+
+    get_delta(cylinder, ray);
+    cylinder->delta.t_s_rgb.discriminant = pow(cylinder->delta.delta[1], 2) - 4 * cylinder->delta.delta[0] * cylinder->delta.delta[2];
+    if (cylinder->delta.t_s_rgb.discriminant < 0)
+        return (FALSE);
+    t[0] = (-cylinder->delta.delta[1] - sqrt(cylinder->delta.t_s_rgb.discriminant)) /
+            (2 * cylinder->delta.delta[0]);
+    t[1] = (-cylinder->delta.delta[1] + sqrt(cylinder->delta.t_s_rgb.discriminant)) /
+            (2 * cylinder->delta.delta[0]);
+    cylinder->delta.t_s_rgb.discriminant = t[0];
+    max = sqrt(pow(cylinder->height / 2, 2)) + sqrt(pow(cylinder->diameter / 2, 2));
+    if (cylinder_hit_point(ray, cylinder, max))
+        return (TRUE);
+    cylinder->delta.t_s_rgb.discriminant = t[1];
+   return (cylinder_hit_point(ray, cylinder, max));
 }
 
 void	loop_cylinder(t_ray ray, t_list *entry, t_obj_data *obj)
@@ -252,8 +259,6 @@ void	loop_cylinder(t_ray ray, t_list *entry, t_obj_data *obj)
         entry = entry->next;
     }
 }
-
-//create function that ignore the object that are already hit
 
 void	loop_objects(t_ray ray, t_minirt_data *data, t_obj_data *obj)
 {
@@ -280,11 +285,11 @@ int	tem(t_minirt_data *data, t_obj_data *obj, t_ray old_ray)
 	if (obj->sphere != NULL)
 	{
 		tmp_vector = normalized(minus(ray.origin, obj->sphere->xyz));
-		obj->angle = acos(dot(ray.direction, tmp_vector)) * (180 / 3.13);
+		obj->angle = acos(dot(ray.direction, tmp_vector)) * (180 / M_PI);
 	}
 	else if (obj->plane != NULL)
 	{
-		obj->angle = acos(dot(ray.direction, obj->plane->vector)) * (180 / 3.13);
+		obj->angle = acos(dot(ray.direction, obj->plane->vector)) * (180 / M_PI);
 		if (obj->angle > 180)
 			obj->angle = 180;
 		if (obj->angle > 90)
