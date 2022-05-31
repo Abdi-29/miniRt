@@ -14,14 +14,17 @@
 # define CYLINDER_H
 # include "../xyz.h"
 # include "../rgb.h"
+# include "../delta.h"
 
 typedef struct s_cylinder
 {
 	t_xyz	xyz;
 	t_xyz	vector;
+	t_rgb	rgb;
+    t_delta delta;
 	double	diameter;
 	double	height;
-	t_rgb	rgb;
+    double  distance1;
 }	t_cylinder;
 
 #endif

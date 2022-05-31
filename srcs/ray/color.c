@@ -184,12 +184,84 @@ void	loop_plane(t_ray ray, t_list *entry, t_obj_data *obj)
 	}
 }
 
+void get_delta(t_cylinder *cylinder, t_ray ray)
+{
+    t_xyz	oc;
+    t_ray	new_ray;
+
+    new_ray.origin = ray.origin;
+    cylinder->vector = normalized(cylinder->vector);
+    new_ray.direction = cross(ray.direction, cylinder->vector);
+    oc = minus(ray.origin, cylinder->xyz);
+    cylinder->delta.delta[0] = dot(new_ray.direction, new_ray.direction);
+    cylinder->delta.delta[1] = 2 * dot(new_ray.direction, cross(oc, cylinder->vector));
+    cylinder->delta.delta[2] = dot(cross(oc, cylinder->vector), cross(oc, cylinder->vector))
+               - pow(cylinder->diameter / 2, 2);
+}
+
+t_bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray)
+{
+    double	tmp;
+    double	t[2];
+
+
+    get_delta(cylinder, ray);
+    tmp = pow(cylinder->delta.delta[1], 2) - 4 * cylinder->delta.delta[0] * cylinder->delta.delta[2];
+    if (tmp < 0)
+        return (FALSE);
+    t[0] = (-cylinder->delta.delta[1] - sqrt(tmp)) / (2 * cylinder->delta.delta[0]);
+    t[1] = (-cylinder->delta.delta[1] + sqrt(tmp)) / (2 * cylinder->delta.delta[0]);
+    tmp = t[0];
+    t_xyz point = plus(ray.origin, mult_xyz_dub(ray.direction, tmp));
+    double max = sqrt(pow(cylinder->height / 2, 2)) + sqrt(pow(cylinder->diameter / 2, 2));
+    t_xyz len = minus(point, cylinder->xyz);
+    if (length(len) <= max)
+    {
+        cylinder->distance1 = length(len);
+        return (TRUE);
+    }
+    tmp = t[1];
+    point =  plus(ray.origin, mult_xyz_dub(ray.direction, tmp));
+    len = minus(point, cylinder->xyz);
+    if (length(len) <= max)
+    {
+        cylinder->distance1 = length(len);
+        return (TRUE);
+    }
+    return (FALSE);
+}
+
+void	loop_cylinder(t_ray ray, t_list *entry, t_obj_data *obj)
+{
+    t_cylinder	*cylinder;
+
+    while (entry)
+    {
+        cylinder = entry->content;
+        if (!cylinder_intersect(cylinder, ray))
+        {
+            entry = entry->next;
+            continue ;
+        }
+        if (cylinder->distance1 < obj->distance && cylinder->distance1 > 0)
+        {
+            obj->color = cylinder->rgb;
+            obj->has_color = TRUE;
+            obj->distance = cylinder->distance1;
+        }
+        entry = entry->next;
+    }
+}
+
+//create function that ignore the object that are already hit
+
 void	loop_objects(t_ray ray, t_minirt_data *data, t_obj_data *obj)
 {
-	obj->distance = INFINITY;
-	obj->has_color = FALSE;
-	loop_sphere(ray, data->sphere_list, obj);
-	loop_plane(ray, data->plane_list, obj);
+    obj->distance = INFINITY;
+    obj->has_color = FALSE;
+    loop_sphere(ray, data->sphere_list, obj);
+    loop_plane(ray, data->plane_list, obj);
+    loop_cylinder(ray, data->cylinder_list, obj);
 }
 
 int	tem(t_minirt_data *data, t_obj_data *obj, t_ray old_ray)
