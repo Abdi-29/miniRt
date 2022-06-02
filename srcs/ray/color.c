@@ -14,6 +14,7 @@
 #include "ray.h"
 #include <math.h>
 #include "../vectorlib/vector.h"
+#include <stdio.h>
 
 int	get_color(t_rgb rgb, t_minirt_data *data) //TODO create ambient if it doesn't exist
 {
@@ -36,8 +37,9 @@ double	g_m(double light, double ambient, double light_distance,
 	double	color;
 	double	light_ratio;
 
-	angle = angle / 180;
-	light_ratio = data->light.ratio - (light_distance / 50) - (angle);
+//	angle = angle / 180;
+//	light_ratio = data->light.ratio - (light_distance / 50) - (angle);
+    light_ratio = angle;
 	if (light_ratio < 0)
 		light_ratio = 0;
 	color = ((light * 255 * light_ratio)
@@ -49,21 +51,21 @@ double	g_m(double light, double ambient, double light_distance,
 
 int	get_color_with_light(t_obj_data *obj, t_minirt_data *data, double light_distance)
 {
-	int		color;
-	t_rgb	rgb;
+    int		color;
+    t_rgb	rgb;
 
-	rgb = obj->color;
-	color = (int)(rgb.t_s_rgb.r * g_m(
-				data->light.rgb.rgb[0], data->ambient.rgb.rgb[0],
-				light_distance, data, obj->angle));
-	color = (color << 8) + (int)(rgb.t_s_rgb.g * g_m(
-				data->light.rgb.rgb[1], data->ambient.rgb.rgb[1],
-				light_distance, data, obj->angle));
-	color = (color << 8) + (int)(rgb.t_s_rgb.b * g_m(
-				data->light.rgb.rgb[2], data->ambient.rgb.rgb[2],
-				light_distance, data, obj->angle));
-	color = (color << 8) + 255;
-	return (color);
+    rgb = obj->color;
+    color = (int)(rgb.t_s_rgb.r * g_m(
+            data->light.rgb.rgb[0], data->ambient.rgb.rgb[0],
+            light_distance, data, obj->angle));
+    color = (color << 8) + (int)(rgb.t_s_rgb.g * g_m(
+            data->light.rgb.rgb[1], data->ambient.rgb.rgb[1],
+            light_distance, data, obj->angle));
+    color = (color << 8) + (int)(rgb.t_s_rgb.b * g_m(
+            data->light.rgb.rgb[2], data->ambient.rgb.rgb[2],
+            light_distance, data, obj->angle));
+    color = (color << 8) + 255;
+    return (color);
 }
 
 static t_rgb	init_color(double r, double g, double b)
@@ -160,6 +162,8 @@ void	loop_sphere(t_ray ray, t_list *entry, t_obj_data *obj)
 			obj->has_color = TRUE;
 			obj->distance = sphere->distance1;
 			obj->sphere = sphere;
+            obj->plane = NULL;
+            obj->cylinder = NULL;
 		}
 		entry = entry->next;
 	}
@@ -180,6 +184,8 @@ void	loop_plane(t_ray ray, t_list *entry, t_obj_data *obj)
 			obj->has_color = TRUE;
 			obj->distance = distance;
 			obj->plane = plane;
+            obj->sphere = NULL;
+            obj->cylinder = NULL;
 		}
 		entry = entry->next;
 	}
@@ -223,7 +229,8 @@ t_bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray)
 
 
     get_delta(cylinder, ray);
-    cylinder->delta.t_s_rgb.discriminant = pow(cylinder->delta.delta[1], 2) - 4 * cylinder->delta.delta[0] * cylinder->delta.delta[2];
+    cylinder->delta.t_s_rgb.discriminant = pow(cylinder->delta.delta[1], 2) -
+            4 * cylinder->delta.delta[0] * cylinder->delta.delta[2];
     if (cylinder->delta.t_s_rgb.discriminant < 0)
         return (FALSE);
     t[0] = (-cylinder->delta.delta[1] - sqrt(cylinder->delta.t_s_rgb.discriminant)) /
@@ -231,7 +238,7 @@ t_bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray)
     t[1] = (-cylinder->delta.delta[1] + sqrt(cylinder->delta.t_s_rgb.discriminant)) /
             (2 * cylinder->delta.delta[0]);
     cylinder->delta.t_s_rgb.discriminant = t[0];
-    max = sqrt(pow(cylinder->height / 2, 2)) + sqrt(pow(cylinder->diameter / 2, 2));
+    max = sqrt(pow(cylinder->height / 2, 2) + pow(cylinder->diameter / 2, 2));
     if (cylinder_hit_point(ray, cylinder, max))
         return (TRUE);
     cylinder->delta.t_s_rgb.discriminant = t[1];
@@ -255,6 +262,9 @@ void	loop_cylinder(t_ray ray, t_list *entry, t_obj_data *obj)
             obj->color = cylinder->rgb;
             obj->has_color = TRUE;
             obj->distance = cylinder->distance1;
+            obj->cylinder = cylinder;
+            obj->plane = NULL;
+            obj->sphere = NULL;
         }
         entry = entry->next;
     }
@@ -285,16 +295,26 @@ int	tem(t_minirt_data *data, t_obj_data *obj, t_ray old_ray)
 	if (obj->sphere != NULL)
 	{
 		tmp_vector = normalized(minus(ray.origin, obj->sphere->xyz));
-		obj->angle = acos(dot(ray.direction, tmp_vector)) * (180 / M_PI);
+//        obj->angle = acos(dot(ray.direction, tmp_vector)) * (180 / M_PI);
+        obj->angle = fabs(dot(ray.direction, tmp_vector));
 	}
 	else if (obj->plane != NULL)
 	{
-		obj->angle = acos(dot(ray.direction, obj->plane->vector)) * (180 / M_PI);
-		if (obj->angle > 180)
-			obj->angle = 180;
-		if (obj->angle > 90)
-			obj->angle -= 90;
+//        obj->angle = acos(dot(ray.direction, obj->plane->vector)) * (180 / M_PI);
+//        if (obj->angle > 180)
+//            obj->angle = 180;
+//        if (obj->angle > 90)
+//            obj->angle -= 90;
+        obj->angle = fabs(dot(ray.direction, obj->plane->vector));
 	}
+    else if(obj->cylinder != NULL)
+    {
+        tmp_vector = normalized(minus(ray.origin, obj->cylinder->xyz));
+        double lol = dot(tmp_vector, obj->cylinder->vector);
+        tmp_vector = mult_xyz_dub(obj->cylinder->vector, lol);
+        tmp_vector = normalized(minus(tmp_vector, ray.origin));
+        obj->angle = fabs(dot(ray.direction, tmp_vector));
+    }
 	return (get_color_with_light(obj, data, light_distance));
 }
 
