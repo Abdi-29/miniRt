@@ -13,7 +13,7 @@
 #include "../../includes/lib.h"
 #include "../../includes/data_struct.h"
 #include "../../includes/util.h"
-#include "../vectorlib/vector.h"
+#include "../../includes/vector.h"
 
 t_bool	ratio_range(double min, double max, double value)
 {

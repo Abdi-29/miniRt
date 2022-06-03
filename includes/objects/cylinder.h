@@ -21,10 +21,10 @@ typedef struct s_cylinder
 	t_xyz	xyz;
 	t_xyz	vector;
 	t_rgb	rgb;
-    t_delta delta;
+	t_delta	delta;
 	double	diameter;
 	double	height;
-    double  distance1;
+	double	distance1;
 }	t_cylinder;
 
 #endif

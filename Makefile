@@ -1,6 +1,6 @@
 NAME = miniRT
 
-FLAGS = -g
+FLAGS = -Wall -Wextra -Werror -g
 SRC_DIR = srcs
 OBJ_DIR = obj
 INC_DIR = includes
@@ -13,10 +13,11 @@ LINKING_FLAGS = -lglfw -ldl -lm -O3 -L "/Users/$(USER)/.brew/opt/glfw/lib/"
 
 PARSING = parse_ACL.c parse_file.c parse_lines.c parse_plspcy.c
 VECTOR = operator.c vector.c
-RAY = color.c ray.c
-SRC_FILES = miniRT.c color.c coords.c util.c camera.c vectors.c \
+RAY = color.c ray.c ligth.c
+INTERSECTIONS = plane.c sphere.c cylinder.c
+SRC_FILES = miniRT.c color.c coords.c util.c camera.c vectors.c mlx.c \
 $(addprefix parsing/, $(PARSING)) $(addprefix vectorlib/, $(VECTOR)) \
-$(addprefix ray/, $(RAY))
+$(addprefix ray/, $(RAY)) $(addprefix intesections/, $(INTERSECTIONS))
 SRC = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 
 OBJ = $(patsubst $(SRC_DIR)/%,$(OBJ_DIR)/%,$(SRC:.c=.o))

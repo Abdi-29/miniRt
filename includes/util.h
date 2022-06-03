@@ -13,6 +13,7 @@
 #ifndef UTIL_H
 # define UTIL_H
 # include "bool.h"
+# include "parser.h"
 
 int		func(char c);
 void	err_exit(int status, const char *str, ...);
@@ -21,5 +22,6 @@ t_bool	range(double a, double b, double value);
 t_bool	is_valid(char **coordinates, char **vector, char **views);
 t_bool	ratio_range(double min, double max, double value);
 char	**split_helper(char *str, int len);
+void	start_window(t_minirt_data *data);
 
 #endif

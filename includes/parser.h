@@ -16,10 +16,11 @@
 # include "lib.h"
 # include "data_struct.h"
 
-typedef struct	s_parser
+typedef struct s_parser
 {
 	char	*option;
-	void	(*t_function_pointer)(char **arr, int len, char *line, t_minirt_data *data);
+	void	(*t_function_pointer)(char **arr, int len, char *line,
+			t_minirt_data *data);
 }				t_parser;
 
 void	parse_file(char *file, t_minirt_data *data);
