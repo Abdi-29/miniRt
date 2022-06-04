@@ -29,7 +29,7 @@ int	get_color(t_rgb rgb, t_minirt_data *data)
 	return (color);
 }
 
-double static	g_m(double light, double ambient,
+static double	g_m(double light, double ambient,
 			t_minirt_data *data, double angle)
 {
 	double	color;
@@ -45,7 +45,7 @@ double static	g_m(double light, double ambient,
 	return (color);
 }
 
-int static	get_color_with_light(t_obj_data *obj, t_minirt_data *data)
+static int	get_color_with_light(t_obj_data *obj, t_minirt_data *data)
 {
 	int		color;
 	t_rgb	rgb;
@@ -61,7 +61,7 @@ int static	get_color_with_light(t_obj_data *obj, t_minirt_data *data)
 	return (color);
 }
 
-double static	normal(t_ray ray, t_obj_data *obj)
+static double	normal(t_ray ray, t_obj_data *obj)
 {
 	t_xyz	tmp_vector;
 

@@ -15,7 +15,7 @@
 #include <math.h>
 #include "../../includes/vector.h"
 
-void static	get_delta(t_cylinder *cylinder, t_ray ray)
+static void	get_delta(t_cylinder *cylinder, t_ray ray)
 {
 	t_xyz	oc;
 	t_ray	new_ray;
@@ -31,7 +31,7 @@ void static	get_delta(t_cylinder *cylinder, t_ray ray)
 			cross(oc, cylinder->vector)) - pow(cylinder->diameter / 2, 2);
 }
 
-t_bool static	cylinder_hit_point(t_ray ray, t_cylinder *cylinder, double max)
+static t_bool	cylinder_hit_point(t_ray ray, t_cylinder *cylinder, double max)
 {
 	t_xyz	point;
 	t_xyz	len;
@@ -47,7 +47,7 @@ t_bool static	cylinder_hit_point(t_ray ray, t_cylinder *cylinder, double max)
 	return (FALSE);
 }
 
-t_bool static	cylinder_intersect(t_cylinder *cylinder, t_ray ray)
+static t_bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray)
 {
 	double	t[2];
 	double	max;

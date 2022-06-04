@@ -15,7 +15,7 @@
 #include <math.h>
 #include "../../includes/vector.h"
 
-double static	hit_plane(t_xyz xyz, t_xyz vector, t_ray ray)
+static double	hit_plane(t_xyz xyz, t_xyz vector, t_ray ray)
 {
 	double	d;
 
