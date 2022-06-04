@@ -43,6 +43,8 @@ void	parse_sp(char **arr, int len, char *line, t_minirt_data *data)
 	set_coords(&sphere->xyz, (const char **) coords);
 	set_colors(&sphere->rgb, (const char **) rgb);
 	free_array(arr);
+	free_array(coords);
+	free_array(rgb);
 }
 
 void	parse_pl(char **arr, int len, char *line, t_minirt_data *data)
@@ -72,7 +74,10 @@ void	parse_pl(char **arr, int len, char *line, t_minirt_data *data)
 	set_coords(&plane->xyz, (const char **) coords);
 	set_vector(&plane->vector, (const char **) vector);
 	set_colors(&plane->rgb, (const char **) rgb);
+	free_array(vector);
 	free_array(arr);
+	free_array(coords);
+	free_array(rgb);
 }
 
 void	parse_cy(char **arr, int len, char *line, t_minirt_data *data)
@@ -109,5 +114,8 @@ void	parse_cy(char **arr, int len, char *line, t_minirt_data *data)
 	cylinder->height = ft_atod(arr[4], &success);
 	if (!success)
 		err_exit(1, "Error\nInvalid double [%s].\n", arr[4]);
+	free_array(vector);
 	free_array(arr);
+	free_array(coords);
+	free_array(rgb);
 }
