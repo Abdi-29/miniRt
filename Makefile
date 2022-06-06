@@ -1,6 +1,6 @@
 NAME = miniRT
 
-FLAGS = -Wall -Wextra -Werror -g
+FLAGS = -Wall -Wextra -Werror -fsanitize=leak -g
 SRC_DIR = srcs
 OBJ_DIR = obj
 INC_DIR = includes
@@ -15,7 +15,7 @@ PARSING = parse_ACL.c parse_file.c parse_lines.c parse_plspcy.c
 VECTOR = operator.c vector.c
 RAY = color.c ray.c ligth.c
 INTERSECTIONS = plane.c sphere.c cylinder.c
-SRC_FILES = miniRT.c color.c coords.c util.c camera.c vectors.c mlx.c \
+SRC_FILES = miniRT.c color.c coords.c util.c camera.c vectors.c mlx.c free_list.c \
 $(addprefix parsing/, $(PARSING)) $(addprefix vectorlib/, $(VECTOR)) \
 $(addprefix ray/, $(RAY)) $(addprefix intesections/, $(INTERSECTIONS))
 SRC = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
@@ -40,7 +40,7 @@ COM_STRING = "Compiling"
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ) libmlx42.a
-	@gcc $(FLAGS) $(OBJ) $(LIBFT) $(MLX) -g -fsanitize=address -o $(NAME) $(LINKING_FLAGS) 2> $@.log; \
+	@gcc $(FLAGS) $(OBJ) $(LIBFT) $(MLX) -o $(NAME) $(LINKING_FLAGS) 2> $@.log; \
 		RESULT=$$?; \
 		if [ $$RESULT -ne 0 ]; then \
 			printf "%-60b%b" "$(COM_COLOR)$(COM_STRING)$(PRG_COLOR) $@" "$(ERROR_COLOR)$(ERROR_STRING)$(NO_COLOR)\n"; \

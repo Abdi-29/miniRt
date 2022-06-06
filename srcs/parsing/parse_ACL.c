@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_ACL.c                                        :+:    :+:            */
+/*   parse_ACL.c                                         :+:    :+:           */
 /*                                                     +:+                    */
 /*   By: sappunn <sappunn@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/02 19:22:18 by sappunn       #+#    #+#                 */
-/*   Updated: 2022/05/02 19:22:18 by sappunn       ########   odam.nl         */
+/*   Updated: 2022/06/05 16:17:55 by abba            ########   odam.nl       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	parse_a(char **arr, int len, char *line, t_minirt_data *data)
 		err_exit(1, "Error\nA out of range [%s].\n", line);
 	ambient = split_helper(arr[2], 3);
 	set_colors(&data->ambient.rgb, (const char**)ambient);
-	free(line);
 	free_array(arr);
+	free_array(ambient);
 }
 
 void	parse_c(char **arr, int len, char *line, t_minirt_data *data)
@@ -63,7 +63,6 @@ void	parse_c(char **arr, int len, char *line, t_minirt_data *data)
 	free_array(vector);
 	free_array(views);
 	free_array(arr);
-	free(line);
 }
 
 void	parse_l(char **arr, int len, char *line, t_minirt_data *data)
@@ -83,5 +82,6 @@ void	parse_l(char **arr, int len, char *line, t_minirt_data *data)
 	set_coords(&data->light.xyz, (const char**)coords);
 	set_colors(&data->light.rgb, (const char**)colors);
 	free_array(arr);
-	free(line);
+	free_array(coords);
+	free_array(colors);
 }

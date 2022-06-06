@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   data_struct.h                                      :+:    :+:            */
+/*   data_struct.h                                       :+:    :+:           */
 /*                                                     +:+                    */
 /*   By: sappunn <sappunn@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/02 15:16:24 by sappunn       #+#    #+#                 */
-/*   Updated: 2022/05/02 15:16:24 by sappunn       ########   odam.nl         */
+/*   Updated: 2022/06/05 16:03:00 by abba            ########   odam.nl       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,7 @@ typedef struct s_minirt_data
 	t_list		*cylinder_list;
 	t_mat		transform;
 }	t_minirt_data;
+
+void	free_list(t_list **head);
 
 #endif
