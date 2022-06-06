@@ -1,6 +1,6 @@
 NAME = miniRT
 
-FLAGS = -Wall -Wextra -Werror -fsanitize=leak -g
+FLAGS = -Wall -Wextra -Werror -g
 SRC_DIR = srcs
 OBJ_DIR = obj
 INC_DIR = includes
