@@ -85,6 +85,7 @@ void	draw_stuff(t_minirt_data *data)
 
 void	start_window(t_minirt_data *data)
 {
+	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	data->mlx = mlx_init(1280,
 			720,
 			"miniRT",

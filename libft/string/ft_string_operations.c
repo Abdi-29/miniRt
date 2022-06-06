@@ -16,8 +16,8 @@
 t_bool	ft_str_eq(t_string *s1, t_string *s2)
 {
 	if (s1->len != s2->len)
-		return (false);
+		return (FALSE);
 	if (ft_strncmp(s1->s, s2->s, s1->len))
-		return (false);
-	return (true);
+		return (FALSE);
+	return (TRUE);
 }
