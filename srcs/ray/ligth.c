@@ -29,30 +29,16 @@ int	get_color(t_rgb rgb, t_minirt_data *data)
 	return (color);
 }
 
-//static double	g_m(double light, double ambient,
-//			t_minirt_data *data, double angle)
-//{
-//	double	color;
-//	double	light_ratio;
-//
-//	light_ratio = angle * data->light.ratio;
-//	if (light_ratio < 0)
-//		light_ratio = 0;
-//	color = ((light * 255 * light_ratio)
-//			+ (ambient * 255 * data->ambient.ratio));
-//	if (color > 255)
-//		return (255);
-//	return (color);
-//}
-
 static int	get_color_with_light(t_obj_data *obj, t_minirt_data *data)
 {
 	int		color;
 	t_rgb	rgb;
 	int		i;
-	double	thing;
+	double	a;
 
-	thing = obj->angle / ((obj->distance / 10) * (obj->distance / 10));
+	a = obj->angle / ((obj->distance / 10) * (obj->distance / 10));
+	if (a > 1)
+		a = 1;
 	rgb = obj->color;
 	i = -1;
 	while (++i <= 2)
@@ -62,7 +48,7 @@ static int	get_color_with_light(t_obj_data *obj, t_minirt_data *data)
 	while (++i <= 2)
 	{
 		rgb.rgb[i] += obj->color.rgb[i]
-			* (data->light.rgb.rgb[i] * data->light.ratio) * thing;
+			* (data->light.rgb.rgb[i] * data->light.ratio) * a;
 		if (rgb.rgb[i] > 1)
 			rgb.rgb[i] = 1;
 	}
