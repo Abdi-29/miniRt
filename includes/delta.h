@@ -21,8 +21,8 @@ typedef union u_delta
 		double	b;
 		double	c;
 		double	discriminant;
-	}		t_s_rgb;
+	}		t_delta;
 	double	delta[3];
-}					t_delta;
+}	t_delta;
 
 #endif

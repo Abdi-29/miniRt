@@ -16,7 +16,7 @@
 typedef struct s_mat
 {
 	double	mat[3][3];
-}				t_mat;
+}	t_mat;
 
 typedef union u_xyz
 {
@@ -27,6 +27,6 @@ typedef union u_xyz
 		double	z;
 	}		t_s_xyz;
 	double	xyz[3];
-}			t_xyz;
+}	t_xyz;
 
 #endif

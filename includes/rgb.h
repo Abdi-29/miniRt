@@ -22,6 +22,6 @@ typedef union u_rgb
 		double	b;
 	}				t_s_rgb;
 	double	rgb[3];
-}					t_rgb;
+}	t_rgb;
 
 #endif

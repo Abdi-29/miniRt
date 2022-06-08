@@ -21,7 +21,7 @@ typedef struct s_parser
 	char	*option;
 	void	(*t_function_pointer)(char **arr, int len, char *line,
 			t_minirt_data *data);
-}				t_parser;
+}	t_parser;
 
 void	parse_file(char *file, t_minirt_data *data);
 void	parse_lines(t_list **head, t_minirt_data *data);

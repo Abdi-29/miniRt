@@ -40,7 +40,7 @@ typedef struct s_screen
 	double	pixel_camera_x;
 	double	pixel_camera_y;
 	double	image_ratio;
-}				t_screen;
+}	t_screen;
 
 int		ray_color(t_ray ray, t_minirt_data *data);
 t_ray	create_ray(t_minirt_data *data, int i, int j);
