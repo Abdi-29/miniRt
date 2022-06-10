@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   delta.h                                            :+:    :+:            */
+/*   formula_storage.h                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: abba <abba@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
@@ -13,16 +13,12 @@
 #ifndef DELTA_H
 # define DELTA_H
 
-typedef union u_delta
+typedef struct s_formula_storage
 {
-	struct s_delta
-	{
-		double	a;
-		double	b;
-		double	c;
-		double	discriminant;
-	}		t_delta;
-	double	delta[3];
-}	t_delta;
+	double	a;
+	double	b;
+	double	c;
+	double	discriminant;
+}	t_formula_storage;
 
 #endif
