@@ -34,10 +34,10 @@ static t_ray	translate_ray(t_ray ray, t_xyz normal, t_xyz origin)
 	inverse.mat[0][0] = up.xyz[0];
 	inverse.mat[0][1] = up.xyz[1];
 	inverse.mat[0][2] = up.xyz[2];
+	inverse = mat_transpose(inverse);
 	new_ray.origin = minus(ray.origin, origin);
 	new_ray.origin = mat_mult_dir(inverse, new_ray.origin);
 	new_ray.origin = plus(new_ray.origin, origin);
-//	inverse = mat_transpose(inverse);
 	new_ray.direction = normalized(mat_mult_dir(inverse, ray.direction));
 	return (new_ray);
 }
@@ -70,7 +70,8 @@ static t_bool	test(t_ray ray, t_cylinder *cylinder, double len)
 	t_xyz	op;
 
 	p = plus(ray.origin, mult_xyz_dub(ray.direction, len));
-	n = (t_xyz){{p.xyz[0] - cylinder->xyz.t_s_xyz.x, 0.0, p.xyz[2] - cylinder->xyz.t_s_xyz.z}};
+	n = (t_xyz){{p.xyz[0] - cylinder->xyz.t_s_xyz.x, 0.0, p.xyz[2]
+		- cylinder->xyz.t_s_xyz.z}};
 	op = plus(cylinder->xyz, n);
 	height = length(minus(p, op));
 	if (height < cylinder->height / 2.)
@@ -93,13 +94,15 @@ static t_bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray)
 		- 4 * cylinder->delta.delta[0] * cylinder->delta.delta[2];
 	if (cylinder->delta.t_delta.discriminant < 0)
 		return (FALSE);
-	len_one = (-cylinder->delta.delta[1] - sqrt(cylinder->delta.t_delta.discriminant))
+	len_one = (-cylinder->delta.delta[1]
+			- sqrt(cylinder->delta.t_delta.discriminant))
 		/ (2 * cylinder->delta.delta[0]);
 	if (len_one < 0)
 		return (FALSE);
 	if (test(ray, cylinder, len_one))
 		return (TRUE);
-	len_two = (-cylinder->delta.delta[1] + sqrt(cylinder->delta.t_delta.discriminant))
+	len_two = (-cylinder->delta.delta[1]
+			+ sqrt(cylinder->delta.t_delta.discriminant))
 		/ (2 * cylinder->delta.delta[0]);
 	return (test(ray, cylinder, len_two));
 }
