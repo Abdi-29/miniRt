@@ -36,7 +36,7 @@ static int	get_color_with_light(t_obj_data *obj, t_minirt_data *data)
 	int		i;
 	double	a;
 
-	a = obj->angle / ((obj->distance / 10) * (obj->distance / 10));
+	a = obj->angle;
 	if (a > 1)
 		a = 1;
 	rgb = obj->color;
@@ -63,10 +63,11 @@ static double	normal(t_ray ray, t_obj_data *obj)
 {
 	t_xyz	tmp_vector;
 
-	tmp_vector = normalized(minus(ray.origin, obj->cylinder->xyz));
-	tmp_vector = mult_xyz_dub(obj->cylinder->vector, dot(tmp_vector,
-				obj->cylinder->vector));
-	tmp_vector = normalized(minus(tmp_vector, ray.origin));
+	tmp_vector = normalized(obj->cylinder->normal);
+//	tmp_vector = normalized(minus(ray.origin, obj->cylinder->xyz));
+//	tmp_vector = mult_xyz_dub(obj->cylinder->vector, dot(tmp_vector,
+//				obj->cylinder->vector));
+//	tmp_vector = normalized(minus(tmp_vector, ray.origin));
 	return (fabs(dot(ray.direction, tmp_vector)));
 }
 

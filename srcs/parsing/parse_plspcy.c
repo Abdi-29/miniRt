@@ -13,6 +13,7 @@
 #include "../../includes/lib.h"
 #include "../../includes/data_struct.h"
 #include "../../includes/util.h"
+#include "../../includes/vector.h"
 
 void	parse_sp(char **arr, int len, char *line, t_minirt_data *data)
 {
@@ -107,6 +108,7 @@ void	parse_cy(char **arr, int len, char *line, t_minirt_data *data)
 		err_exit(1, "Error\nOut of range [%s].\n", line);
 	set_coords(&cylinder->xyz, (const char **) coords);
 	set_vector(&cylinder->vector, (const char **) vector);
+	cylinder->vector = normalized(cylinder->vector);
 	set_colors(&cylinder->rgb, (const char **) rgb);
 	cylinder->diameter = ft_atod(arr[3], &success);
 	if (!success)

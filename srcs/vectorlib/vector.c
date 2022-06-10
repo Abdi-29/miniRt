@@ -31,6 +31,20 @@ double	length(t_xyz a)
 				+ a.t_s_xyz.z * a.t_s_xyz.z)));
 }
 
+t_mat	mat_transpose(t_mat in)
+{
+	in.mat[0][1] += in.mat[1][0];
+	in.mat[1][0] = in.mat[0][1] - in.mat[1][0];
+	in.mat[0][1] -= in.mat[1][0];
+	in.mat[0][2] += in.mat[2][0];
+	in.mat[2][0] = in.mat[0][2] - in.mat[2][0];
+	in.mat[0][2] -= in.mat[2][0];
+	in.mat[2][1] += in.mat[1][2];
+	in.mat[1][2] = in.mat[2][1] - in.mat[1][2];
+	in.mat[2][1] -= in.mat[1][2];
+	return (in);
+}
+
 t_xyz	mat_mult_dir(t_mat in, t_xyz dir)
 {
 	return ((t_xyz){{dir.xyz[0] * in.mat[0][0]

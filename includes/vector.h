@@ -29,5 +29,6 @@ double	distance(t_xyz one, t_xyz two);
 
 void	mat_init_axes(t_mat *in, const t_xyz forward);
 t_xyz	mat_mult_dir(t_mat in, t_xyz dir);
+t_mat	mat_transpose(t_mat in);
 
 #endif
