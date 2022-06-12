@@ -63,11 +63,7 @@ static double	normal(t_ray ray, t_obj_data *obj)
 {
 	t_xyz	tmp_vector;
 
-	tmp_vector = normalized(obj->cylinder->normal);
-//	tmp_vector = normalized(minus(ray.origin, obj->cylinder->xyz));
-//	tmp_vector = mult_xyz_dub(obj->cylinder->vector, dot(tmp_vector,
-//				obj->cylinder->vector));
-//	tmp_vector = normalized(minus(tmp_vector, ray.origin));
+	tmp_vector = obj->cylinder->normal;
 	return (fabs(dot(ray.direction, tmp_vector)));
 }
 

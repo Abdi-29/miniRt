@@ -45,15 +45,14 @@ static t_ray	translate_ray(t_ray ray, t_xyz normal, t_xyz origin)
 static void	prepare_formula(t_cylinder *cylinder, t_ray ray)
 {
 	t_xyz	oc;
-	t_ray	new_ray;
 	t_xyz	tmp;
+	t_xyz	s_cross_d;
 
-	tmp = (t_xyz){{0, 1, 0}};
-	new_ray.origin = ray.origin;
-	new_ray.direction = cross(ray.direction, tmp);
+	tmp = (t_xyz){{0,1,0}};
+	s_cross_d = cross(ray.direction, tmp);
 	oc = minus(ray.origin, cylinder->xyz);
-	cylinder->formula_storage.a = dot(new_ray.direction, new_ray.direction);
-	cylinder->formula_storage.b = 2 * dot(new_ray.direction,
+	cylinder->formula_storage.a = dot(s_cross_d, s_cross_d);
+	cylinder->formula_storage.b = 2 * dot(s_cross_d,
 			cross(oc, tmp));
 	cylinder->formula_storage.c = dot(cross(oc, tmp),
 			cross(oc, tmp)) - pow(cylinder->diameter / 2, 2);
@@ -71,7 +70,7 @@ static t_bool	inside_cylinder_height_and_assign_length(t_ray ray, t_cylinder *cy
 		- cylinder->xyz.t_s_xyz.z}};
 	op = plus(cylinder->xyz, n);
 	height = length(minus(p, op));
-	if (height < cylinder->height / 2.)
+	if (height <= cylinder->height / 2.0)
 	{
 		cylinder->distance = len;
 		cylinder->normal = mult_xyz_dub(normalized(n), -1.);
@@ -79,8 +78,8 @@ static t_bool	inside_cylinder_height_and_assign_length(t_ray ray, t_cylinder *cy
 	}
 	return (FALSE);
 }
-
-static t_bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray)
+#include <stdio.h>
+t_bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray)
 {
 	double	len_one;
 	double	len_two;
@@ -89,19 +88,24 @@ static t_bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray)
 	prepare_formula(cylinder, ray);
 	cylinder->formula_storage.discriminant = pow(cylinder->formula_storage.b, 2)
 		- 4 * cylinder->formula_storage.a * cylinder->formula_storage.c;
-	if (cylinder->formula_storage.discriminant < 0)
+	if (cylinder->formula_storage.discriminant < 0.0001)
 		return (FALSE);
 	len_one = (-cylinder->formula_storage.b
 			- sqrt(cylinder->formula_storage.discriminant))
 		/ (2 * cylinder->formula_storage.a);
-	if (len_one < 0)
-		return (FALSE);
-	if (inside_cylinder_height_and_assign_length(ray, cylinder, len_one))
-		return (TRUE);
 	len_two = (-cylinder->formula_storage.b
 			+ sqrt(cylinder->formula_storage.discriminant))
 		/ (2 * cylinder->formula_storage.a);
-	return (inside_cylinder_height_and_assign_length(ray, cylinder, len_two));
+	if (len_two < 0)
+		return (FALSE);
+	if (len_one < 0)
+		len_one = len_two;
+//	double t = pow(cylinder->formula_storage.a * len_one, 2) + cylinder->formula_storage.b * len_one + cylinder->formula_storage.c;
+//	printf("t = %f and len = %f and len_two %f\n", t, len_one, len_two);
+	if (inside_cylinder_height_and_assign_length(ray, cylinder, len_one))
+		return (TRUE);
+	return (FALSE);
+	return (inside_cylinder_height_and_assign_length(ray, cylinder, len_one));
 }
 
 void	loop_cylinder(t_ray ray, t_list *entry, t_obj_data *obj)
