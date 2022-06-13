@@ -14,6 +14,7 @@
 #include "../../includes/ray.h"
 #include <math.h>
 #include "../../includes/vector.h"
+#include <stdio.h>
 
 static t_rgb	init_color(double r, double g, double b)
 {
@@ -60,6 +61,7 @@ void	loop_objects(t_ray ray, t_minirt_data *data, t_obj_data *obj)
 	loop_cylinder(ray, data->cylinder_list, obj);
 }
 
+
 int	ray_color(t_ray ray, t_minirt_data *data)
 {
 	t_rgb		rgb;
@@ -70,8 +72,9 @@ int	ray_color(t_ray ray, t_minirt_data *data)
 
 	ft_bzero(&obj, sizeof(t_obj_data));
 	loop_objects(ray, data, &obj);
-	if (obj.has_color == TRUE)
+	if (obj.has_color == TRUE) {
 		return (tem(data, &obj, ray));
+	}
 	xyz = unit_vector(ray.direction);
 	t = 0.5 * (xyz.t_s_xyz.y + 1.0);
 	rgb = color_mult_dub(1.0 - t, init_color(1.0, 1.0, 1.0));

@@ -84,6 +84,7 @@ int	tem(t_minirt_data *data, t_obj_data *obj, t_ray old_ray)
 	{
 		tmp_vector = normalized(minus(ray.origin, obj->sphere->xyz));
 		obj->angle = fabs(dot(ray.direction, tmp_vector));
+
 	}
 	else if (obj->plane != NULL)
 		obj->angle = fabs(dot(ray.direction, obj->plane->vector));

@@ -14,6 +14,41 @@
 #include <math.h>
 #include "../../includes/vector.h"
 
+ double	hit_plane(t_xyz xyz, t_xyz vector, t_ray ray)
+{
+	double	d;
+
+	d = dot(vector, ray.direction);
+	if (fabs(d) > 0.0001)
+		return (dot((minus(xyz, ray.origin)), vector) / d);
+	return (INFINITY);
+}
+
+static t_xyz	translate_normal(t_xyz direction, t_xyz normal)
+{
+	t_xyz	new_ray;
+	t_mat	inverse;
+	t_xyz	up;
+	t_xyz	forward;
+
+	forward = normalized(cross(normal, (t_xyz){{1, 0, 0}}));
+	if (isnan(length(forward)) || length(forward) == 0.0)
+		forward = (t_xyz){{0, 1, 0}};
+	up = normalized(cross(forward, normal));
+	inverse.mat[2][0] = forward.xyz[0];
+	inverse.mat[2][1] = forward.xyz[1];
+	inverse.mat[2][2] = forward.xyz[2];
+	inverse.mat[1][0] = normal.xyz[0];
+	inverse.mat[1][1] = normal.xyz[1];
+	inverse.mat[1][2] = normal.xyz[2];
+	inverse.mat[0][0] = up.xyz[0];
+	inverse.mat[0][1] = up.xyz[1];
+	inverse.mat[0][2] = up.xyz[2];
+	//inverse = mat_transpose(inverse);
+	new_ray = normalized(mat_mult_dir(inverse, direction));
+	return (new_ray);
+}
+
 static t_ray	translate_ray(t_ray ray, t_xyz normal, t_xyz origin)
 {
 	t_ray	new_ray;
@@ -22,7 +57,7 @@ static t_ray	translate_ray(t_ray ray, t_xyz normal, t_xyz origin)
 	t_xyz	forward;
 
 	forward = normalized(cross(normal, (t_xyz){{1, 0, 0}}));
-	if (isnan(length(forward)))
+	if (isnan(length(forward)) || length(forward) == 0.0)
 		forward = (t_xyz){{0, 1, 0}};
 	up = normalized(cross(forward, normal));
 	inverse.mat[2][0] = forward.xyz[0];
@@ -70,15 +105,16 @@ static t_bool	inside_cylinder_height_and_assign_length(t_ray ray, t_cylinder *cy
 		- cylinder->xyz.t_s_xyz.z}};
 	op = plus(cylinder->xyz, n);
 	height = length(minus(p, op));
-	if (height <= cylinder->height / 2.0)
+	if (fabs(height) < cylinder->height / 2.0)
 	{
 		cylinder->distance = len;
-		cylinder->normal = mult_xyz_dub(normalized(n), -1.);
+		n = translate_normal(normalized(n), cylinder->vector);
+		cylinder->normal = n; //mult_xyz_dub(normalized(n), -1.0);
 		return (TRUE);
 	}
 	return (FALSE);
 }
-#include <stdio.h>
+
 t_bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray)
 {
 	double	len_one;
@@ -88,7 +124,7 @@ t_bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray)
 	prepare_formula(cylinder, ray);
 	cylinder->formula_storage.discriminant = pow(cylinder->formula_storage.b, 2)
 		- 4 * cylinder->formula_storage.a * cylinder->formula_storage.c;
-	if (cylinder->formula_storage.discriminant < 0.0001)
+	if (cylinder->formula_storage.discriminant < 0)
 		return (FALSE);
 	len_one = (-cylinder->formula_storage.b
 			- sqrt(cylinder->formula_storage.discriminant))
@@ -96,16 +132,9 @@ t_bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray)
 	len_two = (-cylinder->formula_storage.b
 			+ sqrt(cylinder->formula_storage.discriminant))
 		/ (2 * cylinder->formula_storage.a);
-	if (len_two < 0)
-		return (FALSE);
-	if (len_one < 0)
-		len_one = len_two;
-//	double t = pow(cylinder->formula_storage.a * len_one, 2) + cylinder->formula_storage.b * len_one + cylinder->formula_storage.c;
-//	printf("t = %f and len = %f and len_two %f\n", t, len_one, len_two);
 	if (inside_cylinder_height_and_assign_length(ray, cylinder, len_one))
 		return (TRUE);
-	return (FALSE);
-	return (inside_cylinder_height_and_assign_length(ray, cylinder, len_one));
+	return (inside_cylinder_height_and_assign_length(ray, cylinder, len_two));
 }
 
 void	loop_cylinder(t_ray ray, t_list *entry, t_obj_data *obj)

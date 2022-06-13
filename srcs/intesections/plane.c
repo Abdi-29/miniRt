@@ -21,7 +21,10 @@ static double	hit_plane(t_xyz xyz, t_xyz vector, t_ray ray)
 
 	d = dot(vector, ray.direction);
 	if (fabs(d) > 0.0001)
-		return (dot((minus(xyz, ray.origin)), vector) / d);
+	{
+		d = dot((minus(xyz, ray.origin)), vector) / d;
+		return (d);
+	}
 	return (INFINITY);
 }
 

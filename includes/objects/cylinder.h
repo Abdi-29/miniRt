@@ -28,4 +28,15 @@ typedef struct s_cylinder
 	t_xyz				normal;
 }	t_cylinder;
 
+//cap 1:
+//	vector = cylinder->vector;
+//	xyz = cylinder->xyz + vector * (cylinder->height / 2.);
+//	diameter = cylinder->diameter;
+//
+//cap 2:
+//	vector = cylinder->vector * -1;
+//	xyz = cylinder->xyz + vector * (cylinder->height / 2.);
+//	diameter = cylinder->diameter;
+
+
 #endif
