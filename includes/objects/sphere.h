@@ -14,6 +14,7 @@
 # define SPHERE_H
 # include "../xyz.h"
 # include "../rgb.h"
+# include "../bool.h"
 
 typedef struct s_sphere
 {
@@ -22,6 +23,7 @@ typedef struct s_sphere
 	t_rgb	rgb;
 	double	distance1;
 	double	distance2;
+	t_bool	inside;
 }	t_sphere;
 
 #endif

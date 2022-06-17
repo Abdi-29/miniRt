@@ -78,7 +78,7 @@ int	tem(t_minirt_data *data, t_obj_data *obj, t_ray old_ray)
 	light_distance = distance(ray.origin, data->light.xyz);
 	ray.direction = normalized(minus(data->light.xyz, ray.origin));
 	loop_objects(ray, data, &new_obj);
-	if (new_obj.distance < light_distance)
+	if (new_obj.inside || new_obj.distance < light_distance)
 		return (get_color(obj->color, data));
 	if (obj->sphere != NULL)
 	{

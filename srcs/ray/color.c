@@ -53,10 +53,15 @@ t_rgb	color_add(t_rgb a, t_rgb b)
 
 void	loop_objects(t_ray ray, t_minirt_data *data, t_obj_data *obj)
 {
+	obj->inside = FALSE;
 	obj->distance = INFINITY;
 	obj->has_color = FALSE;
 	loop_sphere(ray, data->sphere_list, obj);
+	if (obj->inside)
+		return ;
 	loop_plane(ray, data->plane_list, obj);
+	if (obj->inside)
+		return ;
 	loop_cylinder(ray, data->cylinder_list, obj);
 }
 

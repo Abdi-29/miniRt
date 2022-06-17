@@ -14,16 +14,6 @@
 #include <math.h>
 #include "../../includes/vector.h"
 
- double	hit_plane(t_xyz xyz, t_xyz vector, t_ray ray)
-{
-	double	d;
-
-	d = dot(vector, ray.direction);
-	if (fabs(d) > 0.0001)
-		return (dot((minus(xyz, ray.origin)), vector) / d);
-	return (INFINITY);
-}
-
 static t_xyz	translate_normal(t_xyz direction, t_xyz normal)
 {
 	t_xyz	new_ray;
@@ -44,7 +34,6 @@ static t_xyz	translate_normal(t_xyz direction, t_xyz normal)
 	inverse.mat[0][0] = up.xyz[0];
 	inverse.mat[0][1] = up.xyz[1];
 	inverse.mat[0][2] = up.xyz[2];
-	//inverse = mat_transpose(inverse);
 	new_ray = normalized(mat_mult_dir(inverse, direction));
 	return (new_ray);
 }
@@ -83,7 +72,7 @@ static void	prepare_formula(t_cylinder *cylinder, t_ray ray)
 	t_xyz	tmp;
 	t_xyz	s_cross_d;
 
-	tmp = (t_xyz){{0,1,0}};
+	tmp = (t_xyz){{0, 1, 0}};
 	s_cross_d = cross(ray.direction, tmp);
 	oc = minus(ray.origin, cylinder->xyz);
 	cylinder->formula_storage.a = dot(s_cross_d, s_cross_d);
@@ -109,13 +98,13 @@ static t_bool	inside_cylinder_height_and_assign_length(t_ray ray, t_cylinder *cy
 	{
 		cylinder->distance = len;
 		n = translate_normal(normalized(n), cylinder->vector);
-		cylinder->normal = n; //mult_xyz_dub(normalized(n), -1.0);
+		cylinder->normal = n;
 		return (TRUE);
 	}
 	return (FALSE);
 }
 
-t_bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray)
+static t_bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray)
 {
 	double	len_one;
 	double	len_two;

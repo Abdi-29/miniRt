@@ -25,6 +25,7 @@ typedef struct s_obj_data
 	t_plane		*plane;
 	t_cylinder	*cylinder;
 	double		angle;
+	t_bool		inside;
 }	t_obj_data;
 
 typedef struct s_ray

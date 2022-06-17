@@ -15,6 +15,18 @@
 #include <math.h>
 #include "../../includes/vector.h"
 
+//( x-cx ) ^2 + (y-cy) ^2 + (z-cz) ^ 2 < r^2
+static t_bool	inside_sphere(t_sphere *sphere, t_ray ray)
+{
+	t_xyz	coords;
+	double	rad;
+
+	rad = sphere->diameter / 2;
+	coords = minus(sphere->xyz, ray.origin);
+	coords = multiplication(coords, coords);
+	return ((t_bool) coords.xyz[0] + coords.xyz[1] + coords.xyz[2] < rad * rad);
+}
+
 t_bool	hit_sphere(t_sphere *sphere, double radius, t_ray ray)
 {
 	t_xyz	oc;
@@ -22,6 +34,13 @@ t_bool	hit_sphere(t_sphere *sphere, double radius, t_ray ray)
 	double	b;
 	double	c;
 
+	if (inside_sphere(sphere, ray) == TRUE)
+	{
+		sphere->distance1 = 0;
+		sphere->distance2 = 0;
+		sphere->inside = TRUE;
+		return (TRUE);
+	}
 	oc = minus(sphere->xyz, ray.origin);
 	a = dot(oc, ray.direction);
 	if (a < 0)
@@ -57,6 +76,11 @@ void	loop_sphere(t_ray ray, t_list *entry, t_obj_data *obj)
 			obj->sphere = sphere;
 			obj->plane = NULL;
 			obj->cylinder = NULL;
+			if (sphere->inside)
+			{
+				obj->inside = TRUE;
+				break ;
+			}
 		}
 		entry = entry->next;
 	}
