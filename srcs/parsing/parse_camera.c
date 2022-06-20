@@ -37,6 +37,9 @@ void	parse_camera(char **arr, int len, char *line, t_minirt_data *data)
 	if (len != 4)
 		err_exit(1, "Error\nInvalid argument length [%d] on line [%s].\n",
 			len, line);
+	if (data->camera.loaded == TRUE)
+		err_exit(1, "Error\nAlready loaded ambient, duplicated ambient on "
+			"line [%s]\n", line);
 	coords = split_helper((const char **)arr, 1, 3);
 	vector = split_helper((const char **)arr, 2, 3);
 	views = split_helper((const char **)arr, 3, 1);
@@ -46,4 +49,5 @@ void	parse_camera(char **arr, int len, char *line, t_minirt_data *data)
 	data->camera.direction = normalized(data->camera.direction);
 	mat_init_axes(&data->transform, data->camera.direction);
 	free_array(arr);
+	data->camera.loaded = TRUE;
 }

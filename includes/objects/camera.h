@@ -20,6 +20,7 @@ typedef struct s_camera
 	t_vec3	coords;
 	t_vec3	direction;
 	int		fov;
+	t_bool	loaded;
 }	t_camera;
 
 #endif

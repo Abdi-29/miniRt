@@ -20,6 +20,7 @@ typedef struct s_light
 	t_vec3	origin;
 	double	ratio;
 	t_rgb	rgb;
+	t_bool	loaded;
 }	t_light;
 
 #endif

@@ -18,6 +18,7 @@ typedef struct s_ambient
 {
 	double	ratio;
 	t_rgb	rgb;
+	t_bool	loaded;
 }	t_ambient;
 
 #endif

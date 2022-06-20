@@ -36,21 +36,24 @@ static int	get_color_with_light(t_obj_data *obj, t_minirt_data *data)
 	int		i;
 	double	a;
 
-	a = obj->angle;
-	if (a > 1)
-		a = 1;
-	rgb = obj->color;
 	i = -1;
 	while (++i <= 2)
 		rgb.rgb[i] = obj->color.rgb[i]
 			* (data->ambient.rgb.rgb[i] * data->ambient.ratio);
-	i = -1;
-	while (++i <= 2)
+	if (data->light.loaded == TRUE)
 	{
-		rgb.rgb[i] += obj->color.rgb[i]
-			* (data->light.rgb.rgb[i] * data->light.ratio) * a;
-		if (rgb.rgb[i] > 1)
-			rgb.rgb[i] = 1;
+		a = obj->angle;
+		if (a > 1)
+			a = 1;
+		rgb = obj->color;
+		i = -1;
+		while (++i <= 2)
+		{
+			rgb.rgb[i] += obj->color.rgb[i]
+				* (data->light.rgb.rgb[i] * data->light.ratio) * a;
+			if (rgb.rgb[i] > 1)
+				rgb.rgb[i] = 1;
+		}
 	}
 	color = (int)(rgb.t_s_rgb.r * 255);
 	color = (color << 8) + (int)(rgb.t_s_rgb.g * 255);
