@@ -21,9 +21,9 @@ static void	parse_line(char *line, t_minirt_data *data)
 	int				len;
 	int				i;
 	const t_parser	function[] = {
-	{"A", &parse_a}, {"C", &parse_c},
-	{"L", &parse_l}, {"pl", &parse_pl},
-	{"sp", &parse_sp}, {"cy", &parse_cy},
+	{"A", &parse_ambient}, {"C", &parse_camera},
+	{"L", &parse_light}, {"pl", &parse_plane},
+	{"sp", &parse_sphere}, {"cy", &parse_cylinder},
 	{0, 0}
 	};
 

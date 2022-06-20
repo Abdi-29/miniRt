@@ -25,14 +25,13 @@
 typedef struct s_minirt_data
 {
 	mlx_t		*mlx;
-	mlx_image_t	*buffer;
-	mlx_image_t	*bgbuffer;
 	t_ambient	ambient;
 	t_camera	camera;
 	t_light		light;
 	t_list		*sphere_list;
 	t_list		*plane_list;
 	t_list		*cylinder_list;
+	t_list		*disk_list;
 	t_mat		transform;
 }	t_minirt_data;
 

@@ -14,13 +14,13 @@
 #include "../../includes/vector.h"
 #include <math.h>
 
-t_xyz	init_coords(double x, double y, double z)
+t_vec3	init_coords(double x, double y, double z)
 {
-	t_xyz	xyz;
+	t_vec3	xyz;
 
-	xyz.t_s_xyz.x = x;
-	xyz.t_s_xyz.y = y;
-	xyz.t_s_xyz.z = z;
+	xyz.x = x;
+	xyz.y = y;
+	xyz.z = z;
 	return (xyz);
 }
 

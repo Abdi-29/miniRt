@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/xyz.h"
+#include "../includes/vec3.h"
 #include "../includes/lib.h"
 #include "../includes/util.h"
 
-t_bool	set_vector(t_xyz *xyz, const char **vectors)
+t_bool	set_vector(t_vec3 *xyz, char **vectors)
 {
 	int			i;
 	t_bool		success;
@@ -29,5 +29,6 @@ t_bool	set_vector(t_xyz *xyz, const char **vectors)
 			err_exit(1, "Error\nInvalid range for double [%s].\n", vectors[i]);
 		i++;
 	}
+    free_array(vectors);
 	return (TRUE);
 }

@@ -64,7 +64,7 @@ int	ray_color(t_ray ray, t_minirt_data *data)
 {
 	t_rgb		rgb;
 	t_rgb		tmp;
-	t_xyz		xyz;
+	t_vec3		xyz;
 	double		t;
 	t_obj_data	obj;
 
@@ -73,7 +73,7 @@ int	ray_color(t_ray ray, t_minirt_data *data)
 	if (obj.has_color == TRUE)
 		return (tem(data, &obj, ray));
 	xyz = unit_vector(ray.direction);
-	t = 0.5 * (xyz.t_s_xyz.y + 1.0);
+	t = 0.5 * (xyz.y + 1.0);
 	rgb = color_mult_dub(1.0 - t, init_color(1.0, 1.0, 1.0));
 	tmp = color_mult_dub(t, init_color(0.5, 0.7, 1.0));
 	return (get_color(color_add(rgb, tmp), data));

@@ -12,7 +12,7 @@
 
 #ifndef RAY_H
 # define RAY_H
-# include "xyz.h"
+# include "vec3.h"
 # include "data_struct.h"
 # include "bool.h"
 
@@ -29,8 +29,8 @@ typedef struct s_obj_data
 
 typedef struct s_ray
 {
-	t_xyz		origin;
-	t_xyz		direction;
+	t_vec3		origin;
+	t_vec3		direction;
 }	t_ray;
 
 typedef struct s_screen
@@ -44,12 +44,13 @@ typedef struct s_screen
 
 int		ray_color(t_ray ray, t_minirt_data *data);
 t_ray	create_ray(t_minirt_data *data, int i, int j);
-t_xyz	init_coords(double x, double y, double z);
+t_vec3	init_coords(double x, double y, double z);
 
 void	loop_cylinder(t_ray ray, t_list *entry, t_obj_data *obj);
 void	loop_plane(t_ray ray, t_list *entry, t_obj_data *obj);
 void	loop_sphere(t_ray ray, t_list *entry, t_obj_data *obj);
 void	loop_objects(t_ray ray, t_minirt_data *data, t_obj_data *obj);
+void	loop_disk(t_ray ray, t_list *entry, t_obj_data *obj);
 
 int		tem(t_minirt_data *data, t_obj_data *obj, t_ray old_ray);
 int		get_color(t_rgb rgb, t_minirt_data *data);

@@ -17,12 +17,12 @@
 
 t_bool	hit_sphere(t_sphere *sphere, double radius, t_ray ray)
 {
-	t_xyz	oc;
+	t_vec3	oc;
 	double	a;
 	double	b;
 	double	c;
 
-	oc = minus(sphere->xyz, ray.origin);
+	oc = minus(sphere->origin, ray.origin);
 	a = dot(oc, ray.direction);
 	if (a < 0)
 		return (FALSE);

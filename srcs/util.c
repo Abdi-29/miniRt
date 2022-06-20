@@ -71,14 +71,14 @@ void	err_exit(int status, const char *str, ...)
 	exit(status);
 }
 
-char	**split_helper(char *str, int len)
+char	**split_helper(const char **str, int pos, int len)
 {
-	char	**output;
+    char	**output;
 
-	output = ft_split(str, func);
-	if (output == NULL || arr_len((const char **)output) != len)
-		err_exit(1, "Error\nSplit out of range [%s]\n", str);
-	return (output);
+    output = ft_split(str[pos], func);
+    if (output == NULL || arr_len((const char **)output) != len)
+        err_exit(1, "Error\nSplit out of range [%s]\n", str[pos]);
+    return (output);
 }
 
 t_bool	range(double a, double b, double value)

@@ -13,12 +13,12 @@
 #ifndef CAMERA_H
 # define CAMERA_H
 
-# include "../xyz.h"
+# include "../vec3.h"
 
 typedef struct s_camera
 {
-	t_xyz	coords;
-	t_xyz	vector;
+	t_vec3	coords;
+	t_vec3	direction;
 	int		fov;
 }	t_camera;
 

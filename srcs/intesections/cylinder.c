@@ -6,34 +6,25 @@
 /*   By: abba <abba@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/03 18:00:29 by abba          #+#    #+#                 */
-/*   Updated: 2022/06/14 16:36:46 by abba          ########   odam.nl         */
+/*   Updated: 2022/06/18 20:16:49 by abba          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/ray.h"
 #include <math.h>
 #include "../../includes/vector.h"
+#define EPSILON 0.0001
 
- double	hit_plane(t_xyz xyz, t_xyz vector, t_ray ray)
+static t_vec3	translate_normal(t_vec3 direction, t_vec3 normal)
 {
-	double	d;
-
-	d = dot(vector, ray.direction);
-	if (fabs(d) > 0.0001)
-		return (dot((minus(xyz, ray.origin)), vector) / d);
-	return (INFINITY);
-}
-
-static t_xyz	translate_normal(t_xyz direction, t_xyz normal)
-{
-	t_xyz	new_ray;
+	t_vec3	new_ray;
 	t_mat	inverse;
-	t_xyz	up;
-	t_xyz	forward;
+	t_vec3	up;
+	t_vec3	forward;
 
-	forward = normalized(cross(normal, (t_xyz){{1, 0, 0}}));
+	forward = normalized(cross(normal, (t_vec3){{1, 0, 0}}));
 	if (isnan(length(forward)) || length(forward) == 0.0)
-		forward = (t_xyz){{0, 1, 0}};
+		forward = (t_vec3){{0, 1, 0}};
 	up = normalized(cross(forward, normal));
 	inverse.mat[2][0] = forward.xyz[0];
 	inverse.mat[2][1] = forward.xyz[1];
@@ -44,21 +35,21 @@ static t_xyz	translate_normal(t_xyz direction, t_xyz normal)
 	inverse.mat[0][0] = up.xyz[0];
 	inverse.mat[0][1] = up.xyz[1];
 	inverse.mat[0][2] = up.xyz[2];
-	//inverse = mat_transpose(inverse);
+	// inverse = mat_transpose(inverse);
 	new_ray = normalized(mat_mult_dir(inverse, direction));
 	return (new_ray);
 }
 
-static t_ray	translate_ray(t_ray ray, t_xyz normal, t_xyz origin)
+static t_ray	translate_ray(t_ray ray, t_vec3 normal, t_vec3 origin)
 {
 	t_ray	new_ray;
 	t_mat	inverse;
-	t_xyz	up;
-	t_xyz	forward;
+	t_vec3	up;
+	t_vec3	forward;
 
-	forward = normalized(cross(normal, (t_xyz){{1, 0, 0}}));
+	forward = normalized(cross(normal, (t_vec3){{1, 0, 0}}));
 	if (isnan(length(forward)) || length(forward) == 0.0)
-		forward = (t_xyz){{0, 1, 0}};
+		forward = (t_vec3){{0, 1, 0}};
 	up = normalized(cross(forward, normal));
 	inverse.mat[2][0] = forward.xyz[0];
 	inverse.mat[2][1] = forward.xyz[1];
@@ -79,15 +70,15 @@ static t_ray	translate_ray(t_ray ray, t_xyz normal, t_xyz origin)
 
 static void	prepare_formula(t_cylinder *cylinder, t_ray ray)
 {
-	t_xyz	oc;
-	t_xyz	tmp;
-	t_xyz	s_cross_d;
+	t_vec3	oc;
+	t_vec3	tmp;
+	t_vec3	s_cross_d;
 
-	tmp = (t_xyz){{0,1,0}};
+	tmp = (t_vec3){{0,1,0}};
 	s_cross_d = cross(ray.direction, tmp);
-	oc = minus(ray.origin, cylinder->xyz);
+	oc = minus(ray.origin, cylinder->origin);
 	cylinder->formula_storage.a = dot(s_cross_d, s_cross_d);
-	cylinder->formula_storage.b = 2 * dot(s_cross_d,
+	cylinder->formula_storage.b = 2.0 * dot(s_cross_d,
 			cross(oc, tmp));
 	cylinder->formula_storage.c = dot(cross(oc, tmp),
 			cross(oc, tmp)) - pow(cylinder->diameter / 2, 2);
@@ -96,20 +87,20 @@ static void	prepare_formula(t_cylinder *cylinder, t_ray ray)
 static t_bool	inside_cylinder_height_and_assign_length(t_ray ray, t_cylinder *cylinder, double len)
 {
 	double	height;
-	t_xyz	p;
-	t_xyz	n;
-	t_xyz	op;
+	t_vec3	p;
+	t_vec3	n;
+	t_vec3	op;
 
-	p = plus(ray.origin, mult_xyz_dub(ray.direction, len));
-	n = (t_xyz){{p.xyz[0] - cylinder->xyz.t_s_xyz.x, 0.0, p.xyz[2]
-		- cylinder->xyz.t_s_xyz.z}};
-	op = plus(cylinder->xyz, n);
+	p = plus(ray.origin, mult_vec3_dub(ray.direction, len));
+	n = (t_vec3){{p.xyz[0] - cylinder->origin.x, 0.0, p.xyz[2]
+		- cylinder->origin.z}};
+	op = plus(cylinder->origin, n);
 	height = length(minus(p, op));
 	if (fabs(height) < cylinder->height / 2.0)
 	{
 		cylinder->distance = len;
-		n = translate_normal(normalized(n), cylinder->vector);
-		cylinder->normal = n; //mult_xyz_dub(normalized(n), -1.0);
+		n = translate_normal(normalized(n), cylinder->direction);
+		cylinder->normal = n; //mult_vec3_dub(normalized(n), -1.0);
 		return (TRUE);
 	}
 	return (FALSE);
@@ -120,18 +111,20 @@ t_bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray)
 	double	len_one;
 	double	len_two;
 
-	ray = translate_ray(ray, cylinder->vector, cylinder->xyz);
+	ray = translate_ray(ray, cylinder->direction, cylinder->origin);
 	prepare_formula(cylinder, ray);
 	cylinder->formula_storage.discriminant = pow(cylinder->formula_storage.b, 2)
 		- 4 * cylinder->formula_storage.a * cylinder->formula_storage.c;
-	if (cylinder->formula_storage.discriminant < 0)
+	if (cylinder->formula_storage.discriminant < EPSILON)
 		return (FALSE);
 	len_one = (-cylinder->formula_storage.b
 			- sqrt(cylinder->formula_storage.discriminant))
-		/ (2 * cylinder->formula_storage.a);
+		/ (2.0 * cylinder->formula_storage.a);
 	len_two = (-cylinder->formula_storage.b
 			+ sqrt(cylinder->formula_storage.discriminant))
-		/ (2 * cylinder->formula_storage.a);
+		/ (2.0 * cylinder->formula_storage.a);
+	if (len_one < 0)
+		len_one = len_two;	
 	if (inside_cylinder_height_and_assign_length(ray, cylinder, len_one))
 		return (TRUE);
 	return (inside_cylinder_height_and_assign_length(ray, cylinder, len_two));

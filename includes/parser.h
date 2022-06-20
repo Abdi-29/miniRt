@@ -23,13 +23,20 @@ typedef struct s_parser
 			t_minirt_data *data);
 }	t_parser;
 
+typedef struct s_element
+{
+	char		**coords;
+	char		**vector;
+	char		**rgb;
+}				t_element;
+
 void	parse_file(char *file, t_minirt_data *data);
 void	parse_lines(t_list **head, t_minirt_data *data);
-void	parse_a(char **arr, int len, char *line, t_minirt_data *data);
-void	parse_c(char **arr, int len, char *line, t_minirt_data *data);
-void	parse_l(char **arr, int len, char *line, t_minirt_data *data);
-void	parse_pl(char **arr, int len, char *line, t_minirt_data *data);
-void	parse_sp(char **arr, int len, char *line, t_minirt_data *data);
-void	parse_cy(char **arr, int len, char *line, t_minirt_data *data);
+void	parse_ambient(char **arr, int len, char *line, t_minirt_data *data);
+void	parse_camera(char **arr, int len, char *line, t_minirt_data *data);
+void	parse_light(char **arr, int len, char *line, t_minirt_data *data);
+void	parse_plane(char **arr, int len, char *line, t_minirt_data *data);
+void	parse_sphere(char **arr, int len, char *line, t_minirt_data *data);
+void	parse_cylinder(char **arr, int len, char *line, t_minirt_data *data);
 
 #endif

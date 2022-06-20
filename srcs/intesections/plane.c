@@ -15,7 +15,7 @@
 #include <math.h>
 #include "../../includes/vector.h"
 
-static double	hit_plane(t_xyz xyz, t_xyz vector, t_ray ray)
+static double	hit_plane(t_vec3 xyz, t_vec3 vector, t_ray ray)
 {
 	double	d;
 
@@ -33,7 +33,7 @@ void	loop_plane(t_ray ray, t_list *entry, t_obj_data *obj)
 	while (entry)
 	{
 		plane = entry->content;
-		distance = hit_plane(plane->xyz, plane->vector, ray);
+		distance = hit_plane(plane->origin, plane->direction, ray);
 		if (distance < obj->distance && distance > 0)
 		{
 			obj->color = plane->rgb;

@@ -12,23 +12,23 @@
 
 #ifndef VECTOR_H
 # define VECTOR_H
-# include "xyz.h"
+# include "vec3.h"
 
-t_xyz	plus(t_xyz a, t_xyz b);
-t_xyz	minus(t_xyz a, t_xyz b);
-t_xyz	multiplication(t_xyz a, t_xyz b);
-t_xyz	division(t_xyz a, double t);
-double	magnitute(t_xyz a);
-double	dot(t_xyz a, t_xyz b);
-t_xyz	mult_xyz_dub(t_xyz a, double t);
-t_xyz	unit_vector(t_xyz a);
-t_xyz	normalized(t_xyz a);
-double	length(t_xyz a);
-t_xyz	cross(t_xyz a, t_xyz b);
-double	distance(t_xyz one, t_xyz two);
+t_vec3	plus(t_vec3 a, t_vec3 b);
+t_vec3	minus(t_vec3 a, t_vec3 b);
+t_vec3	multiplication(t_vec3 a, t_vec3 b);
+t_vec3	division(t_vec3 a, double t);
+double	magnitute(t_vec3 a);
+double	dot(t_vec3 a, t_vec3 b);
+t_vec3	mult_vec3_dub(t_vec3 a, double t);
+t_vec3	unit_vector(t_vec3 a);
+t_vec3	normalized(t_vec3 a);
+double	length(t_vec3 a);
+t_vec3	cross(t_vec3 a, t_vec3 b);
+double	distance(t_vec3 one, t_vec3 two);
 
-void	mat_init_axes(t_mat *in, const t_xyz forward);
-t_xyz	mat_mult_dir(t_mat in, t_xyz dir);
+void	mat_init_axes(t_mat *in, const t_vec3 forward);
+t_vec3	mat_mult_dir(t_mat in, t_vec3 dir);
 t_mat	mat_transpose(t_mat in);
 
 #endif

@@ -10,54 +10,54 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/xyz.h"
+#include "../../includes/vec3.h"
 
-t_xyz	plus(t_xyz a, t_xyz b)
+t_vec3	plus(t_vec3 a, t_vec3 b)
 {
-	t_xyz	c;
+	t_vec3	c;
 
-	c.t_s_xyz.x = a.t_s_xyz.x + b.t_s_xyz.x;
-	c.t_s_xyz.y = a.t_s_xyz.y + b.t_s_xyz.y;
-	c.t_s_xyz.z = a.t_s_xyz.z + b.t_s_xyz.z;
+	c.x = a.x + b.x;
+	c.y = a.y + b.y;
+	c.z = a.z + b.z;
 	return (c);
 }
 
-t_xyz	minus(t_xyz a, t_xyz b)
+t_vec3	minus(t_vec3 a, t_vec3 b)
 {
-	t_xyz	c;
+	t_vec3	c;
 
-	c.t_s_xyz.x = a.t_s_xyz.x - b.t_s_xyz.x;
-	c.t_s_xyz.y = a.t_s_xyz.y - b.t_s_xyz.y;
-	c.t_s_xyz.z = a.t_s_xyz.z - b.t_s_xyz.z;
+	c.x = a.x - b.x;
+	c.y = a.y - b.y;
+	c.z = a.z - b.z;
 	return (c);
 }
 
-t_xyz	multiplication(t_xyz a, t_xyz b)
+t_vec3	multiplication(t_vec3 a, t_vec3 b)
 {
-	t_xyz	c;
+	t_vec3	c;
 
-	c.t_s_xyz.x = a.t_s_xyz.x * b.t_s_xyz.x;
-	c.t_s_xyz.y = a.t_s_xyz.y * b.t_s_xyz.y;
-	c.t_s_xyz.z = a.t_s_xyz.z * b.t_s_xyz.z;
+	c.x = a.x * b.x;
+	c.y = a.y * b.y;
+	c.z = a.z * b.z;
 	return (c);
 }
 
-t_xyz	division(t_xyz a, double t)
+t_vec3	division(t_vec3 a, double t)
 {
-	t_xyz	c;
+	t_vec3	c;
 
-	c.t_s_xyz.x = a.t_s_xyz.x / t;
-	c.t_s_xyz.y = a.t_s_xyz.y / t;
-	c.t_s_xyz.z = a.t_s_xyz.z / t;
+	c.x = a.x / t;
+	c.y = a.y / t;
+	c.z = a.z / t;
 	return (c);
 }
 
-t_xyz	mult_xyz_dub(t_xyz a, double t)
+t_vec3	mult_vec3_dub(t_vec3 a, double t)
 {
-	t_xyz	c;
+	t_vec3	c;
 
-	c.t_s_xyz.x = a.t_s_xyz.x * t;
-	c.t_s_xyz.y = a.t_s_xyz.y * t;
-	c.t_s_xyz.z = a.t_s_xyz.z * t;
+	c.x = a.x * t;
+	c.y = a.y * t;
+	c.z = a.z * t;
 	return (c);
 }

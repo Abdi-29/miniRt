@@ -10,25 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/xyz.h"
+#include "../../includes/vec3.h"
 #include "../../includes/vector.h"
 #include <math.h>
 
-t_xyz	cross(t_xyz a, t_xyz b)
+t_vec3	cross(t_vec3 a, t_vec3 b)
 {
-	t_xyz	c;
+	t_vec3	c;
 
-	c.t_s_xyz.x = a.t_s_xyz.y * b.t_s_xyz.z - a.t_s_xyz.z * b.t_s_xyz.y;
-	c.t_s_xyz.y = a.t_s_xyz.z * b.t_s_xyz.x - a.t_s_xyz.x * b.t_s_xyz.z;
-	c.t_s_xyz.z = a.t_s_xyz.x * b.t_s_xyz.y - a.t_s_xyz.y * b.t_s_xyz.x;
+	c.x = a.y * b.z - a.z * b.y;
+	c.y = a.z * b.x - a.x * b.z;
+	c.z = a.x * b.y - a.y * b.x;
 	return (c);
 }
 
-double	length(t_xyz a)
+double	length(t_vec3 a)
 {
-	return (sqrt((a.t_s_xyz.x * a.t_s_xyz.x
-				+ a.t_s_xyz.y * a.t_s_xyz.y
-				+ a.t_s_xyz.z * a.t_s_xyz.z)));
+	return (sqrt((a.x * a.x
+				+ a.y * a.y
+				+ a.z * a.z)));
 }
 
 t_mat	mat_transpose(t_mat in)
@@ -45,9 +45,9 @@ t_mat	mat_transpose(t_mat in)
 	return (in);
 }
 
-t_xyz	mat_mult_dir(t_mat in, t_xyz dir)
+t_vec3	mat_mult_dir(t_mat in, t_vec3 dir)
 {
-	return ((t_xyz){{dir.xyz[0] * in.mat[0][0]
+	return ((t_vec3){{dir.xyz[0] * in.mat[0][0]
 		+ dir.xyz[1] * in.mat[1][0]
 		+ dir.xyz[2] * in.mat[2][0],
 		dir.xyz[0] * in.mat[0][1]
@@ -58,17 +58,17 @@ t_xyz	mat_mult_dir(t_mat in, t_xyz dir)
 		+ dir.xyz[2] * in.mat[2][2]}});
 }
 
-void	mat_init_axes(t_mat *in, const t_xyz forward)
+void	mat_init_axes(t_mat *in, const t_vec3 forward)
 {
-	t_xyz	right;
-	t_xyz	up;
+	t_vec3	right;
+	t_vec3	up;
 
 	in->mat[2][0] = forward.xyz[0];
 	in->mat[2][1] = forward.xyz[1];
 	in->mat[2][2] = forward.xyz[2];
-	right = cross(forward, (t_xyz){{0, 1, 0}});
+	right = cross(forward, (t_vec3){{0, 1, 0}});
 	if (isnan(length(right)))
-		right = (t_xyz){{1, 0, 0}};
+		right = (t_vec3){{1, 0, 0}};
 	up = cross(right, forward);
 	in->mat[0][0] = right.xyz[0];
 	in->mat[0][1] = right.xyz[1];
@@ -78,44 +78,44 @@ void	mat_init_axes(t_mat *in, const t_xyz forward)
 	in->mat[1][2] = up.xyz[2];
 }
 
-t_xyz	unit_vector(t_xyz a)
+t_vec3	unit_vector(t_vec3 a)
 {
 	return (division(a, length(a)));
 }
 
-double	dot(t_xyz a, t_xyz b)
+double	dot(t_vec3 a, t_vec3 b)
 {
 	double	c;
 
-	c = a.t_s_xyz.x * b.t_s_xyz.x
-		+ a.t_s_xyz.y * b.t_s_xyz.y
-		+ a.t_s_xyz.z * b.t_s_xyz.z;
+	c = a.x * b.x
+		+ a.y * b.y
+		+ a.z * b.z;
 	return (c);
 }
 
-t_xyz	normalized(t_xyz a)
+t_vec3	normalized(t_vec3 a)
 {
 	double	len;
 
 	len = length(a);
 	if (isnan(len))
-		a.t_s_xyz.z += 0.1;
-	a.t_s_xyz.x /= len;
-	a.t_s_xyz.y /= len;
-	a.t_s_xyz.z /= len;
+		a.z += 0.1;
+	a.x /= len;
+	a.y /= len;
+	a.z /= len;
 	return (a);
 }
 
-double	magnitute(t_xyz a)
+double	magnitute(t_vec3 a)
 {
 	return (sqrt((a.xyz[0] * a.xyz[0])
 			+ (a.xyz[1] * a.xyz[1])
 			+ (a.xyz[2] * a.xyz[2])));
 }
 
-double	distance(t_xyz one, t_xyz two)
+double	distance(t_vec3 one, t_vec3 two)
 {
-	t_xyz	res;
+	t_vec3	res;
 
 	res = minus(one, two);
 	return (length(res));

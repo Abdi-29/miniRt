@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/xyz.h"
+#include "../includes/vec3.h"
 #include "../includes/lib.h"
 #include "../includes/util.h"
 
-t_bool	set_coords(t_xyz *xyz, const char **coords)
+t_bool	set_coords(t_vec3 *xyz, char **coords)
 {
 	int			i;
 	t_bool		success;
@@ -27,5 +27,6 @@ t_bool	set_coords(t_xyz *xyz, const char **coords)
 			err_exit(1, "Error\nInvalid double [%s].\n", coords[i]);
 		i++;
 	}
+    free_array(coords);
 	return (TRUE);
 }

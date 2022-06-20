@@ -12,13 +12,13 @@
 
 #ifndef PLANE_H
 # define PLANE_H
-# include "../xyz.h"
+# include "../vec3.h"
 # include "../rgb.h"
 
 typedef struct s_plane
 {
-	t_xyz	xyz;
-	t_xyz	vector;
+	t_vec3	origin;
+	t_vec3	direction;
 	t_rgb	rgb;
 }	t_plane;
 
