@@ -55,7 +55,6 @@ static int	get_color_with_light(t_obj_data *obj, t_minirt_data *data)
 		a = obj->angle;
 		if (a > 1)
 			a = 1;
-		rgb = obj->color;
 		i = -1;
 		while (++i <= 2)
 		{
@@ -63,6 +62,8 @@ static int	get_color_with_light(t_obj_data *obj, t_minirt_data *data)
 				* (data->light.rgb.rgb[i] * data->light.ratio) * a;
 			if (rgb.rgb[i] > 1)
 				rgb.rgb[i] = 1;
+			else if (rgb.rgb[i] < -1)
+				rgb.rgb[i] = -1;
 		}
 	}
 	return (final_color(rgb));
