@@ -27,6 +27,6 @@ t_bool	set_coords(t_vec3 *xyz, char **coords)
 			err_exit(1, "Error\nInvalid double [%s].\n", coords[i]);
 		i++;
 	}
-    free_array(coords);
+	free_array(coords);
 	return (TRUE);
 }

@@ -16,17 +16,17 @@
 
 void	parse_ambient(char **arr, int len, char *line, t_minirt_data *data)
 {
-    t_bool	success;
-    char	**ambient;
+	t_bool	success;
+	char	**ambient;
 
-    if (len != 3)
-        err_exit(1, "Error\nInvalid argument length [%d] on line [%s].\n",
-                 len, line);
-    success = FALSE;
-    data->ambient.ratio = ft_atod((const char *)arr[1], &success);
-    if (success == FALSE || range(0, 1, data->ambient.ratio) == FALSE)
-        err_exit(1, "Error\nA out of range [%s].\n", line);
-    ambient = split_helper((const char **)arr, 2, 3);
-    set_colors(&data->ambient.rgb, ambient);
-    free_array(arr);
+	if (len != 3)
+		err_exit(1, "Error\nInvalid argument length [%d] on line [%s].\n",
+			len, line);
+	success = FALSE;
+	data->ambient.ratio = ft_atod((const char *)arr[1], &success);
+	if (success == FALSE || range(0, 1, data->ambient.ratio) == FALSE)
+		err_exit(1, "Error\nA out of range [%s].\n", line);
+	ambient = split_helper((const char **)arr, 2, 3);
+	set_colors(&data->ambient.rgb, ambient);
+	free_array(arr);
 }

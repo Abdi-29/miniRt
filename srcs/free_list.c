@@ -4,7 +4,7 @@ void	free_list(t_list **head)
 {
 	t_list	*current;
 
-while (*head)
+	while (*head)
 	{
 		current = (*head)->next;
 		free((*head)->content);

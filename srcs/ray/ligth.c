@@ -74,7 +74,8 @@ int	tem(t_minirt_data *data, t_obj_data *obj, t_ray old_ray)
 	t_vec3		tmp_vector;
 	double		light_distance;
 
-	ray.origin = plus(mult_vec3_dub(old_ray.direction, obj->distance - 0.0001), old_ray.origin);
+	ray.origin = plus(mult_vec3_dub(old_ray.direction,
+				obj->distance - 0.0001), old_ray.origin);
 	light_distance = distance(ray.origin, data->light.origin);
 	ray.direction = normalized(minus(data->light.origin, ray.origin));
 	loop_objects(ray, data, &new_obj);

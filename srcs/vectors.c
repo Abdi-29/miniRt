@@ -29,6 +29,6 @@ t_bool	set_vector(t_vec3 *xyz, char **vectors)
 			err_exit(1, "Error\nInvalid range for double [%s].\n", vectors[i]);
 		i++;
 	}
-    free_array(vectors);
+	free_array(vectors);
 	return (TRUE);
 }

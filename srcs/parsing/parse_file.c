@@ -27,7 +27,7 @@ static t_bool	empty_line(char *line)
 		return (TRUE);
 	return (FALSE);
 }
-#include <stdio.h>
+
 static void	load_file(int fd, t_list **head)
 {
 	char	*line;
@@ -56,20 +56,7 @@ static void	load_file(int fd, t_list **head)
 		}
 	}
 }
-/*
-void	free_list(t_list **head)
-{
-	t_list	*current;
 
-	while (*head)
-	{
-		current = (*head)->next;
-		free((*head)->content);
-		free((*head));
-		*head = current;
-	}
-}
-*/
 void	parse_file(char *file, t_minirt_data *data)
 {
 	int		fd;
