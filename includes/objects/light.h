@@ -14,6 +14,7 @@
 # define LIGHT_H
 # include "../vec3.h"
 # include "../rgb.h"
+# include "../bool.h"
 
 typedef struct s_light
 {

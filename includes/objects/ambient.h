@@ -13,6 +13,7 @@
 #ifndef AMBIENT_H
 # define AMBIENT_H
 # include "../rgb.h"
+# include "../bool.h"
 
 typedef struct s_ambient
 {

@@ -14,6 +14,7 @@
 # define CAMERA_H
 
 # include "../vec3.h"
+# include "../bool.h"
 
 typedef struct s_camera
 {

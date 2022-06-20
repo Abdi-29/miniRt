@@ -19,19 +19,29 @@ int	get_color(t_rgb rgb, t_minirt_data *data)
 {
 	int	color;
 
-	color = (int)(rgb.t_s_rgb.r * ((data->ambient.rgb.t_s_rgb.r * 255)
+	color = (int)(rgb.r * ((data->ambient.rgb.r * 255)
 				* data->ambient.ratio));
-	color = (color << 8) + (int)(rgb.t_s_rgb.g
-			* ((data->ambient.rgb.t_s_rgb.g * 255) * data->ambient.ratio));
-	color = (color << 8) + (int)(rgb.t_s_rgb.b
-			* ((data->ambient.rgb.t_s_rgb.b * 255) * data->ambient.ratio));
+	color = (color << 8) + (int)(rgb.g
+			* ((data->ambient.rgb.g * 255) * data->ambient.ratio));
+	color = (color << 8) + (int)(rgb.b
+			* ((data->ambient.rgb.b * 255) * data->ambient.ratio));
+	color = (color << 8) + 255;
+	return (color);
+}
+
+static int	final_color(t_rgb rgb)
+{
+	int	color;
+
+	color = (int)(rgb.r * 255);
+	color = (color << 8) + (int)(rgb.g * 255);
+	color = (color << 8) + (int)(rgb.b * 255);
 	color = (color << 8) + 255;
 	return (color);
 }
 
 static int	get_color_with_light(t_obj_data *obj, t_minirt_data *data)
 {
-	int		color;
 	t_rgb	rgb;
 	int		i;
 	double	a;
@@ -55,11 +65,7 @@ static int	get_color_with_light(t_obj_data *obj, t_minirt_data *data)
 				rgb.rgb[i] = 1;
 		}
 	}
-	color = (int)(rgb.t_s_rgb.r * 255);
-	color = (color << 8) + (int)(rgb.t_s_rgb.g * 255);
-	color = (color << 8) + (int)(rgb.t_s_rgb.b * 255);
-	color = (color << 8) + 255;
-	return (color);
+	return (final_color(rgb));
 }
 
 static double	normal(t_ray ray, t_obj_data *obj)

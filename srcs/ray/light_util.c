@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   free_list.c                                        :+:    :+:            */
+/*   light_util.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: abba <abba@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/06/20 17:17:42 by abba          #+#    #+#                 */
-/*   Updated: 2022/06/20 17:17:42 by abba          ########   odam.nl         */
+/*   Created: 2022/06/20 17:45:40 by abba          #+#    #+#                 */
+/*   Updated: 2022/06/20 17:45:40 by abba          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lib.h"
+#include "../../includes/ray.h"
+#include "../../includes/vector.h"
 
-void	free_list(t_list **head)
+double	distance(t_vec3 one, t_vec3 two)
 {
-	t_list	*current;
+	t_vec3	res;
 
-	while (*head)
-	{
-		current = (*head)->next;
-		free((*head)->content);
-		free((*head));
-		*head = current;
-	}
+	res = minus(one, two);
+	return (length(res));
 }

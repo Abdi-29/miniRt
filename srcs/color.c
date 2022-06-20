@@ -38,6 +38,6 @@ t_bool	set_colors(t_rgb *rgb, char **color)
 			err_exit(1, "Error\nInvalid color [%s].\n", color[i]);
 		i++;
 	}
-    free_array(color);
+	free_array(color);
 	return (TRUE);
 }

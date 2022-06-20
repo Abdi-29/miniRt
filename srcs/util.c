@@ -30,32 +30,6 @@ int	arr_len(const char **arr)
 	return (i);
 }
 
-t_bool	is_valid(char **coordinates, char **vector, char **views)
-{
-	if (!coordinates)
-		return (FALSE);
-	if (!vector)
-	{
-		free_array(coordinates);
-		return (FALSE);
-	}
-	if (!views)
-	{
-		free_array(coordinates);
-		free_array(vector);
-		return (FALSE);
-	}
-	if (arr_len((const char **)vector) != 3 || arr_len((const char **)coordinates) != 3
-		|| arr_len((const char **)views) != 1)
-	{
-		free_array(vector);
-		free_array(coordinates);
-		free_array(views);
-		return (FALSE);
-	}
-	return (TRUE);
-}
-
 void	err_exit(int status, const char *str, ...)
 {
 	va_list	ap;

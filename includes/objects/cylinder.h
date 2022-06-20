@@ -28,13 +28,4 @@ typedef struct s_cylinder
 	t_vec3				normal;
 }	t_cylinder;
 
-//typedef struct s_disk
-//{
-//    t_vec3				xyz;
-//    t_vec3				vector;
-//    t_rgb				rgb;
-//    double				diameter;
-//    double				distance;
-//}               t_disk;
-
 #endif

@@ -14,9 +14,9 @@ LINKING_FLAGS = -lglfw -ldl -lm -O3 -L "/Users/$(USER)/.brew/opt/glfw/lib/"
 
 PARSING = parse_file.c parse_lines.c parse_plane.c parse_cylinder.c \
 			parse_sphere.c parse_ambient.c parse_light.c parse_camera.c
-VECTOR = operator.c vector.c
-RAY = color.c ray.c ligth.c
-INTERSECTIONS = plane.c sphere.c cylinder.c
+VECTOR = operator.c vector.c mat.c
+RAY = color.c ray.c ligth.c light_util.c
+INTERSECTIONS = plane.c sphere.c cylinder.c cylinder_util.c
 SRC_FILES = miniRT.c color.c coords.c util.c vectors.c mlx.c free_list.c \
 $(addprefix parsing/, $(PARSING)) $(addprefix vectorlib/, $(VECTOR)) \
 $(addprefix ray/, $(RAY)) $(addprefix intesections/, $(INTERSECTIONS))

@@ -50,7 +50,6 @@ void	loop_cylinder(t_ray ray, t_list *entry, t_obj_data *obj);
 void	loop_plane(t_ray ray, t_list *entry, t_obj_data *obj);
 void	loop_sphere(t_ray ray, t_list *entry, t_obj_data *obj);
 void	loop_objects(t_ray ray, t_minirt_data *data, t_obj_data *obj);
-void	loop_disk(t_ray ray, t_list *entry, t_obj_data *obj);
 
 int		tem(t_minirt_data *data, t_obj_data *obj, t_ray old_ray);
 int		get_color(t_rgb rgb, t_minirt_data *data);

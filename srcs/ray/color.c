@@ -19,9 +19,9 @@ static t_rgb	init_color(double r, double g, double b)
 {
 	t_rgb	rgb;
 
-	rgb.t_s_rgb.r = r;
-	rgb.t_s_rgb.g = g;
-	rgb.t_s_rgb.b = b;
+	rgb.r = r;
+	rgb.g = g;
+	rgb.b = b;
 	return (rgb);
 }
 
@@ -29,15 +29,15 @@ t_rgb	color_mult_dub(double pixel, t_rgb a)
 {
 	t_rgb	rgb;
 
-	rgb.t_s_rgb.r = fmin(a.t_s_rgb.r * pixel, 1.0);
-	rgb.t_s_rgb.g = fmin(a.t_s_rgb.g * pixel, 1.0);
-	rgb.t_s_rgb.b = fmin(a.t_s_rgb.b * pixel, 1.0);
-	if (rgb.t_s_rgb.r < 0)
-		rgb.t_s_rgb.r = 1;
-	if (rgb.t_s_rgb.g < 0)
-		rgb.t_s_rgb.g = 1;
-	if (rgb.t_s_rgb.b < 0)
-		rgb.t_s_rgb.b = 1;
+	rgb.r = fmin(a.r * pixel, 1.0);
+	rgb.g = fmin(a.g * pixel, 1.0);
+	rgb.b = fmin(a.b * pixel, 1.0);
+	if (rgb.r < 0)
+		rgb.r = 1;
+	if (rgb.g < 0)
+		rgb.g = 1;
+	if (rgb.b < 0)
+		rgb.b = 1;
 	return (rgb);
 }
 
@@ -45,9 +45,9 @@ t_rgb	color_add(t_rgb a, t_rgb b)
 {
 	t_rgb	rgb;
 
-	rgb.t_s_rgb.r = fmin(a.t_s_rgb.r + b.t_s_rgb.r, 1.0);
-	rgb.t_s_rgb.g = fmin(a.t_s_rgb.g + b.t_s_rgb.g, 1.0);
-	rgb.t_s_rgb.b = fmin(a.t_s_rgb.b + b.t_s_rgb.b, 1.0);
+	rgb.r = fmin(a.r + b.r, 1.0);
+	rgb.g = fmin(a.g + b.g, 1.0);
+	rgb.b = fmin(a.b + b.b, 1.0);
 	return (rgb);
 }
 
