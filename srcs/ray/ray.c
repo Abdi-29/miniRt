@@ -37,7 +37,7 @@ t_ray	create_ray(t_minirt_data *data, int i, int j)
 	sc.pixel_camera_x = sc.screen_x * sc.image_ratio * tan(data->camera.fov
 			/ 2. * M_PI / 180);
 	sc.pixel_camera_y = sc.screen_y * tan(data->camera.fov / 2. * M_PI / 180);
-	ray.direction = init_coords(-sc.pixel_camera_x + .5, sc.pixel_camera_y, 1);
+	ray.direction = init_coords(sc.pixel_camera_x, sc.pixel_camera_y, 1);
 	ray.direction = normalized(mat_mult_dir(data->transform, ray.direction));
 	ray.origin = data->camera.coords;
 	return (ray);
