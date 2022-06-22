@@ -20,11 +20,11 @@ static int	parse_color(const char *color, t_bool *success)
 
 	nbr = ft_atoi(color, success);
 	if (nbr < 0 || nbr > 255)
-		*success = false;
+		*success = FALSE;
 	return (nbr);
 }
 
-t_bool	set_colors(t_rgb *rgb, const char **color)
+t_bool	set_colors(t_rgb *rgb, char **color)
 {
 	t_bool		valid;
 	const char	*temp[3] = {color[0], color[1], color[2]};
@@ -33,10 +33,11 @@ t_bool	set_colors(t_rgb *rgb, const char **color)
 	i = 0;
 	while (i < 3)
 	{
-		rgb->rgb[i] = parse_color(temp[i], &valid);
-		if (valid == false)
+		rgb->rgb[i] = ((double)parse_color(temp[i], &valid)) / 255.0;
+		if (valid == FALSE)
 			err_exit(1, "Error\nInvalid color [%s].\n", color[i]);
 		i++;
 	}
-	return (true);
+	free_array(color);
+	return (TRUE);
 }

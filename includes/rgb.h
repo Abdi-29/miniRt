@@ -15,13 +15,13 @@
 
 typedef union u_rgb
 {
-	struct s_rgb
+	struct
 	{
-		int	r;
-		int	g;
-		int	b;
-	}				t_s_rgb;
-	int rgb[3];
-}					t_rgb;
+		double	r;
+		double	g;
+		double	b;
+	};
+	double	rgb[3];
+}	t_rgb;
 
 #endif

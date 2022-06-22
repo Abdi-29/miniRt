@@ -33,21 +33,18 @@ OBJ = $(patsubst %,$(OBJ_DIR)/%,$(SRC:.c=.o))
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@ar -crs $(NAME) $(OBJ)
+	ar -crs $(NAME) $(OBJ)
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
-	@gcc $(FLAGS) $(INC) -o $@ $<
+	gcc $(FLAGS) $(INC) -o $@ $<
 
 clean:
-	@rm -rf $(OBJ_DIR)
+	rm -rf $(OBJ_DIR)
 
 fclean:	clean
-	@rm -f $(NAME)
+	rm -f $(NAME)
 
 re: fclean all
-
-norm:
-	norminette $(SRC) $(HEADER) $(BONUS_SRC)
 
 .PHONY: all clean fclean re bonus norm

@@ -10,25 +10,54 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/vec3.h"
-#include "../includes/lib.h"
-#include "../includes/util.h"
+#include "../../includes/vec3.h"
 
-t_bool	set_vector(t_vec3 *xyz, char **vectors)
+t_vec3	plus(t_vec3 a, t_vec3 b)
 {
-	int			i;
-	t_bool		success;
+	t_vec3	c;
 
-	i = 0;
-	while (i < 3)
-	{
-		xyz->xyz[i] = ft_atod(vectors[i], &success);
-		if (success == FALSE)
-			err_exit(1, "Error\nInvalid double [%s].\n", vectors[i]);
-		if (range(-1, 1, xyz->xyz[i]) == FALSE)
-			err_exit(1, "Error\nInvalid range for double [%s].\n", vectors[i]);
-		i++;
-	}
-	free_array(vectors);
-	return (TRUE);
+	c.x = a.x + b.x;
+	c.y = a.y + b.y;
+	c.z = a.z + b.z;
+	return (c);
+}
+
+t_vec3	minus(t_vec3 a, t_vec3 b)
+{
+	t_vec3	c;
+
+	c.x = a.x - b.x;
+	c.y = a.y - b.y;
+	c.z = a.z - b.z;
+	return (c);
+}
+
+t_vec3	multiplication(t_vec3 a, t_vec3 b)
+{
+	t_vec3	c;
+
+	c.x = a.x * b.x;
+	c.y = a.y * b.y;
+	c.z = a.z * b.z;
+	return (c);
+}
+
+t_vec3	division(t_vec3 a, double t)
+{
+	t_vec3	c;
+
+	c.x = a.x / t;
+	c.y = a.y / t;
+	c.z = a.z / t;
+	return (c);
+}
+
+t_vec3	mult_vec3_dub(t_vec3 a, double t)
+{
+	t_vec3	c;
+
+	c.x = a.x * t;
+	c.y = a.y * t;
+	c.z = a.z * t;
+	return (c);
 }

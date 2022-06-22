@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   len_array.c                                        :+:    :+:            */
+/*   formula_storage.h                                            :+:    :+:  */
 /*                                                     +:+                    */
 /*   By: abba <abba@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/05/03 16:12:31 by abba          #+#    #+#                 */
-/*   Updated: 2022/05/03 16:12:31 by abba          ########   odam.nl         */
+/*   Created: 2022/06/03 20:22:32 by abba          #+#    #+#                 */
+/*   Updated: 2022/06/03 20:22:32 by abba          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	len_array(char **arr)
-{
-	int	i;
+#ifndef DELTA_H
+# define DELTA_H
 
-	i = 0;
-	while (arr[i])
-		i++;
-	return (i);
-}
+typedef struct s_formula_storage
+{
+	double	a;
+	double	b;
+	double	c;
+	double	discriminant;
+}	t_formula_storage;
+
+#endif

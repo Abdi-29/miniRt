@@ -12,14 +12,16 @@
 
 #ifndef LIGHT_H
 # define LIGHT_H
-# include "../xyz.h"
+# include "../vec3.h"
 # include "../rgb.h"
+# include "../bool.h"
 
 typedef struct s_light
 {
-	t_xyz	xyz;
+	t_vec3	origin;
 	double	ratio;
 	t_rgb	rgb;
+	t_bool	loaded;
 }	t_light;
 
 #endif

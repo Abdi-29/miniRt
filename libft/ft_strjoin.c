@@ -20,24 +20,48 @@
  *
  * @return	A pointer to the new string or NULL on failure
  */
-char	*ft_strjoin(char const *s1, char const *s2)
+static char	*ft_strcpy(char *dst, char *src, int *len)
 {
-	int		s1_len;
-	int		s2_len;
-	char	*res;
+	int	j;
+	int	i;
 
-	if (s1 == 0 && s2 == 0)
+	i = *len;
+	j = 0;
+	while (src[j])
+	{
+		dst[i] = src[j];
+		i++;
+		j++;
+	}
+	*len = i;
+	return (dst);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	int		i;
+	int		j;
+	char	*ptr;
+
+	i = 0;
+	j = 0;
+	if (!s2)
+		return (0);
+	if (s1)
+		while (s1[i])
+			i++;
+	if (s2)
+		while (s2[j])
+			j++;
+	ptr = (char *)malloc(i + j + 1);
+	if (ptr == NULL)
 		return (NULL);
-	else if (s1 == 0)
-		return (ft_strdup(s2));
-	else if (s2 == 0)
-		return (ft_strdup(s1));
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	res = ft_calloc((s1_len + s2_len + 1), sizeof(char));
-	if (res == 0)
-		return (NULL);
-	res = ft_memcpy(res, (void *)s1, s1_len);
-	ft_memcpy(res + s1_len, (void *)s2, s2_len);
-	return (res);
+	i = 0;
+	if (s1)
+		ft_strcpy(ptr, (char *)s1, &i);
+	ft_strcpy(ptr, (char *)s2, &i);
+	ptr[i] = '\0';
+	free(s1);
+	s1 = NULL;
+	return (ptr);
 }

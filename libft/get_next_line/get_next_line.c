@@ -15,80 +15,74 @@
 #include "get_next_line.h"
 #include "internal.h"
 #include "../libft.h"
+#define BUFFER_SIZE 1024
 
-/**
- * Checks if nl contains a \n
- *
- * @param	nl	String to check
- *
- * @return	1 if a \n is found, 0 if not
- */
-int	has_next_line(char *nl)
+char	*ft_free(char **remainder, int final)
 {
-	if (nl == 0)
+	char	*output;
+
+	if (!final)
+		output = ft_strdup(*remainder);
+	else
+		output = NULL;
+	free(*remainder);
+	*remainder = NULL;
+	return (output);
+}
+
+char	*ft_strncpy(char *dst, char *src, size_t n)
+{
+	size_t	i;
+
+	if (!src)
 		return (0);
-	while (*nl && *nl != '\n')
-		nl++;
-	if (*nl == '\n')
-		return (1);
-	return (0);
-}
-
-/**
- * Second part of the get_next_line function
- *
- * @param	fd		File descriptor we're reading from
- * @param	buffer	Buffer that contains text from file
- * @param	nl		String that contains all text we read attempting to get the
- * 					next new line so far
- * @param	len		Length of last buffer read
- *
- * @return A string ending in \n
- */
-char	*get_next_line_2(int fd, char *buffer, char *nl, long len)
-{
-	if ((!len && !nl) || len < 0)
-		return (NULL);
-	else if (!len)
-		return (ft_nl_substr(nl, buffer));
-	nl = ft_strjoin_clear(nl, buffer, 1);
-	if (!nl)
-		return (NULL);
-	while (len == 100 && !has_next_line(nl))
+	i = 0;
+	while (src[i] && i < n)
 	{
-		ft_memset(buffer, 0, ft_strlen_stop(buffer, 0));
-		len = read(fd, buffer, 100);
-		nl = ft_strjoin_clear(nl, buffer, 1);
-		if (!nl)
-			return (NULL);
+		dst[i] = src[i];
+		i++;
 	}
-	return (ft_nl_substr(nl, buffer));
+	dst[i] = '\0';
+	return (dst);
 }
 
-/**
- * Get a new line from a file
- *
- * @param	fd	file to look in
- *
- * @return	pointer	to the start of the new line (the char gets allocated)
- */
+char	*get_line(char *remainder, char *str)
+{
+	char	*output;
+	int		len;
+
+	len = ft_strlen(remainder) - ft_strlen(str) + 1;
+	output = malloc((len + 1) * sizeof(char));
+	if (!output)
+		return (0);
+	output = ft_strncpy(output, remainder, len);
+	return (output);
+}
+
 char	*get_next_line(int fd)
 {
-	char			*nl;
-	long			len;
-	static char		buffer[101];
+	char		buffer[BUFFER_SIZE + 1];
+	static char	*remainder;
+	int			bytes_read;
+	char		*output;
+	char		*old_remainder;
 
-	if (fd < 0 || fd >= 1024)
-		return (NULL);
-	nl = NULL;
-	if (*buffer)
+	bytes_read = read(fd, buffer, BUFFER_SIZE);
+	if (bytes_read == -1)
+		return (0);
+	buffer[bytes_read] = 0;
+	remainder = ft_strjoin(remainder, buffer);
+	if (ft_strchr(remainder, '\n'))
 	{
-		nl = ft_strjoin_clear(nl, buffer, 1);
-		if (!nl)
-			return (NULL);
+		output = get_line(remainder, ft_strchr(remainder, '\n'));
+		old_remainder = remainder;
+		remainder = ft_strdup(ft_strchr(remainder, '\n') + 1);
+		free(old_remainder);
+		return (output);
 	}
-	if (has_next_line(nl))
-		return (ft_nl_substr(nl, buffer));
-	len = read(fd, buffer, 100);
-	return (get_next_line_2(fd, buffer, nl, len));
+	else if (bytes_read > 0)
+		return (get_next_line(fd));
+	else if (ft_strchr(remainder, '\0') && *remainder)
+		return (ft_free(&remainder, 0));
+	return (ft_free(&remainder, 1));
 }

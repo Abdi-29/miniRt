@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 int	dot_char(char c)
 {
@@ -20,13 +19,20 @@ int	dot_char(char c)
 	return (0);
 }
 
+int	is_negative(char *s)
+{
+	while (ft_iswhite_space(*s) && *s != 0)
+		s++;
+	return (*s == '-');
+}
+
 double	get_left_part(const char *str, t_bool *success)
 {
 	double	res;
 	int		len;
 
 	res = (double)ft_atoi(str, success);
-	if (success == false)
+	if (*success == FALSE)
 		return (0);
 	len = ft_strlen(str);
 	while (len--)
@@ -34,11 +40,21 @@ double	get_left_part(const char *str, t_bool *success)
 	return (res);
 }
 
+double	return_result(double res1, double res2, int negative)
+{
+	if (res1 == 0 && negative)
+		return ((res1 + res2) * -1);
+	else if (res1 >= 0)
+		return (res1 + res2);
+	return (res1 - res2);
+}
+
 double	ft_atod(const char *str, t_bool *success)
 {
-	double	res;
+	double	res1;
 	double	res2;
 	char	**test;
+	int		negative;
 
 	res2 = 0;
 	if (!str)
@@ -49,16 +65,15 @@ double	ft_atod(const char *str, t_bool *success)
 		free_array(test);
 		return (0);
 	}
-	res = ft_atoi(test[0], success);
-	if (*success == false)
+	res1 = ft_atoi(test[0], success);
+	if (*success == FALSE)
 		return (0);
+	negative = is_negative(test[0]);
 	if (test[1])
 		res2 = get_left_part(test[1], success);
-	if (*success == false)
+	if (*success == FALSE)
 		return (0);
 	free_array(test);
-	*success = true;
-	if (res >= 0)
-		return (res + res2);
-	return (res - res2);
+	*success = TRUE;
+	return (return_result(res1, res2, negative));
 }

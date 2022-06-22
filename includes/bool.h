@@ -15,8 +15,8 @@
 
 typedef enum s_bool
 {
-	false,
-	true
+	FALSE,
+	TRUE
 }	t_bool;
 
 #endif

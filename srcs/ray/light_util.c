@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   len_array.c                                        :+:    :+:            */
+/*   light_util.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: abba <abba@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/05/03 16:12:31 by abba          #+#    #+#                 */
-/*   Updated: 2022/05/03 16:12:31 by abba          ########   odam.nl         */
+/*   Created: 2022/06/20 17:45:40 by abba          #+#    #+#                 */
+/*   Updated: 2022/06/20 17:45:40 by abba          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	len_array(char **arr)
-{
-	int	i;
+#include "../../includes/ray.h"
+#include "../../includes/vector.h"
 
-	i = 0;
-	while (arr[i])
-		i++;
-	return (i);
+double	distance(t_vec3 one, t_vec3 two)
+{
+	t_vec3	res;
+
+	res = minus(one, two);
+	return (length(res));
 }

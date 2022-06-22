@@ -13,11 +13,13 @@
 #ifndef AMBIENT_H
 # define AMBIENT_H
 # include "../rgb.h"
+# include "../bool.h"
 
 typedef struct s_ambient
 {
 	double	ratio;
 	t_rgb	rgb;
+	t_bool	loaded;
 }	t_ambient;
 
 #endif

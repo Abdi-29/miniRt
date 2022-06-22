@@ -12,14 +12,16 @@
 
 #ifndef SPHERE_H
 # define SPHERE_H
-# include "../xyz.h"
+# include "../vec3.h"
 # include "../rgb.h"
 
 typedef struct s_sphere
 {
-	t_xyz	xyz;
+	t_vec3	origin;
 	double	diameter;
 	t_rgb	rgb;
+	double	distance1;
+	double	distance2;
 }	t_sphere;
 
 #endif

@@ -12,16 +12,20 @@
 
 #ifndef CYLINDER_H
 # define CYLINDER_H
-# include "../xyz.h"
+# include "../vec3.h"
 # include "../rgb.h"
+# include "../delta.h"
 
 typedef struct s_cylinder
 {
-	t_xyz	xyz;
-	t_xyz	vector;
-	double	diameter;
-	double	height;
-	t_rgb	rgb;
+	t_vec3				origin;
+	t_vec3				direction;
+	t_rgb				rgb;
+	t_formula_storage	formula_storage;
+	double				diameter;
+	double				height;
+	double				distance;
+	t_vec3				normal;
 }	t_cylinder;
 
 #endif
