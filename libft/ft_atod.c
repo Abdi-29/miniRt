@@ -40,12 +40,21 @@ double	get_left_part(const char *str, t_bool *success)
 	return (res);
 }
 
+double	return_result(double res1, double res2, int negative)
+{
+	if (res1 == 0 && negative)
+		return ((res1 + res2) * -1);
+	else if (res1 >= 0)
+		return (res1 + res2);
+	return (res1 - res2);
+}
+
 double	ft_atod(const char *str, t_bool *success)
 {
-	double	res;
+	double	res1;
 	double	res2;
 	char	**test;
-	int		sig;
+	int		negative;
 
 	res2 = 0;
 	if (!str)
@@ -56,19 +65,15 @@ double	ft_atod(const char *str, t_bool *success)
 		free_array(test);
 		return (0);
 	}
-	res = ft_atoi(test[0], success);
+	res1 = ft_atoi(test[0], success);
 	if (*success == FALSE)
 		return (0);
-	sig = is_negative(test[0]);
+	negative = is_negative(test[0]);
 	if (test[1])
 		res2 = get_left_part(test[1], success);
 	if (*success == FALSE)
 		return (0);
 	free_array(test);
 	*success = TRUE;
-	if (res == 0 && sig)
-		return ((res + res2) * -1);
-	else if (res >= 0)
-		return (res + res2);
-	return (res - res2);
+	return (return_result(res1, res2, negative));
 }
