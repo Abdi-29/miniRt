@@ -25,6 +25,7 @@ typedef struct s_obj_data
 	t_plane		*plane;
 	t_cylinder	*cylinder;
 	double		angle;
+	t_bool		inside;
 }	t_obj_data;
 
 typedef struct s_ray
@@ -48,10 +49,11 @@ t_vec3	init_coords(double x, double y, double z);
 
 void	loop_cylinder(t_ray ray, t_list *entry, t_obj_data *obj);
 void	loop_plane(t_ray ray, t_list *entry, t_obj_data *obj);
-void	loop_sphere(t_ray ray, t_list *entry, t_obj_data *obj);
-void	loop_objects(t_ray ray, t_minirt_data *data, t_obj_data *obj);
+void	loop_sphere(t_ray ray, t_list *entry, t_obj_data *obj, t_bool light);
+void	loop_objects(t_ray ray, t_minirt_data *data, t_obj_data *obj,
+			t_bool light);
 
-int		tem(t_minirt_data *data, t_obj_data *obj, t_ray old_ray);
+int		calculate_light(t_minirt_data *data, t_obj_data *obj, t_ray old_ray);
 int		get_color(t_rgb rgb, t_minirt_data *data);
 
 #endif

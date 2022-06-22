@@ -77,18 +77,20 @@ static double	normal(t_ray ray, t_obj_data *obj)
 	return (fabs(dot(ray.direction, tmp_vector)));
 }
 
-int	tem(t_minirt_data *data, t_obj_data *obj, t_ray old_ray)
+int	calculate_light(t_minirt_data *data, t_obj_data *obj, t_ray old_ray)
 {
 	t_ray		ray;
 	t_obj_data	new_obj;
 	t_vec3		tmp_vector;
 	double		light_distance;
 
+	if (obj->inside == TRUE)
+		return (final_color((t_rgb){{0, 0, 0}}));
 	ray.origin = plus(mult_vec3_dub(old_ray.direction,
 				obj->distance - 0.0001), old_ray.origin);
 	light_distance = distance(ray.origin, data->light.origin);
 	ray.direction = normalized(minus(data->light.origin, ray.origin));
-	loop_objects(ray, data, &new_obj);
+	loop_objects(ray, data, &new_obj, TRUE);
 	if (new_obj.distance < light_distance)
 		return (get_color(obj->color, data));
 	if (obj->sphere != NULL)

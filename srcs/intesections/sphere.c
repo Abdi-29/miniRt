@@ -10,18 +10,35 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/rgb.h"
 #include "../../includes/ray.h"
 #include <math.h>
 #include "../../includes/vector.h"
 
-t_bool	hit_sphere(t_sphere *sphere, double radius, t_ray ray)
+//( x-cx ) ^2 + (y-cy) ^2 + (z-cz) ^ 2 < r^2
+static t_bool	inside_sphere(t_sphere *sphere, t_ray ray)
+{
+	t_vec3	coords;
+	double	rad;
+
+	rad = sphere->diameter / 2;
+	coords = minus(sphere->origin, ray.origin);
+	coords = multiplication(coords, coords);
+	return ((t_bool) coords.xyz[0] + coords.xyz[1] + coords.xyz[2] < rad * rad);
+}
+
+int	hit_sphere(t_sphere *sphere, double radius, t_ray ray, t_bool light)
 {
 	t_vec3	oc;
 	double	a;
 	double	b;
 	double	c;
 
+	if (light == FALSE && inside_sphere(sphere, ray) == TRUE)
+	{
+		sphere->distance1 = 0;
+		sphere->distance2 = 0;
+		return (2);
+	}
 	oc = minus(sphere->origin, ray.origin);
 	a = dot(oc, ray.direction);
 	if (a < 0)
@@ -35,25 +52,32 @@ t_bool	hit_sphere(t_sphere *sphere, double radius, t_ray ray)
 	return (TRUE);
 }
 
-void	loop_sphere(t_ray ray, t_list *entry, t_obj_data *obj)
+void	loop_sphere(t_ray ray, t_list *entry, t_obj_data *obj, t_bool light)
 {
 	t_sphere	*sphere;
+	int			result;
 
 	while (entry)
 	{
 		sphere = entry->content;
-		if (!hit_sphere(sphere, sphere->diameter / 2.0, ray))
+		result = hit_sphere(sphere, sphere->diameter / 2.0, ray, light);
+		if (result == FALSE)
 		{
 			entry = entry->next;
 			continue ;
 		}
 		if (sphere->distance1 < 0)
 			sphere->distance1 = sphere->distance2;
-		if (sphere->distance1 < obj->distance)
+		if (sphere->distance1 < obj->distance || result == 2)
 		{
 			obj->color = sphere->rgb;
 			obj->has_color = TRUE;
 			obj->distance = sphere->distance1;
+			if (result == 2)
+			{
+				obj->distance = 0;
+				obj->inside = TRUE;
+			}
 			obj->sphere = sphere;
 			obj->plane = NULL;
 			obj->cylinder = NULL;
