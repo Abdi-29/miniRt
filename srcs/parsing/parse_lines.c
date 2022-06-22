@@ -16,10 +16,8 @@
 
 static char	**get_arr(const char *line, int *len)
 {
-	int		i;
 	char	**arr;
 
-	i = 0;
 	arr = ft_split(line, ft_iswhite_space);
 	if (arr == NULL)
 		err_exit(1, "Error\nRan out of memory.\n");
