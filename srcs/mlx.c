@@ -7,7 +7,7 @@
 /*                                                   +#+                      */
 /*   Created: 2022/06/03 18:43:29 by abba          #+#    #+#                 */
 /*   Updated: 2022/06/03 18:43:29 by abba          ########   odam.nl         */
-/*                                                                            */
+/*                                                                       z     */
 /* ************************************************************************** */
 
 #include "../includes/util.h"
@@ -19,15 +19,18 @@
  * 	exc = 53
  *
  * @param	keycode	Key code the user clicked
- * @param	ptr		Pointer to data for the game
+ * @param	param	Pointer to data for the game
  *
  * @return	0
  */
-void	key_click(mlx_key_data_t keycode, void *ptr)
+void	key_click(mlx_key_data_t keycode, void *param)
 {
-	(void)ptr;
+	t_minirt_data  *data;
+
+	data = param;
 	if (keycode.key == MLX_KEY_ESCAPE && keycode.action == MLX_PRESS)
 	{
+		mlx_terminate(data->mlx);
 		exit(0);
 	}
 }
@@ -41,7 +44,10 @@ void	key_click(mlx_key_data_t keycode, void *ptr)
  */
 void	window_close(void *param)
 {
-	(void)param;
+	t_minirt_data  *data;
+
+	data = param;
+	mlx_terminate(data->mlx);
 	exit(0);
 }
 
