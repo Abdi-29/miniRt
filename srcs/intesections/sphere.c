@@ -52,6 +52,21 @@ int	hit_sphere(t_sphere *sphere, double radius, t_ray ray, t_bool light)
 	return (TRUE);
 }
 
+void	update_obj(t_obj_data *obj, t_sphere *sphere, int result)
+{
+	obj->color = sphere->rgb;
+	obj->has_color = TRUE;
+	obj->distance = sphere->distance1;
+	if (result == 2)
+	{
+		obj->distance = 0;
+		obj->inside = TRUE;
+	}
+	obj->sphere = sphere;
+	obj->plane = NULL;
+	obj->cylinder = NULL;
+}
+
 void	loop_sphere(t_ray ray, t_list *entry, t_obj_data *obj, t_bool light)
 {
 	t_sphere	*sphere;
@@ -69,19 +84,7 @@ void	loop_sphere(t_ray ray, t_list *entry, t_obj_data *obj, t_bool light)
 		if (sphere->distance1 < 0)
 			sphere->distance1 = sphere->distance2;
 		if (sphere->distance1 < obj->distance || result == 2)
-		{
-			obj->color = sphere->rgb;
-			obj->has_color = TRUE;
-			obj->distance = sphere->distance1;
-			if (result == 2)
-			{
-				obj->distance = 0;
-				obj->inside = TRUE;
-			}
-			obj->sphere = sphere;
-			obj->plane = NULL;
-			obj->cylinder = NULL;
-		}
+			update_obj(obj, sphere, result);
 		entry = entry->next;
 	}
 }
