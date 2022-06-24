@@ -18,7 +18,6 @@ t_vec3	plus(t_vec3 a, t_vec3 b);
 t_vec3	minus(t_vec3 a, t_vec3 b);
 t_vec3	multiplication(t_vec3 a, t_vec3 b);
 t_vec3	division(t_vec3 a, double t);
-double	magnitute(t_vec3 a);
 double	dot(t_vec3 a, t_vec3 b);
 t_vec3	mult_vec3_dub(t_vec3 a, double t);
 t_vec3	unit_vector(t_vec3 a);

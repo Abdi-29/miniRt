@@ -15,7 +15,7 @@
 #include "../../includes/util.h"
 #include "../../includes/vector.h"
 
-static int	get_value(char *str)
+static double	get_value(char *str)
 {
 	t_bool	success;
 	double	value;

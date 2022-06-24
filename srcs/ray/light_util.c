@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/ray.h"
 #include "../../includes/vector.h"
 
 double	distance(t_vec3 one, t_vec3 two)

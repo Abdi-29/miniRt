@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/rgb.h"
 #include "../../includes/ray.h"
 #include <math.h>
 #include "../../includes/vector.h"

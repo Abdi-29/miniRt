@@ -31,7 +31,6 @@ typedef struct s_minirt_data
 	t_list		*sphere_list;
 	t_list		*plane_list;
 	t_list		*cylinder_list;
-	t_list		*disk_list;
 	t_mat		transform;
 }	t_minirt_data;
 

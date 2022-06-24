@@ -50,9 +50,8 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (s1)
 		while (s1[i])
 			i++;
-	if (s2)
-		while (s2[j])
-			j++;
+	while (s2[j])
+		j++;
 	ptr = (char *)malloc(i + j + 1);
 	if (ptr == NULL)
 		return (NULL);
