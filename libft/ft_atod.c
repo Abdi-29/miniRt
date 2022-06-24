@@ -65,6 +65,8 @@ double	ft_atod(const char *str, t_bool *success)
 	res1 = ft_atoi(str, success);
 	if (*success == FALSE)
 		return (0);
+	if (*str == '-' || *str == '+')
+		str++;
 	while (ft_isdigit(*str))
 		str++;
 	return (convert_part_two(str, success, res1, negative));
