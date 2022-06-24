@@ -1,6 +1,6 @@
 NAME = miniRT
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 SRC_DIR = srcs
 OBJ_DIR = obj
 INC_DIR = includes

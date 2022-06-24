@@ -24,10 +24,10 @@ static int	convert(const char *str, t_bool *success)
 	int	res;
 	int	tmp;
 
+	while (*str == '0' && ft_isdigit(str[1]))
+		str++;
 	if (!ft_isdigit(*str))
 		return (0);
-	while (*str == '0' && *(str + 1) != 0)
-		str++;
 	res = (*str - '0') * -1;
 	str++;
 	while (ft_isdigit(*str))
@@ -39,8 +39,7 @@ static int	convert(const char *str, t_bool *success)
 			return (0);
 		str++;
 	}
-	if (*str == 0)
-		*success = TRUE;
+	*success = TRUE;
 	return (res);
 }
 

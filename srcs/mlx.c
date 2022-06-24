@@ -7,7 +7,7 @@
 /*                                                   +#+                      */
 /*   Created: 2022/06/03 18:43:29 by abba          #+#    #+#                 */
 /*   Updated: 2022/06/03 18:43:29 by abba          ########   odam.nl         */
-/*                                                                       z     */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/util.h"
@@ -25,7 +25,7 @@
  */
 void	key_click(mlx_key_data_t keycode, void *param)
 {
-	t_minirt_data  *data;
+	t_minirt_data	*data;
 
 	data = param;
 	if (keycode.key == MLX_KEY_ESCAPE && keycode.action == MLX_PRESS)
@@ -44,7 +44,7 @@ void	key_click(mlx_key_data_t keycode, void *param)
  */
 void	window_close(void *param)
 {
-	t_minirt_data  *data;
+	t_minirt_data	*data;
 
 	data = param;
 	mlx_terminate(data->mlx);

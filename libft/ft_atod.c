@@ -12,35 +12,14 @@
 
 #include "libft.h"
 
-int	dot_char(char c)
+static double	convert_to_after_dot(double d)
 {
-	if (c == '.')
-		return (1);
-	return (0);
+	while (d > 1)
+		d /= 10;
+	return (d);
 }
 
-int	is_negative(char *s)
-{
-	while (ft_iswhite_space(*s) && *s != 0)
-		s++;
-	return (*s == '-');
-}
-
-double	get_left_part(const char *str, t_bool *success)
-{
-	double	res;
-	int		len;
-
-	res = (double)ft_atoi(str, success);
-	if (*success == FALSE)
-		return (0);
-	len = ft_strlen(str);
-	while (len--)
-		res /= 10;
-	return (res);
-}
-
-double	return_result(double res1, double res2, int negative)
+static double	return_result(double res1, double res2, int negative)
 {
 	if (res1 == 0 && negative)
 		return ((res1 + res2) * -1);
@@ -49,31 +28,44 @@ double	return_result(double res1, double res2, int negative)
 	return (res1 - res2);
 }
 
+static double	convert_part_two(const char *str, t_bool *success,
+					double res1, int negative)
+{
+	double	res2;
+
+	if (*str != '.')
+	{
+		*success = TRUE;
+		return (res1);
+	}
+	else if (!ft_isalnum(*(++str)))
+	{
+		*success = FALSE;
+		return (0);
+	}
+	res2 = ft_atoi(str, success);
+	if (*success == FALSE)
+		return (0);
+	*success = TRUE;
+	return (return_result(res1, convert_to_after_dot(res2), negative));
+}
+
 double	ft_atod(const char *str, t_bool *success)
 {
 	double	res1;
-	double	res2;
-	char	**test;
 	int		negative;
 
-	res2 = 0;
 	if (!str)
 		return (0);
-	test = ft_split(str, dot_char);
-	if (len_array(test) > 2)
-	{
-		free_array(test);
-		return (0);
-	}
-	res1 = ft_atoi(test[0], success);
+	while (ft_iswhite_space(*str))
+		str++;
+	negative = 0;
+	if (*str == '-')
+		negative = 1;
+	res1 = ft_atoi(str, success);
 	if (*success == FALSE)
 		return (0);
-	negative = is_negative(test[0]);
-	if (test[1])
-		res2 = get_left_part(test[1], success);
-	if (*success == FALSE)
-		return (0);
-	free_array(test);
-	*success = TRUE;
-	return (return_result(res1, res2, negative));
+	while (ft_isdigit(*str))
+		str++;
+	return (convert_part_two(str, success, res1, negative));
 }
