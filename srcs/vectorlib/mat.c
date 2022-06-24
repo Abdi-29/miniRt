@@ -49,7 +49,7 @@ void	mat_init_axes(t_mat *in, const t_vec3 forward)
 	in->mat[2][0] = forward.xyz[0];
 	in->mat[2][1] = forward.xyz[1];
 	in->mat[2][2] = forward.xyz[2];
-	right = cross(forward, (t_vec3){{0, 1, 0}});
+	right = normalized(cross(forward, (t_vec3){{0, 1, 0}}));
 	if (isnan(length(right)))
 		right = (t_vec3){{1, 0, 0}};
 	up = cross(right, forward);
