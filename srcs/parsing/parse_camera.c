@@ -15,6 +15,20 @@
 #include "../../includes/util.h"
 #include "../../includes/vector.h"
 
+static t_bool	ft_cmp_vec3(t_vec3 one, t_vec3 two)
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		if (one.xyz[i] != two.xyz[i])
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
+
 static t_bool	set_fov(t_camera *camera, char **fov)
 {
 	int		nbr;
@@ -45,6 +59,8 @@ void	parse_camera(char **arr, int len, char *line, t_minirt_data *data)
 	views = split_helper((const char **)arr, 3, 1);
 	set_coords(&data->camera.coords, coords);
 	set_vector(&data->camera.direction, vector);
+	if (ft_cmp_vec3(data->camera.direction, (t_vec3){{0, 0, 0}}))
+		data->camera.direction = ((t_vec3){{0, 0, 1}});
 	set_fov(&data->camera, views);
 	data->camera.direction = normalized(data->camera.direction);
 	mat_init_axes(&data->transform, data->camera.direction);

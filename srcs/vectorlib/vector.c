@@ -51,8 +51,6 @@ t_vec3	normalized(t_vec3 a)
 	double	len;
 
 	len = length(a);
-	if (isnan(len))
-		a.z += 0.1;
 	a.x /= len;
 	a.y /= len;
 	a.z /= len;
